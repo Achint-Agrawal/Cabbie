@@ -1,52 +1,58 @@
-import * as React from "react";
-import * as ReactDom from "react-dom";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
-// import { createCustomEqual } from "fast-equals";
-// import { isLatLngLiteral } from "@googlemaps/typescript-guards";
+import React from "react";
+import { Grid } from "@mui/material";
+import SignIn from "./SignIn";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
-const render = (status) => {
-  return <h1>{status}</h1>;
+const containerStyle = {
+  width: "400px",
+  height: "400px",
 };
 
-const Marker = (options) => {
-  const [marker, setMarker] = React.useState();
-
-  React.useEffect(() => {
-    if (!marker) {
-      setMarker(new google.maps.Marker());
-    }
-
-    // remove marker from map on unmount
-    return () => {
-      if (marker) {
-        marker.setMap(null);
-      }
-    };
-  }, [marker]);
-  React.useEffect(() => {
-    if (marker) {
-      marker.setOptions(options);
-    }
-  }, [marker, options]);
-  return null;
+const center = {
+  lat: 26.4499,
+  lng: 80.3319,
 };
 
-const Map = () => {
-  const ref = React.useRef(null);
-  const [map, setMap] = React.useState();
+function MyComponent() {
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyDI0EdzxL-p-vu705oRY_iJ9aYRGDxkOaM",
+  });
 
-  const useDeepCompareEffectForMaps(() => {
-    if (map) {
-      map.setOptions(options);
-    }
-  }, [map, options]);
+  const [map, setMap] = React.useState(null);
 
-  React.useEffect(() => {
-    if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
-    }
-  }, [ref, map]);
-  return <div ref={ref} />;
-};
+  const onLoad = React.useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds();
+    map.fitBounds(bounds);
+    setMap(map);
+  }, []);
+
+  const onUnmount = React.useCallback(function callback(map) {
+    setMap(null);
+  }, []);
+
+  return isLoaded ? (
+    <Grid container>
+      <Grid item>
+        <SignIn />
+      </Grid>
+      <Grid item>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={15}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+          onCenterChanged={lmao}
+        >
+          {/* Child components, such as markers, info windows, etc. */}
+          <></>
+        </GoogleMap>
+      </Grid>
+    </Grid>
+  ) : (
+    <></>
+  );
+}
 
 export default Map;
