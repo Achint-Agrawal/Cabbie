@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Grid } from "@mui/material";
 import SignIn from "./SignIn";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 const containerStyle = {
   width: "400px",
@@ -9,14 +9,14 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 26.4499,
+  lat: 26.456,
   lng: 80.3319,
 };
 
-function MyComponent() {
+function Map() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyDI0EdzxL-p-vu705oRY_iJ9aYRGDxkOaM",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
 
   const [map, setMap] = React.useState(null);
@@ -43,15 +43,13 @@ function MyComponent() {
           zoom={15}
           onLoad={onLoad}
           onUnmount={onUnmount}
-          onCenterChanged={lmao}
         >
-          {/* Child components, such as markers, info windows, etc. */}
-          <></>
+          <Marker position={center} />
         </GoogleMap>
       </Grid>
     </Grid>
   ) : (
-    <></>
+    <div>Loading...</div>
   );
 }
 
