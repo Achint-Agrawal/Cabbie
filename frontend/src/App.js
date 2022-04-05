@@ -1,10 +1,10 @@
 import "./App.css";
-import SignUp from "./components/SignUp";
+import BookRideForm from "./components/BookRideForm";
 
 function App() {
   return (
     <div className="App">
-      <SignUp />
+      <BookRideForm />
     </div>
   );
 }
