@@ -32,22 +32,15 @@ function Map() {
   }, []);
 
   return isLoaded ? (
-    <Grid container>
-      <Grid item>
-        <SignIn />
-      </Grid>
-      <Grid item>
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={15}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-        >
-          <Marker position={center} />
-        </GoogleMap>
-      </Grid>
-    </Grid>
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={15}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+    >
+      <Marker position={center} />
+    </GoogleMap>
   ) : (
     <div>Loading...</div>
   );
