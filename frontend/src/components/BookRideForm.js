@@ -23,17 +23,17 @@ const vehicleTypes = [
     description: "meow",
   },
   {
-    name: "Bike",
+    name: "Bike2",
     image: "/motorcycle.png",
     description: "meow2",
   },
   {
-    name: "Bike",
+    name: "Bike3",
     image: "/motorcycle.png",
     description: "meow3",
   },
   {
-    name: "Bike",
+    name: "Bike4",
     image: "/motorcycle.png",
     description: "meow4",
   },
@@ -45,7 +45,7 @@ export default function BookRideForm() {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
-  return (
+  return isLoaded ? (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         Ride Details
@@ -104,5 +104,7 @@ export default function BookRideForm() {
         Book Ride
       </Button>
     </React.Fragment>
+  ) : (
+    <div>Loading...</div>
   );
 }
