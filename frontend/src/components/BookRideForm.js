@@ -21,21 +21,25 @@ const vehicleTypes = [
     name: "Bike",
     image: "/motorcycle.png",
     description: "meow",
+    fare: 10,
   },
   {
     name: "Bike2",
     image: "/motorcycle.png",
     description: "meow2",
+    fare: 20,
   },
   {
     name: "Bike3",
     image: "/motorcycle.png",
     description: "meow3",
+    fare: 30,
   },
   {
     name: "Bike4",
     image: "/motorcycle.png",
     description: "meow4",
+    fare: 40,
   },
 ];
 
@@ -93,6 +97,12 @@ export default function BookRideForm() {
                   <Typography variant="h5">{vehicle.name}</Typography>
                   <Typography variant="body2" color="text.secondary">
                     {vehicle.description}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <br />
+                  <Typography align="right" variant="h6">
+                    {"5 min away"}
                   </Typography>
                 </Grid>
               </Grid>
