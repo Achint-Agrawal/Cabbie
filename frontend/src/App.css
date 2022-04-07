@@ -33,6 +33,10 @@
   text-decoration:none;
 }
 
+#googlemap{
+  height:fit-content
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

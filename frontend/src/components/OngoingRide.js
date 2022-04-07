@@ -12,16 +12,21 @@ const driver = {
   rating: 4.8,
   carType: "Tesla Model S",
   license: "UP42 SX 6969",
-  phoneno: "6969696969",
+  phoneno: "7888817907",
 };
 
-export default function OngoingRide() {
+export default function OngoingRide({ RideState }) {
   return (
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Driver Details
-      </Typography>
-
+      {RideState == 1 ? (
+        <Typography variant="h6" gutterBottom>
+          Driver Details
+        </Typography>
+      ) : (
+        <Typography variant="h6" gutterBottom>
+          Ride Started
+        </Typography>
+      )}
       <Card sx={{ width: "100%", height: 250 }}>
         <Grid container spacing={2} sx={12}>
           <Grid item xs={4}>
@@ -41,21 +46,31 @@ export default function OngoingRide() {
           </Grid>
           <Grid item xs={4}>
             <br />
-            <Typography align="right" variant="h6">
-              {"5 min away"}
-            </Typography>
+            {RideState == 1 && (
+              <Typography align="right" variant="h6">
+                {"5 min away"}
+              </Typography>
+            )}
           </Grid>
         </Grid>
       </Card>
-
-      <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-        <a id="calldriver" href="tel:+917888817907">
-          Call Driver
-        </a>
-      </Button>
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Cancel Ride
-      </Button>
+      {RideState == 1 && (
+        <div>
+          <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <a id="calldriver" href={"tel:" + driver.phoneno}>
+              Call Driver
+            </a>
+          </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Cancel Ride
+          </Button>
+        </div>
+      )}
     </React.Fragment>
   );
 }

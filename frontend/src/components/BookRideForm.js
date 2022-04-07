@@ -80,7 +80,7 @@ export default function BookRideForm() {
         {vehicleTypes.map((vehicle) => (
           <ListItem>
             <Card sx={{ width: "100%", height: 150 }}>
-              <Grid container spacing={2} sx={12}>
+              <Grid container spacing={2} paddingRight={2} sx={12}>
                 <Grid item xs={4}>
                   <CardMedia
                     component="img"

@@ -4,8 +4,12 @@ import SignIn from "./SignIn";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 const containerStyle = {
-  width: "400px",
-  height: "400px",
+  width: "100%",
+  height: "100%",
+  minWidth: "400px",
+  minHeight: "400px",
+  display: "flex",
+  // minHeight: "2600px",
 };
 
 const center = {
@@ -18,6 +22,8 @@ function Map() {
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
+    defaultCenter: center,
+    defaultZoom: 15,
   });
 
   const [map, setMap] = React.useState(null);

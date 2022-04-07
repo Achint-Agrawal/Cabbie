@@ -21,7 +21,7 @@ export default function Payment() {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Ride Complete!!
+        Ride Completed!!
       </Typography>
 
       <Card sx={{ width: "100%", height: 200 }}>
