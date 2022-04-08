@@ -9,8 +9,8 @@ import Rating from "@mui/material/Rating";
 const driver = {
   name: "Daljit Singh",
   image: "/Daljit.png",
-  rating: 4.8,
-  carType: "Tesla Model S",
+  rating: 2.1,
+  carType: "Tata Nano",
   license: "UP42 SX 6969",
   phoneno: "7888817907",
 };

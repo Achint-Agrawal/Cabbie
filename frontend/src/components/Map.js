@@ -1,7 +1,12 @@
 import React, { useMemo } from "react";
 import { Grid } from "@mui/material";
 import SignIn from "./SignIn";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 
 const containerStyle = {
   width: "100%",
@@ -17,7 +22,7 @@ const center = {
   lng: 80.3319,
 };
 
-function Map() {
+const Map = ({ pickup, drop, directionsResponse }) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -46,11 +51,15 @@ function Map() {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      <Marker position={center} />
+      {pickup && <Marker position={pickup} />}
+      {drop && <Marker position={drop} />}
+      {pickup && drop && directionsResponse && (
+        <DirectionsRenderer directions={directionsResponse} />
+      )}
     </GoogleMap>
   ) : (
     <div>Loading...</div>
   );
-}
+};
 
 export default Map;
