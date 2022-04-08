@@ -14,24 +14,28 @@ import { useRef, useState } from "react";
 
 const vehicleTypes = [
   {
+    id: 1,
     name: "Bike",
     image: "/motorcycle.png",
     description: "meow",
     fare: 10,
   },
   {
+    id: 2,
     name: "Bike2",
     image: "/motorcycle.png",
     description: "meow2",
     fare: 20,
   },
   {
+    id: 3,
     name: "Bike3",
     image: "/motorcycle.png",
     description: "meow3",
     fare: 30,
   },
   {
+    id: 4,
     name: "Bike4",
     image: "/motorcycle.png",
     description: "meow4",
@@ -47,6 +51,7 @@ export default function BookRideForm({
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
+  const [activeVehicle, setActiveVehicle] = useState(null);
 
   /**@type React.MutableObject<HTMLInputElement> */
   const originRef = useRef();
@@ -142,9 +147,15 @@ export default function BookRideForm({
         </Autocomplete>
       </Box>
       <List fullWidth>
-        {vehicleTypes.map((vehicle) => (
+        {vehicleTypes.map((vehicle, i) => (
           <ListItem>
-            <Card sx={{ width: "100%", height: 150 }}>
+            <Card
+              onClick={() => setActiveVehicle(i)}
+              style={
+                i == activeVehicle ? { boxShadow: "0 0 3px 3px #1976d2" } : {}
+              }
+              sx={{ width: "100%", height: 150 }}
+            >
               <Grid container spacing={2} paddingRight={2} sx={12}>
                 <Grid item xs={4}>
                   <CardMedia
@@ -162,7 +173,7 @@ export default function BookRideForm({
                 <Grid item xs={4}>
                   <br />
                   <Typography align="right" variant="h6">
-                    {"5 min away"}
+                    {"<1 min away"}
                   </Typography>
                 </Grid>
               </Grid>
