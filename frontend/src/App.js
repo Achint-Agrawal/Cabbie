@@ -14,7 +14,7 @@ import DriverPayment from "./components/DriverPayment";
 function App() {
   return (
     <div className="App">
-      <DriverPayment RideState={1} />
+      <DriverOngoingRide RideState={2} />
     </div>
   );
 }

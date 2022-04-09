@@ -39,18 +39,13 @@ const rideRequests = [
   },
 ];
 
-export default function DriverRideRequest({ RideState }) {
+export default function DriverRideRequest() {
   return (
     <React.Fragment>
-      {RideState == 1 ? (
-        <Typography variant="h6" gutterBottom>
-          Customer Details
-        </Typography>
-      ) : (
-        <Typography variant="h6" gutterBottom>
-          Ride Started
-        </Typography>
-      )}
+      <Typography variant="h6" gutterBottom>
+        Customer Details
+      </Typography>
+
       <List fullWidth>
         {rideRequests.map((ride, i) => (
           <ListItem>
@@ -85,11 +80,9 @@ export default function DriverRideRequest({ RideState }) {
                   </Grid>
                   <Grid item xs={3}>
                     <br />
-                    {RideState == 1 && (
-                      <Typography align="right" variant="h6">
-                        {"<1 min away"}
-                      </Typography>
-                    )}
+                    <Typography align="right" variant="h6">
+                      {"<1 min away"}
+                    </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <CardActions>
