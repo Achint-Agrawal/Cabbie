@@ -110,6 +110,33 @@ export default function DriverSignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="CarModel"
+                  label="Car Model"
+                  id="CarModel"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="CarType"
+                  label="Car Type"
+                  id="CarType"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="LicenseNumber"
+                  label="LicenseNumber"
+                  id="LicenseNumber"
+                />
+              </Grid>
             </Grid>
             <Button
               type="submit"
