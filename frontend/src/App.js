@@ -9,11 +9,12 @@ import DriverSignIn from "./components/DriverSignIn";
 import DriverSignUp from "./components/DriverSignUp";
 import DriverOngoingRide from "./components/DriverOngoingRide";
 import DriverRideRequest from "./components/DriverRideRequest";
+import DriverPayment from "./components/DriverPayment";
 
 function App() {
   return (
     <div className="App">
-      <DriverRideRequest RideState={1} />
+      <DriverPayment RideState={1} />
     </div>
   );
 }
