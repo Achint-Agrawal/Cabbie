@@ -7,11 +7,12 @@ import Payment from "./components/Payment";
 import AppContainer from "./components/AppContainer";
 import DriverSignIn from "./components/DriverSignIn";
 import DriverSignUp from "./components/DriverSignUp";
+import DriverOngoingRide from "./components/DriverOngoingRide";
 
 function App() {
   return (
     <div className="App">
-      <DriverSignUp />
+      <DriverOngoingRide RideState={1} />
     </div>
   );
 }

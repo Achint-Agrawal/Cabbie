@@ -6,21 +6,21 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Rating from "@mui/material/Rating";
 
-const driver = {
+const user = {
   name: "Daljit Singh",
   image: "/Daljit.png",
   rating: 2.1,
-  carType: "Tata Nano",
-  license: "UP42 SX 6969",
   phoneno: "7888817907",
+  pickup: "IIT Kanpur, Hall 9",
+  drop: "Kanpur Central",
 };
 
-export default function OngoingRide({ RideState }) {
+export default function DriverOngoingRide({ RideState }) {
   return (
     <React.Fragment>
       {RideState == 1 ? (
         <Typography variant="h6" gutterBottom>
-          Driver Details
+          Customer Details
         </Typography>
       ) : (
         <Typography variant="h6" gutterBottom>
@@ -30,25 +30,32 @@ export default function OngoingRide({ RideState }) {
       <Card sx={{ width: "100%", height: 250 }}>
         <Grid container spacing={2} sx={12}>
           <Grid item xs={4}>
-            <CardMedia component="img" height="250" image={driver.image} />
+            <CardMedia component="img" height="250" image={user.image} />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Typography align="left" variant="h5">
-              {driver.name}
+              {user.name}
             </Typography>
             <div align="left">
-              <Rating readOnly="true" value={driver.rating} precision={0.1} />
-              <Typography color="#fcba03">{driver.rating}</Typography>
+              <Rating readOnly="true" value={user.rating} precision={0.1} />
+              <Typography color="#fcba03">{user.rating}</Typography>
               <br />
-              <Typography>{driver.carType}</Typography>
-              <Typography fontWeight="Bold">{driver.license}</Typography>
+              <Typography display="inline" fontWeight={"bold"}>
+                {"Pickup: "}
+              </Typography>
+              <Typography display="inline">{user.pickup}</Typography>
+              <br />
+              <Typography display="inline" fontWeight={"bold"}>
+                {"Drop: "}
+              </Typography>
+              <Typography display="inline">{user.drop}</Typography>{" "}
             </div>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <br />
             {RideState == 1 && (
               <Typography align="right" variant="h6">
-                {"5 min away"}
+                {"<1 min away"}
               </Typography>
             )}
           </Grid>
@@ -57,8 +64,8 @@ export default function OngoingRide({ RideState }) {
       {RideState == 1 && (
         <div>
           <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            <a id="call" href={"tel:" + driver.phoneno}>
-              Call Driver
+            <a id="call" href={"tel:" + user.phoneno}>
+              Call Customer
             </a>
           </Button>
           <Button
