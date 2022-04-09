@@ -8,11 +8,12 @@ import AppContainer from "./components/AppContainer";
 import DriverSignIn from "./components/DriverSignIn";
 import DriverSignUp from "./components/DriverSignUp";
 import DriverOngoingRide from "./components/DriverOngoingRide";
+import DriverRideRequest from "./components/DriverRideRequest";
 
 function App() {
   return (
     <div className="App">
-      <DriverOngoingRide RideState={1} />
+      <DriverRideRequest RideState={1} />
     </div>
   );
 }

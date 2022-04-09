@@ -8,7 +8,7 @@ import Rating from "@mui/material/Rating";
 
 const user = {
   name: "Daljit Singh",
-  image: "/Daljit.png",
+  image: "/Daljit.jpg",
   rating: 2.1,
   phoneno: "7888817907",
   pickup: "IIT Kanpur, Hall 9",
