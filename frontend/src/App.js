@@ -10,6 +10,7 @@ import DriverSignUp from "./components/DriverSignUp";
 import DriverOngoingRide from "./components/DriverOngoingRide";
 import DriverRideRequest from "./components/DriverRideRequest";
 import DriverPayment from "./components/DriverPayment";
+import DriverAppContainer from "./components/DriverAppContainer";
 
 function App() {
   return (

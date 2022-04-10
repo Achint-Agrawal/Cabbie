@@ -2,6 +2,7 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Rating from "@mui/material/Rating";
@@ -44,15 +45,20 @@ export default function Payment() {
           </Grid>
           <Grid item xs={8}>
             <br />
-            <br />
             <Typography align="center" variant="h5">
               {"Rate your experience with " + driver.name}
             </Typography>
             <div align="center">
-              <br />
-              <br />
               <Rating precision={0.5} size="large" />
               <br />
+              <TextField
+                fullWidth
+                id="AddReview"
+                label="Add a Review"
+                variant="outlined"
+                minRows={4}
+                multiline
+              />
             </div>
           </Grid>
         </Grid>

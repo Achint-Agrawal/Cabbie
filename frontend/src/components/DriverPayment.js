@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Rating from "@mui/material/Rating";
+import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 
@@ -49,15 +50,20 @@ export default function DriverPayment() {
           </Grid>
           <Grid item xs={8}>
             <br />
-            <br />
             <Typography align="center" variant="h5">
               {"Rate your experience with " + customer.name}
             </Typography>
             <div align="center">
-              <br />
-              <br />
               <Rating precision={0.5} size="large" />
               <br />
+              <TextField
+                fullWidth
+                id="AddReview"
+                label="Add a Review"
+                variant="outlined"
+                minRows={4}
+                multiline
+              />
             </div>
           </Grid>
         </Grid>
