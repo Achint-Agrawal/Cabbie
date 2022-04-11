@@ -41,7 +41,7 @@ const rideRequests = [
     phoneno: "7888817907",
     pickup: "IIT Kanpur, Hall 9",
     drop: "Kanpur Central",
-    pickupLatLng: { lat: 30.456, lng: 80.3319 },
+    pickupLatLng: { lat: 26.5123, lng: 80.2329 },
     dropLatLng: { lat: 24.075, lng: 82.3319 },
   },
 ];

@@ -15,7 +15,7 @@ import DriverAppContainer from "./components/DriverAppContainer";
 function App() {
   return (
     <div className="App">
-      <DriverPayment />
+      <AppContainer />
     </div>
   );
 }

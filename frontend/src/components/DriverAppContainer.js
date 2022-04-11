@@ -10,7 +10,7 @@ import OngoingRide from "./OngoingRide";
 import Payment from "./Payment";
 import Grid from "@mui/material/Grid";
 
-const step = 3;
+const step = 0;
 
 const DriverAppContainer = () => {
   function getPanelContent(step) {
