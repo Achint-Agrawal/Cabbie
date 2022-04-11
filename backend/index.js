@@ -1,5 +1,10 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const riderRoutes = require('./routes/riderAPI');
+const driverRoutes = require('./routes/driverAPI');
 
+require('dotenv').config();
 const app = express();
 
 const PORT = 3001;
@@ -11,6 +16,25 @@ app.use((req, res, next) => {
     next();
 });
 
+
+//connect to the database
+mongoose
+    .connect(process.env.RIDESHARE_DB_URI, { useNewUrlParser: true })
+    .then(() => console.log(`Database connected successfully`))
+    .catch((err) => console.log(err));
+
+mongoose.Promise = global.Promise;
+
+app.use(bodyParser.json());
+
+//make use of routes
+app.use('/api', riderRoutes);
+app.use('/api/driver', driverRoutes);
+
+app.use((err, req, res, next) => {
+    console.log(err);
+    next();
+});
 
 
 app.listen(PORT, () => {

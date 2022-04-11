@@ -23,6 +23,6 @@ const DriverSchema = new Schema({
 });
 
 const Rider = mongoose.model('rider', RiderSchema);
-const Driver = mongoose.model('rider', DriverSchema);
+const Driver = mongoose.model('driver', DriverSchema);
 
 module.exports = { Rider, Driver };
