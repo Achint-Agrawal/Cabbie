@@ -5,8 +5,9 @@ import Map from "./Map";
 import OngoingRide from "./OngoingRide";
 import Payment from "./Payment";
 import Grid from "@mui/material/Grid";
+import SignUp from './SignUp';
 
-const step = 0;
+const step = 4;
 
 const AppContainer = () => {
   function getPanelContent(step) {
@@ -25,6 +26,8 @@ const AppContainer = () => {
         return <OngoingRide RideState={2} />;
       case 3:
         return <Payment />;
+      case 4:
+        return <SignUp />;
       default:
         throw new Error("Unknown step");
     }
