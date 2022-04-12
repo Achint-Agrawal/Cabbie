@@ -12,10 +12,10 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const pages = ["Book Ride", "Track Ride", "Payment"];
+const pages = ["Home", "Track Ride", "Payment"];
 const settings = ["Profile", "Past Rides", "Contact Us", "Logout"];
 
-const Navbar = () => {
+const DriverNavbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -137,4 +137,4 @@ const Navbar = () => {
     </AppBar>
   );
 };
-export default Navbar;
+export default DriverNavbar;

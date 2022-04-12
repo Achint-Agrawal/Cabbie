@@ -4,13 +4,11 @@ import DriverRideRequest from "./DriverRideRequest";
 import DriverOngoingRide from "./DriverOngoingRide";
 import DriverPayment from "./DriverPayment";
 import DriverMap from "./DriverMap";
+import DriverNavbar from "./DriverNavbar";
 
-import Map from "./Map";
-import OngoingRide from "./OngoingRide";
-import Payment from "./Payment";
 import Grid from "@mui/material/Grid";
 
-const step = 0;
+const step = 3;
 
 const DriverAppContainer = () => {
   function getPanelContent(step) {
@@ -48,6 +46,7 @@ const DriverAppContainer = () => {
   }
   return (
     <React.Fragment>
+      <DriverNavbar></DriverNavbar>
       <Grid
         container
         spacing={2}

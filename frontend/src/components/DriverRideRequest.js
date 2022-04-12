@@ -13,34 +13,34 @@ import { useState } from "react";
 const rideRequests = [
   {
     id: 1,
-    name: "Daljit Singh1",
-    image: "/Daljit.jpg",
-    rating: 2.1,
+    name: "Kaustubh Pawar",
+    image: "/Kaustubh.png",
+    rating: 4.8,
     phoneno: "7888817907",
     pickup: "IIT Kanpur, Hall 9",
-    drop: "Kanpur Central",
+    drop: "NH91, Kanpur",
     pickupLatLng: { lat: 26.456, lng: 80.3319 },
     dropLatLng: { lat: 24.075, lng: 80.3319 },
   },
   {
     id: 2,
-    name: "Daljit Singh2",
-    image: "/Daljit.jpg",
-    rating: 2.1,
+    name: "Priydarshi Singh",
+    image: "/Priydarshi.png",
+    rating: 1.2,
     phoneno: "7888817907",
     pickup: "IIT Kanpur, Hall 9",
     drop: "Kanpur Central",
-    pickupLatLng: { lat: 25.456, lng: 80.3319 },
-    dropLatLng: { lat: 24.075, lng: 81.3319 },
+    pickupLatLng: { lat: 26.5123, lng: 80.2329 },
+    dropLatLng: { lat: 26.4537, lng: 80.3513 },
   },
   {
     id: 3,
-    name: "Daljit Singh3",
-    image: "/Daljit.jpg",
-    rating: 2.1,
+    name: "Pruthviraj Desai",
+    image: "/Pruthvi.png",
+    rating: 4.3,
     phoneno: "7888817907",
-    pickup: "IIT Kanpur, Hall 9",
-    drop: "Kanpur Central",
+    pickup: "IIT Kanpur, Hall 1",
+    drop: "Lucknow Airport",
     pickupLatLng: { lat: 26.5123, lng: 80.2329 },
     dropLatLng: { lat: 24.075, lng: 82.3319 },
   },
@@ -101,7 +101,7 @@ export default function DriverRideRequest({ onSelectCustomer }) {
                   <Grid item xs={3}>
                     <br />
                     <Typography align="right" variant="h6">
-                      {"<1 min away"}
+                      {"5 min away"}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>

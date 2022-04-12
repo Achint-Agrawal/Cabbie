@@ -16,7 +16,7 @@ const driver = {
   phoneno: "6969696969",
 };
 
-const fare = 69;
+const fare = 105;
 
 export default function Payment() {
   return (
