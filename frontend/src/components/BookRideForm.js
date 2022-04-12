@@ -173,7 +173,7 @@ export default function BookRideForm({
                 <Grid item xs={4}>
                   <br />
                   <Typography align="right" variant="h6">
-                    {"<1 min away"}
+                    {"5 min away"}
                   </Typography>
                 </Grid>
               </Grid>

@@ -5,8 +5,9 @@ import Map from "./Map";
 import OngoingRide from "./OngoingRide";
 import Payment from "./Payment";
 import Grid from "@mui/material/Grid";
+import Navbar from "./Navbar";
 
-const step = 0;
+const step = 3;
 
 const AppContainer = () => {
   function getPanelContent(step) {
@@ -44,6 +45,7 @@ const AppContainer = () => {
   }
   return (
     <React.Fragment>
+      <Navbar></Navbar>
       <Grid
         container
         spacing={2}

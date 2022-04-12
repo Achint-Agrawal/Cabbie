@@ -10,15 +10,11 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 
 const customer = {
-  name: "Daljit Singh",
-  image: "/Daljit.jpg",
-  rating: 4.8,
-  carType: "Tesla Model S",
-  license: "UP42 SX 6969",
-  phoneno: "6969696969",
+  name: "Priydarshi Singh",
+  image: "/Priydarshi.png",
 };
 
-const fare = 69;
+const fare = 105;
 
 export default function DriverPayment() {
   return (
