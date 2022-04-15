@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require("passport");
 const riderRoutes = require('./routes/riderAPI');
 const driverRoutes = require('./routes/driverAPI');
 
@@ -26,6 +27,12 @@ mongoose
 mongoose.Promise = global.Promise;
 
 app.use(bodyParser.json());
+
+// Passport middleware
+app.use(passport.initialize()); 
+
+// Passport config
+require("./config/passport")(passport);
 
 //make use of routes
 app.use('/api', riderRoutes);
