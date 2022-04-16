@@ -130,5 +130,8 @@ export default function SignUp() {
         </Box>
       </Container>
     </ThemeProvider>
+    // <div>
+    //   <h1>Hello</h1>
+    // </div>
   );
 }

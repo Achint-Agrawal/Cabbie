@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import SignUp from './SignUp';
 import useToken from './useToken';
 import Navbar from "./Navbar";
+import HomePublic from "./HomePublic";
 
 const step = 3;
 
