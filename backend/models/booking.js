@@ -15,6 +15,8 @@ const BookingSchema = new Schema({
     fare: { type: Number },
 });
 
+BookingSchema.index({ timestamp: 1, pickupLat: 1, pickupLng: 1 });
+
 const Booking = mongoose.model("booking", BookingSchema);
 
 module.exports = { Booking };
