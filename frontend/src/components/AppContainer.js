@@ -6,10 +6,15 @@ import OngoingRide from "./OngoingRide";
 import Payment from "./Payment";
 import Grid from "@mui/material/Grid";
 import SignUp from './SignUp';
+import useToken from './useToken';
 
-const step = 4;
+const step = 3;
 
 const AppContainer = () => {
+
+  const [token, setToken] = useToken();
+
+
   function getPanelContent(step) {
     switch (step) {
       case 0:
@@ -35,6 +40,12 @@ const AppContainer = () => {
   const [pickup, setPickup] = useState(null);
   const [drop, setDrop] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
+
+  if(step != 4 && !token) {
+    console.log(token);
+    return <SignIn setToken={setToken} />
+  }
+
   function onPickupLocation(location) {
     setPickup(location);
   }
