@@ -46,4 +46,34 @@ router.get("/getRequestsForDriver", (req, res, next) => {
     );
 });
 
+router.patch("/acceptRide", (req, res, next) => {
+    const id = req.body.rideId;
+    const driverId = req.body.driverId;
+    if (!id || !driverId) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            if (doc.rideStatus == "requested") {
+                Booking.findByIdAndUpdate(
+                    id,
+                    { rideStatus: "accepted", driverId: driverId },
+                    (err, doc) => {
+                        if (err) {
+                            res.status(404).json("Ride Not Found");
+                        } else {
+                            res.status(200).json(doc.rideId);
+                        }
+                    }
+                );
+            } else {
+                // console.log(doc);
+                return res.status(412).json("Ride can not be accepted");
+            }
+        }
+    });
+});
+
 module.exports = router;
