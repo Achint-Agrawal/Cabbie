@@ -60,7 +60,7 @@ const AppContainer = () => {
   }
   return (
     <React.Fragment>
-      <Navbar></Navbar>
+      <Navbar setToken={setToken}></Navbar>
       <Grid
         container
         spacing={2}

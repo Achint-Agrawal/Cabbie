@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = ["Book Ride", "Track Ride", "Payment"];
 const settings = ["Profile", "Past Rides", "Contact Us", "Logout"];
 
-const Navbar = () => {
+const Navbar = ({setToken}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -30,8 +30,16 @@ const Navbar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event) => {
     setAnchorElUser(null);
+    console.log(event.target.textContent);
+
+    const action = event.target.textContent;
+
+    if (action === "Logout") {
+      setToken();
+      localStorage.clear();
+    }
   };
 
   return (
