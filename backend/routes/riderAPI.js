@@ -5,6 +5,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const keys = require("../config/Keys");
 const passport = require("passport");
+const { application } = require('express');
 
 router.post('/signup', (req, res, next) => {
     const temp = req.body;
@@ -48,8 +49,6 @@ router.post('/login', (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    console.log("I am here");
-
     Rider.findOne({ username}).then(user => {
         if (!user) {
             return res.status(404).json({ usernotfound: "user not registered" });
@@ -84,5 +83,10 @@ router.post('/login', (req, res, next) => {
 
     
 });
+
+// router.get('/logout', (req, res) => {
+//     sessionStorage.clear();
+//     res.send("logout successfull");
+// });
 
 module.exports = router;
