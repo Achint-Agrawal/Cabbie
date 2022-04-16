@@ -7,9 +7,9 @@ import CardMedia from "@mui/material/CardMedia";
 import Rating from "@mui/material/Rating";
 
 const user = {
-  name: "Daljit Singh",
-  image: "/Daljit.jpg",
-  rating: 2.1,
+  name: "Priydarshi Singh",
+  image: "/Priydarshi.png",
+  rating: 1.2,
   phoneno: "7888817907",
   pickup: "IIT Kanpur, Hall 9",
   drop: "Kanpur Central",
@@ -55,13 +55,13 @@ export default function DriverOngoingRide({ RideState }) {
             <br />
             {RideState == 1 && (
               <Typography align="right" variant="h6">
-                {"<1 min away"}
+                {"5 min away"}
               </Typography>
             )}
           </Grid>
         </Grid>
       </Card>
-      {RideState == 1 && (
+      {RideState == 1 ? (
         <div>
           <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             <a id="call" href={"tel:" + user.phoneno}>
@@ -76,7 +76,24 @@ export default function DriverOngoingRide({ RideState }) {
           >
             Cancel Ride
           </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Start Ride
+          </Button>
         </div>
+      ) : (
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Finish Ride
+        </Button>
       )}
     </React.Fragment>
   );

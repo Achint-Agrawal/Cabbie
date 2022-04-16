@@ -11,6 +11,7 @@ import DriverOngoingRide from "./components/DriverOngoingRide";
 import DriverRideRequest from "./components/DriverRideRequest";
 import DriverPayment from "./components/DriverPayment";
 import DriverAppContainer from "./components/DriverAppContainer";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
