@@ -48,6 +48,8 @@ router.post('/login', (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
 
+    console.log("I am here");
+
     Rider.findOne({ username}).then(user => {
         if (!user) {
             return res.status(404).json({ usernotfound: "user not registered" });
@@ -68,7 +70,7 @@ router.post('/login', (req, res, next) => {
                     (err, token) => {
                         res.json({
                             success: true,
-                            token: "Bearer " + token
+                            token: token
                         });
                     }
                 );
