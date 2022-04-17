@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from 'axios';
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -12,6 +13,8 @@ import CardMedia from "@mui/material/CardMedia";
 import { useJsApiLoader, Autocomplete } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 
+
+axios.defaults.withCredentials = true;
 const vehicleTypes = [
   {
     id: 1,
@@ -48,10 +51,13 @@ export default function BookRideForm({
   onDropLocation,
   onDirectionsResponse,
 }) {
+
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
   const [activeVehicle, setActiveVehicle] = useState(null);
+  const [pickupName, setPickupName] = useState(null);
+  const [dropName, setDropName] = useState(null);
 
   /**@type React.MutableObject<HTMLInputElement> */
   const originRef = useRef();
@@ -100,12 +106,14 @@ export default function BookRideForm({
   }
 
   function onPickupChanged() {
+    // console.log(autoCompletePickup.getPlace().formatted_Name); // find Name string
     if (autoCompletePickup !== null) {
       const location = {
         lat: autoCompletePickup.getPlace().geometry.location.lat(),
         lng: autoCompletePickup.getPlace().geometry.location.lng(),
       };
       // console.log(location);
+      setPickupName(autoCompletePickup.getPlace().formatted_address);
       setPickupLocation(location);
       onPickupLocation(location);
       calculateRoute(location, dropLocation);
@@ -120,7 +128,8 @@ export default function BookRideForm({
         lat: autoCompleteDrop.getPlace().geometry.location.lat(),
         lng: autoCompleteDrop.getPlace().geometry.location.lng(),
       };
-      // console.log(location);
+      console.log(autoCompleteDrop.getPlace().formatted_address);
+      setDropName(autoCompleteDrop.getPlace().formatted_address)
       setDropLocation(location);
       onDropLocation(location);
       calculateRoute(pickupLocation, location);
@@ -130,7 +139,24 @@ export default function BookRideForm({
   }
 
   function handleFormSubmission() {
-    
+
+    const payload = {
+      pickupName, pickupLat: pickupLocation.lat, pickupLng: pickupLocation.lng, dropName, dropLat: dropLocation.lat, dropLng: dropLocation.lng
+    };
+
+    console.log(payload);
+    axios("/api/bookride", {
+      method: "post",
+      data: payload,
+      withCredentials: true
+    })    
+    .then((res) => {
+      console.log(res);
+      console.log(payload);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
   return isLoaded ? (
     <React.Fragment>
