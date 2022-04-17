@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from 'axios';
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -48,6 +49,7 @@ export default function BookRideForm({
   onDropLocation,
   onDirectionsResponse,
 }) {
+
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
@@ -100,6 +102,7 @@ export default function BookRideForm({
   }
 
   function onPickupChanged() {
+    console.log(autoCompletePickup);
     if (autoCompletePickup !== null) {
       const location = {
         lat: autoCompletePickup.getPlace().geometry.location.lat(),
@@ -130,7 +133,7 @@ export default function BookRideForm({
   }
 
   function handleFormSubmission() {
-    
+
   }
   return isLoaded ? (
     <React.Fragment>
