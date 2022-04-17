@@ -36,6 +36,20 @@ export default function OngoingRide() {
         setTimeout(checkRideStatus, 5000);
     }
 
+    function cancelRide() {
+        console.log("in cancelRide");
+        axios
+            .patch("/api/cancelRide", {
+                rideId: rideId,
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
     useEffect(() => {
         console.log("useeffect");
         return () => {
@@ -111,10 +125,10 @@ export default function OngoingRide() {
                         </a>
                     </Button>
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
+                        onClick={cancelRide}
                     >
                         Cancel Ride
                     </Button>

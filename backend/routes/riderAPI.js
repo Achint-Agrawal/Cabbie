@@ -104,4 +104,24 @@ router.patch("/updateRiderLocation", (req, res, next) => {
     );
 });
 
+router.patch("/cancelRide", (req, res, next) => {
+    const id = req.body.rideId;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findByIdAndUpdate(
+        id,
+        {
+            rideStatus: "Cancelled",
+        },
+        (err, doc) => {
+            if (err) {
+                res.status(404).json("Ride Not Found");
+            } else {
+                res.status(200).json(doc);
+            }
+        }
+    );
+});
+
 module.exports = router;
