@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,9 +16,11 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = ["Book Ride", "Track Ride", "Payment"];
 const settings = ["Profile", "Past Rides", "Contact Us", "Logout"];
 
-const Navbar = ({setToken}) => {
+const Navbar = ({ setToken }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -26,8 +29,23 @@ const Navbar = ({setToken}) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (event) => {
     setAnchorElNav(null);
+
+    console.log(event.target.textContent);
+
+    const action = event.target.textContent;
+
+    if (action === pages[0]) {
+      navigate('/bookride');
+    }
+    else if (action === pages[1]) {
+      navigate('/trackride');
+    }
+    else if (action === pages[2]) {
+      navigate('/payment');
+    }
+
   };
 
   const handleCloseUserMenu = (event) => {
@@ -36,9 +54,19 @@ const Navbar = ({setToken}) => {
 
     const action = event.target.textContent;
 
-    if (action === "Logout") {
+    if (action === settings[0]) {
+      navigate('/profile');
+    }
+    else if (action === settings[1]) {
+      navigate('/pastrides');
+    }
+    else if (action === settings[2]) {
+      navigate('/contact');
+    }
+    else if (action === settings[3]) {
       setToken();
       localStorage.clear();
+      navigate('/');
     }
   };
 
@@ -50,7 +78,9 @@ const Navbar = ({setToken}) => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+
+            onClick={() => navigate('/')}
+            sx={{ mr: 2, display: { xs: "none", md: "flex" }, cursor: "pointer" }}
           >
             CABBIE
           </Typography>

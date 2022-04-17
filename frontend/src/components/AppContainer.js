@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BookRideForm from "./BookRideForm";
 import SignIn from "./SignIn";
 import Map from "./Map";
@@ -10,7 +11,7 @@ import useToken from './useToken';
 import Navbar from "./Navbar";
 import HomePublic from "./HomePublic";
 
-const step = 3;
+const step = 4;
 
 const AppContainer = () => {
 
@@ -43,7 +44,7 @@ const AppContainer = () => {
   const [drop, setDrop] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
 
-  if(step != 4 && !token) {
+  if (step != 4 && !token) {
     console.log(token);
     return <SignIn setToken={setToken} />
   }
@@ -60,7 +61,7 @@ const AppContainer = () => {
   }
   return (
     <React.Fragment>
-      <Navbar setToken={setToken}></Navbar>
+
       <Grid
         container
         spacing={2}
@@ -75,7 +76,18 @@ const AppContainer = () => {
           />
         </Grid>
         <Grid item xs={12} md={6} minWidth={400}>
-          {getPanelContent(step)}
+          <Navbar setToken={setToken}></Navbar>
+          <Routes>
+            <Route exact path="/" element={<HomePublic />}></Route>
+            <Route exact path="signup" element={<SignUp />}></Route>
+            <Route exact path="signin" element={<SignIn />}></Route>
+            <Route exact path="profile" element={<SignIn />}></Route>
+            <Route exact path="pastrides" element={<BookRideForm />}></Route>
+            <Route exact path="contact" element={<HomePublic />}></Route>
+            <Route exact path="payment" element={<Payment />}></Route>
+            <Route exact path="trackride" element={<OngoingRide />}></Route>
+            <Route exact path="bookride" element={<BookRideForm />}></Route>
+          </Routes>
         </Grid>
       </Grid>
     </React.Fragment>

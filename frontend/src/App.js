@@ -12,11 +12,15 @@ import DriverRideRequest from "./components/DriverRideRequest";
 import DriverPayment from "./components/DriverPayment";
 import DriverAppContainer from "./components/DriverAppContainer";
 import Navbar from "./components/Navbar";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <AppContainer />
+      <BrowserRouter>
+        <AppContainer />
+      </BrowserRouter>
+
     </div>
   );
 }
