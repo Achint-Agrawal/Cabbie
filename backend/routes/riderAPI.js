@@ -5,6 +5,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const keys = require("../config/Keys");
 const passport = require("passport");
+const { application } = require('express');
 const { Booking } = require("../models/booking");
 const { DriverReview } = require("../models/driverReview");
 
@@ -68,7 +69,7 @@ router.post("/login", (req, res, next) => {
                     (err, token) => {
                         res.json({
                             success: true,
-                            token: "Bearer " + token,
+                            token: token
                         });
                     }
                 );
@@ -118,6 +119,10 @@ router.get("/checkridestatus", (req, res, next) => {
     });
 });
 
+// router.get('/logout', (req, res) => {
+//     sessionStorage.clear();
+//     res.send("logout successfull");
+// });
 router.get("/getDriverDetails", (req, res, next) => {
     const id = req.body.driverId;
     if (!id) {
