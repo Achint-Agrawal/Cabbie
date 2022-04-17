@@ -1,6 +1,7 @@
 const express = require("express");
 const { Rider, Driver } = require("../models/user");
 const { Booking } = require("../models/booking");
+const { RiderReview } = require("../models/riderReview");
 const router = express.Router();
 
 router.post("/signup", (req, res, next) => {
@@ -44,6 +45,65 @@ router.get("/getRequestsForDriver", (req, res, next) => {
             }
         }
     );
+});
+
+router.patch("/acceptRide", (req, res, next) => {
+    const id = req.body.rideId;
+    const driverId = req.body.driverId;
+    if (!id || !driverId) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            if (doc.rideStatus == "requested") {
+                Booking.findByIdAndUpdate(
+                    id,
+                    { rideStatus: "accepted", driverId: driverId },
+                    (err, doc) => {
+                        if (err) {
+                            res.status(404).json("Ride Not Found");
+                        } else {
+                            res.status(200).json(doc.rideId);
+                        }
+                    }
+                );
+            } else {
+                // console.log(doc);
+                return res.status(412).json("Ride can not be accepted");
+            }
+        }
+    });
+});
+
+router.get("/getRiderDetails", (req, res, next) => {
+    const id = req.body.riderId;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Rider.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            delete doc["password"];
+            res.status(200).json(doc);
+        }
+    });
+});
+
+router.post("/addRiderReview", (req, res, next) => {
+    if (
+        !req.body.rideId ||
+        !req.body.driverId ||
+        !req.body.riderId ||
+        !req.body.rating
+    ) {
+        return res.status(422).json("A required field is empty");
+    }
+    RiderReview.create(req.body)
+        .then((data) => res.status(200).json("Review added successfully"))
+        .catch(next);
 });
 
 module.exports = router;

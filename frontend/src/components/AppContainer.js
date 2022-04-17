@@ -13,10 +13,9 @@ import HomePublic from "./HomePublic";
 import DriverSignUp from "./DriverSignUp";
 import HomePrivate from "./HomePrivate";
 
-const step = 4;
+const step = 3;
 
 const AppContainer = () => {
-
   const [token, setToken] = useToken();
 
 
