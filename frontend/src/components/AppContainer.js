@@ -11,10 +11,9 @@ import useToken from './useToken';
 import Navbar from "./Navbar";
 import HomePublic from "./HomePublic";
 
-const step = 4;
+const step = 3;
 
 const AppContainer = () => {
-
   const [token, setToken] = useToken();
 
 
