@@ -45,10 +45,10 @@ const AppContainer = () => {
   const [drop, setDrop] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
 
-  if (step != 4 && !token) {
-    console.log(token);
-    return <SignIn setToken={setToken} />
-  }
+  // if (step != 4 && !token) {
+  //   console.log(token);
+  //   return <SignIn setToken={setToken} />
+  // }
 
   function onPickupLocation(location) {
     setPickup(location);

@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+import { Link } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -25,8 +25,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link to="/" >
+        My homepage
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -36,7 +36,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn({setToken}) {
+export default function SignIn({ setToken }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
@@ -134,13 +134,13 @@ export default function SignIn({setToken}) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                {/* <Link href="#" variant="body2">
                   Forgot password?
-                </Link>
+                </Link> */}
               </Grid>
               <Grid item>
-                <Link href="/" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link to="/" >
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
