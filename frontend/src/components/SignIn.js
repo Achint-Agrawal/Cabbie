@@ -14,6 +14,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -35,9 +36,11 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn(props) {
+export default function SignIn({setToken}) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+
+  const navigate = useNavigate();
 
   function handleUsername(event) {
     event.preventDefault();
@@ -61,8 +64,10 @@ export default function SignIn(props) {
         console.log(res);
 
         if (res.data.success) {
-          props.setToken(res.data.token);
+          setToken(res.data.token);
         }
+
+        navigate('/')
       })
       .catch((err) => {
         console.log(err);
@@ -134,7 +139,7 @@ export default function SignIn(props) {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
