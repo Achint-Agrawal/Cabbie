@@ -31,9 +31,10 @@ router.post("/bookride", (req, res, next) => {
         .catch(next);
 });
 
-router.post("/checkridestatus", (req, res, next) => {
-    const id = req.body.rideId;
-    console.log(req.body);
+router.get("/checkridestatus", (req, res, next) => {
+    console.log(req.params);
+    return res.status(200).json("Ride Not Found");
+    const id = req.params.rideId;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }

@@ -22,14 +22,16 @@ const rideId = "625a0a0d8bcd14dc98700de2";
 export default function OngoingRide() {
     const [RideState, setRideState] = useState("Accepted");
     function checkRideStatus() {
-        console.log("checkRideStatus");
-        axios("/api/checkridestatus", {
-            method: "post",
-            data: { rideId: rideId },
-            withCredentials: true,
-        })
+        // console.log("checkRideStatus");
+        console.log(rideId);
+        axios
+            .get("/api/checkridestatus", {
+                params: { rideId: 12 },
+                // withCredentials: true,
+            })
             .then((res) => {
                 console.log(res);
+                setRideState(res);
             })
             .catch((err) => {
                 console.log(err);
@@ -40,7 +42,9 @@ export default function OngoingRide() {
     useEffect(() => {
         console.log("useeffect");
         return () => {
+            console.log("insied return");
             checkRideStatus();
+            console.log("after checkridestatus");
         };
     }, []);
 
