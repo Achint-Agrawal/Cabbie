@@ -25,8 +25,8 @@ const CurrentLocation = () => {
                 },
                 {
                     enableHighAccuracy: true,
-                    timeout: 5000,
-                    maximumAge: 0,
+                    // timeout: 50000,
+                    // maximumAge: 4000,
                 }
             );
         }

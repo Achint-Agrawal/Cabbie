@@ -105,7 +105,19 @@ const AppContainer = () => {
                         <Route
                             exact
                             path="bookride"
-                            element={!token ? <HomePublic /> : <BookRideForm />}
+                            element={
+                                !token ? (
+                                    <HomePublic />
+                                ) : (
+                                    <BookRideForm
+                                        onPickupLocation={onPickupLocation}
+                                        onDropLocation={onDropLocation}
+                                        onDirectionsResponse={
+                                            onDirectionsResponse
+                                        }
+                                    />
+                                )
+                            }
                         ></Route>
                     </Routes>
                 </Grid>
