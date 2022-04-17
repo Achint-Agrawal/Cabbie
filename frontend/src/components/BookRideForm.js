@@ -129,6 +129,9 @@ export default function BookRideForm({
     }
   }
 
+  function handleFormSubmission() {
+    
+  }
   return isLoaded ? (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -187,6 +190,7 @@ export default function BookRideForm({
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
         // onClick={calculateRoute}
+        onClick={handleFormSubmission}
       >
         Book Ride
       </Button>

@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const riderRoutes = require("./routes/riderAPI");
 const driverRoutes = require("./routes/driverAPI");
+const { authorization } = require('./api/login');
+const credRoutes = require('./routes/credRoutes')
 
 require("dotenv").config();
 const app = express();
@@ -37,8 +39,9 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 //make use of routes
-app.use("/api", riderRoutes);
-app.use("/api/driver", driverRoutes);
+app.use("/api", credRoutes);
+app.use("/api", authorization, riderRoutes);
+app.use("/api/driver", authorization, driverRoutes);
 
 app.use((err, req, res, next) => {
     console.log(err);

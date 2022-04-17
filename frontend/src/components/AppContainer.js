@@ -10,6 +10,8 @@ import SignUp from './SignUp';
 import useToken from './useToken';
 import Navbar from "./Navbar";
 import HomePublic from "./HomePublic";
+import DriverSignUp from "./DriverSignUp";
+import HomePrivate from "./HomePrivate";
 
 const step = 3;
 
@@ -43,10 +45,10 @@ const AppContainer = () => {
   const [drop, setDrop] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
 
-  if (step != 4 && !token) {
-    console.log(token);
-    return <SignIn setToken={setToken} />
-  }
+  // if (step != 4 && !token) {
+  //   console.log(token);
+  //   return <SignIn setToken={setToken} />
+  // }
 
   function onPickupLocation(location) {
     setPickup(location);
@@ -77,15 +79,16 @@ const AppContainer = () => {
         <Grid item xs={12} md={6} minWidth={400}>
           <Navbar setToken={setToken}></Navbar>
           <Routes>
-            <Route exact path="/" element={<HomePublic />}></Route>
+            <Route exact path="/" element={!token ? <HomePublic /> : <HomePrivate />}></Route>
             <Route exact path="signup" element={<SignUp />}></Route>
-            <Route exact path="signin" element={<SignIn />}></Route>
-            <Route exact path="profile" element={<SignIn />}></Route>
-            <Route exact path="pastrides" element={<BookRideForm />}></Route>
-            <Route exact path="contact" element={<HomePublic />}></Route>
-            <Route exact path="payment" element={<Payment />}></Route>
-            <Route exact path="trackride" element={<OngoingRide />}></Route>
-            <Route exact path="bookride" element={<BookRideForm />}></Route>
+            <Route exact path="/driver/signup" element={<DriverSignUp />}></Route>
+            <Route exact path="signin" element={<SignIn setToken={setToken} />}></Route>
+            <Route exact path="profile" element={!token ? <HomePublic /> : <SignIn setToken={setToken} />}></Route>
+            <Route exact path="pastrides" element={!token ? <HomePublic /> : <BookRideForm />}></Route>
+            <Route exact path="contact" element={!token ? <HomePublic /> : <HomePublic />}></Route>
+            <Route exact path="payment" element={!token ? <HomePublic /> : <Payment />}></Route>
+            <Route exact path="trackride" element={!token ? <HomePublic /> : <OngoingRide />}></Route>
+            <Route exact path="bookride" element={!token ? <HomePublic /> : <BookRideForm />}></Route>
           </Routes>
         </Grid>
       </Grid>
