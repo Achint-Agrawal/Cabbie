@@ -25,13 +25,10 @@ export default function OngoingRide() {
         // console.log("checkRideStatus");
         console.log(rideId);
         axios
-            .get("/api/checkridestatus", {
-                params: { rideId: 12 },
-                // withCredentials: true,
-            })
+            .get("/api/checkridestatus", { params: { rideId: rideId } })
             .then((res) => {
-                console.log(res);
-                setRideState(res);
+                console.log(res.data);
+                setRideState(res.data);
             })
             .catch((err) => {
                 console.log(err);
