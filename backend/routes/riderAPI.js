@@ -7,8 +7,8 @@ const { DriverReview } = require("../models/driverReview");
 router.post("/bookride", (req, res, next) => {
     // console.log(req);
     const booking = {
-        userID: req.body.userID,  //we need to authorize to get userID from database 1
-        pickupName: req.body.pickupName, 
+        userID: req.body.userID, //we need to authorize to get userID from database 1
+        pickupName: req.body.pickupName,
         pickupLat: req.body.pickupLat,
         pickupLng: req.body.pickupLng,
         dropName: req.body.dropName,
@@ -31,9 +31,9 @@ router.post("/bookride", (req, res, next) => {
         .catch(next);
 });
 
-router.get("/checkridestatus", (req, res, next) => {
-    // console.log(req);
+router.post("/checkridestatus", (req, res, next) => {
     const id = req.body.rideId;
+    console.log(req.body);
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
@@ -77,6 +77,31 @@ router.post("/addDriverReview", (req, res, next) => {
     DriverReview.create(req.body)
         .then((data) => res.status(200).json("Review added successfully"))
         .catch(next);
+});
+
+router.patch("/updateRiderLocation", (req, res, next) => {
+    console.log(req);
+    const id = req.body.riderId;
+    const lat = req.body.lat;
+    const lng = req.body.lng;
+    if (!id || !lat || !lng) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findByIdAndUpdate(
+        id,
+        {
+            lat: lat,
+            lng: lng,
+        },
+        { upsert: true },
+        (err, doc) => {
+            if (err) {
+                res.status(404).json("Rider Not Found");
+            } else {
+                res.status(200).json(doc);
+            }
+        }
+    );
 });
 
 module.exports = router;

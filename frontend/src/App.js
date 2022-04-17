@@ -20,7 +20,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <AppContainer />
-                <CurrentLocation />
+                {/* <CurrentLocation /> */}
             </BrowserRouter>
 
             {/* <CurrentLocation /> */}

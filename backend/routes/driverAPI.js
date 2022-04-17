@@ -2,6 +2,7 @@ const express = require("express");
 const { Rider, Driver } = require("../models/user");
 const { Booking } = require("../models/booking");
 const { RiderReview } = require("../models/riderReview");
+const { DriverStatus } = require("../models/driverStatus");
 const router = express.Router();
 
 router.post("/signup", (req, res, next) => {
@@ -104,6 +105,31 @@ router.post("/addRiderReview", (req, res, next) => {
     RiderReview.create(req.body)
         .then((data) => res.status(200).json("Review added successfully"))
         .catch(next);
+});
+
+router.patch("/updateDriverLocation", (req, res, next) => {
+    console.log(req);
+    const id = req.body.driverId;
+    const lat = req.body.lat;
+    const lng = req.body.lng;
+    if (!id || !lat || !lng) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findByIdAndUpdate(
+        id,
+        {
+            lat: lat,
+            lng: lng,
+        },
+        { upsert: true },
+        (err, doc) => {
+            if (err) {
+                res.status(404).json("Driver Not Found");
+            } else {
+                res.status(200).json(doc);
+            }
+        }
+    );
 });
 
 module.exports = router;
