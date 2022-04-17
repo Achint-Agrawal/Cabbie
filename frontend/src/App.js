@@ -13,16 +13,19 @@ import DriverPayment from "./components/DriverPayment";
 import DriverAppContainer from "./components/DriverAppContainer";
 import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
+import CurrentLocation from "./components/CurrentLocaion";
 
 function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <AppContainer />
-      </BrowserRouter>
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <AppContainer />
+                <CurrentLocation />
+            </BrowserRouter>
 
-    </div>
-  );
+            {/* <CurrentLocation /> */}
+        </div>
+    );
 }
 
 export default App;
