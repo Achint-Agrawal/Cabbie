@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const keys = require("../config/Keys");
 const passport = require("passport");
 const { Booking } = require("../models/booking");
+const { DriverReview } = require("../models/driverReview");
 
 router.post("/signup", (req, res, next) => {
     const temp = req.body;
@@ -108,13 +109,42 @@ router.get("/checkridestatus", (req, res, next) => {
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
-    Booking.findById(id, (err, docs) => {
+    Booking.findById(id, (err, doc) => {
         if (err) {
             res.status(404).json("Ride Not Found");
         } else {
-            res.status(200).json(docs.rideStatus);
+            res.status(200).json(doc.rideStatus);
         }
     });
+});
+
+router.get("/getDriverDetails", (req, res, next) => {
+    const id = req.body.driverId;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Driver.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            delete doc["password"];
+            res.status(200).json(doc);
+        }
+    });
+});
+
+router.post("/addDriverReview", (req, res, next) => {
+    if (
+        !req.body.rideId ||
+        !req.body.driverId ||
+        !req.body.riderId ||
+        !req.body.rating
+    ) {
+        return res.status(422).json("A required field is empty");
+    }
+    DriverReview.create(req.body)
+        .then((data) => res.status(200).json("Review added successfully"))
+        .catch(next);
 });
 
 module.exports = router;
