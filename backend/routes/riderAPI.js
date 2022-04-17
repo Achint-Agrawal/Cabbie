@@ -11,18 +11,23 @@ router.post("/bookride", (req, res, next) => {
         pickupName: req.body.pickupName, 
         pickupLat: req.body.pickupLat,
         pickupLng: req.body.pickupLng,
-        dropName: req.body.dropNameme,
+        dropName: req.body.dropName,
         dropLat: req.body.dropLat,
         dropLng: req.body.dropLng,
         rideStatus: "requested",
         driverID: null,
         fare: null,
     };
+
+    // console.log("userId = ", booking.userID);
     if (!booking.userID || !booking.pickupLat || !booking.pickupLng) {
         return res.status(422).json("A required field is empty");
     }
     Booking.create(booking)
-        .then((data) => res.json(data))
+        .then((data) => {
+            res.json(data);
+            console.log("success");
+        })
         .catch(next);
 });
 

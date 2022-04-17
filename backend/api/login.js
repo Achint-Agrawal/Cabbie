@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/Keys");
+
+
 // const { findUser } = require("../dao/userDAO.js");
 
 // async function loginUser(req, res) {  // JWT token yet to be done
@@ -52,13 +54,17 @@ const keys = require("../config/Keys");
 // }
 
 const authorization = async (req, res, next) => {
+    // console.log("req object", req.headers.cookie.token);
+    // console.log("req object", req.cookies.token);
+    // return ;
     const token = req.cookies.token;
 
     if (!token) return res.status(401).json({ message: "Access denied. Token is required for authentication" });
 
     try {
         const data = await jwt.verify(token, keys.secretOrKey);
-        req.userID = data.userID;
+        // console.log(data);
+        req.body.userID = data.userID;
         return next();
     }
     catch {

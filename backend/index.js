@@ -6,11 +6,14 @@ const riderRoutes = require("./routes/riderAPI");
 const driverRoutes = require("./routes/driverAPI");
 const { authorization } = require('./api/login');
 const credRoutes = require('./routes/credRoutes')
+var cookieParser = require('cookie-parser');
 
 require("dotenv").config();
+const PORT = 3001;
+
 const app = express();
 
-const PORT = 3001;
+app.use(cookieParser())
 
 //take care of CORS related issues
 app.use((req, res, next) => {
