@@ -65,6 +65,21 @@ router.get("/getDriverDetails", (req, res, next) => {
     });
 });
 
+router.get("/getUserProfile", (req, res, next) => {
+    const id = req.body.userId;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Rider.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            delete doc["password"];
+            res.status(200).json(doc);
+        }
+    });
+});
+
 router.post("/addDriverReview", (req, res, next) => {
     if (
         !req.body.rideId ||

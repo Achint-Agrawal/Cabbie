@@ -13,6 +13,7 @@ import HomePublic from "./HomePublic";
 import DriverSignUp from "./DriverSignUp";
 import HomePrivate from "./HomePrivate";
 import PastRides from "./PastRides";
+import Profile from "./Profile";
 
 // const step = 3;
 
@@ -75,13 +76,7 @@ const AppContainer = () => {
                         <Route
                             exact
                             path="profile"
-                            element={
-                                !token ? (
-                                    <HomePublic />
-                                ) : (
-                                    <SignIn setToken={setToken} />
-                                )
-                            }
+                            element={!token ? <HomePublic /> : <Profile />}
                         ></Route>
                         <Route
                             exact

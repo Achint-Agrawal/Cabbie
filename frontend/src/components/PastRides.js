@@ -14,36 +14,6 @@ import { useJsApiLoader, Autocomplete } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 
 axios.defaults.withCredentials = true;
-const vehicleTypes = [
-    {
-        id: 1,
-        name: "Bike",
-        image: "/motorcycle.jpeg",
-        description: "Beat the traffic on a bike",
-        fare: 10,
-    },
-    {
-        id: 2,
-        name: "Auto",
-        image: "/auto.png",
-        description: "Get pocket friendly autos at your doorstep",
-        fare: 20,
-    },
-    {
-        id: 3,
-        name: "Mini",
-        image: "/smallcar.jpeg",
-        description: "Comfy, economical cars",
-        fare: 30,
-    },
-    {
-        id: 4,
-        name: "Sedan",
-        image: "/sedan.jpg",
-        description: "Spacious sedans",
-        fare: 40,
-    },
-];
 
 const pastRides = [
     {

@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import CurrentLocation from "./components/CurrentLocaion";
 import PastRides from "./components/PastRides";
+import Profile from "./components/Profile";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                 <AppContainer />
             </BrowserRouter>
             {/* <PastRides /> */}
+            {/* <Profile /> */}
         </div>
     );
 }
