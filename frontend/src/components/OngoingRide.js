@@ -22,13 +22,12 @@ const rideId = "625a0a0d8bcd14dc98700de2";
 
 export default function OngoingRide() {
     const [RideState, setRideState] = useState("Accepted");
-    const location = useLocation();
     function checkRideStatus() {
         console.log("checkRideStatus");
         console.log(rideId);
 
-        console.log(location.pathname);
-        if (location.pathname != "/trackride") {
+        console.log(window.location.pathname);
+        if (window.location.pathname != "/trackride") {
             console.log("returning");
             return;
         }
