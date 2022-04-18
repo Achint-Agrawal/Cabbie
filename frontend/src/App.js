@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from 'react';
 import BookRideForm from "./components/BookRideForm";
 import SignIn from "./components/SignIn";
 import Map from "./components/Map";
@@ -15,11 +16,15 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import CurrentLocation from "./components/CurrentLocaion";
 
+
 function App() {
+    const [token, setToken] = useState();
+    const [userType, setUserType] = useState(0);
+
     return (
         <div className="App">
             <BrowserRouter>
-                <AppContainer />
+                {userType === 0 ? <AppContainer setUserType={setUserType} token={token} setToken={setToken}/> : <DriverAppContainer setUserType={setUserType} token={token} setToken={setToken}/> }
                 {/* <CurrentLocation /> */}
             </BrowserRouter>
 

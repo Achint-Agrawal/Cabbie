@@ -18,7 +18,8 @@ const HomePublic = () => {
             <h2>SignIn to have a ride</h2>
             <Card variant="outlined" style={{marginTop:"10%", padding:"5%"}}>
                 <ButtonGroup color="primary" aria-label="medium secondary button group" orientation="vertical">
-                    <Button variant="contained" style={{margin:"3%"}} onClick={() => navigate('/signin')}>Signin</Button>
+                    <Button variant="contained" style={{margin:"3%"}} onClick={() => navigate('/signin')}>Signin as Rider</Button>
+                    <Button variant="contained" style={{margin:"3%"}} onClick={() => navigate('/driver/signin')}>Signin as Driver</Button>
                     <Button variant="contained" style={{margin:"3%"}} onClick={() => navigate('/signup')}>Signup as rider</Button>
                     <Button variant="contained" style={{margin:"3%"}} onClick={() => navigate('/driver/signup')}>signup as driver</Button>
                 </ButtonGroup>

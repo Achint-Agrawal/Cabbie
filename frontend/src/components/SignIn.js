@@ -36,16 +36,19 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn({ setToken }) {
-  const [username, setUsername] = useState();
+export default function SignIn({ setToken, setUserType }) {
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [stay, setStay] = useState(false);
 
   const navigate = useNavigate();
 
-  function handleUsername(event) {
+  function handleEmail(event) {
     event.preventDefault();
-    setUsername(event.target.value);
+    setEmail(event.target.value);
   }
+
+  let errorAlert;
 
   function handlePassword(event) {
     event.preventDefault();
@@ -59,18 +62,24 @@ export default function SignIn({ setToken }) {
       password: data.get("password"),
     });
 
-    axios.post("/api/login", { username: username, password: password })
+    axios.post("/api/login", { email: email, password: password })
       .then((res) => {
-        console.log(res);
+        console.log("res");
 
         if (res.data.success) {
+          console.log("token", res.data.token);
           setToken(res.data.token);
+          setUserType(res.data.userType);
         }
 
+        setStay(true);
+        errorAlert = <p style={{ color: "red" }}>some error occurred, try again!!</p>
         navigate('/')
       })
       .catch((err) => {
         console.log(err);
+        setStay(true);
+        errorAlert = <p style={{ color: "red" }}>some error occurred, try again!!</p>
       })
   };
 
@@ -80,6 +89,7 @@ export default function SignIn({ setToken }) {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+
         <Box
           sx={{
             marginTop: 8,
@@ -94,6 +104,8 @@ export default function SignIn({ setToken }) {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <Typography component="h3" variant="h5">
+            {!stay ? errorAlert : <></>} </Typography>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -105,10 +117,10 @@ export default function SignIn({ setToken }) {
               required
               fullWidth
               id="email"
-              label="username"
-              name="username"
+              label="email"
+              name="email"
               autoFocus
-              onChange={handleUsername} />
+              onChange={handleEmail} />
             <TextField
               margin="normal"
               required

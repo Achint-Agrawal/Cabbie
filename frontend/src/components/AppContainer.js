@@ -12,16 +12,27 @@ import Navbar from "./Navbar";
 import HomePublic from "./HomePublic";
 import DriverSignUp from "./DriverSignUp";
 import HomePrivate from "./HomePrivate";
+import DriverSignIn from "./DriverSignIn";
 
 // const step = 3;
 
-const AppContainer = () => {
-    const [token, setToken] = useToken();
+const AppContainer = ({ setUserType, token, setToken }) => {
 
     const [pickup, setPickup] = useState(null);
     const [drop, setDrop] = useState(null);
     const [directionsResponse, setDirectionsResponse] = useState(null);
 
+    let map;
+
+    if (token) {
+        map = <Grid item xs={6}>
+            <Map
+                pickup={pickup}
+                drop={drop}
+                directionsResponse={directionsResponse}
+            />
+        </Grid>;
+    }
     // if (step != 4 && !token) {
     //   console.log(token);
     //   return <SignIn setToken={setToken} />
@@ -45,15 +56,10 @@ const AppContainer = () => {
                 padding={2}
                 style={{ display: "flex", height: "100vh" }}
             >
-                <Grid item xs={6}>
-                    <Map
-                        pickup={pickup}
-                        drop={drop}
-                        directionsResponse={directionsResponse}
-                    />
-                </Grid>
-                <Grid item xs={12} md={6} minWidth={400}>
-                    <Navbar setToken={setToken}></Navbar>
+                {map}
+
+                <Grid item xs={12} md={!token ? 12 : 6} minWidth={400}>
+                    <Navbar setToken={setToken} token={token}></Navbar>
                     <Routes>
                         <Route
                             exact
@@ -69,7 +75,13 @@ const AppContainer = () => {
                         <Route
                             exact
                             path="signin"
-                            element={<SignIn setToken={setToken} />}
+                            element={<SignIn setToken={setToken} setUserType={setUserType} />}
+                        ></Route>
+
+                        <Route
+                            exact
+                            path="/driver/signin"
+                            element={<DriverSignIn setToken={setToken} setUserType={setUserType} />}
                         ></Route>
                         <Route
                             exact

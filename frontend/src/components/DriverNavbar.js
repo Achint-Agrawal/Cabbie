@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,9 +16,11 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = ["Home", "Track Ride", "Payment"];
 const settings = ["Profile", "Past Rides", "Contact Us", "Logout"];
 
-const DriverNavbar = () => {
+const DriverNavbar = ({ setToken, token }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -26,12 +29,45 @@ const DriverNavbar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (event) => {
     setAnchorElNav(null);
+
+    console.log(event.target.textContent);
+
+    const action = event.target.textContent;
+
+    if (action === pages[0]) {
+      navigate('/');
+    }
+    else if (action === pages[1]) {
+      navigate('/driver/trackride');
+    }
+    else if (action === pages[2]) {
+      navigate('/driver/payment');
+    }
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event) => {
     setAnchorElUser(null);
+    // setAnchorElUser(null);
+    console.log(event.target.textContent);
+
+    const action = event.target.textContent;
+
+    if (action === settings[0]) {
+      navigate('/driver/profile');
+    }
+    else if (action === settings[1]) {
+      navigate('/driver/pastrides');
+    }
+    else if (action === settings[2]) {
+      navigate('/contact');
+    }
+    else if (action === settings[3]) {
+      setToken();
+      localStorage.clear();
+      navigate('/');
+    }
   };
 
   return (
@@ -42,9 +78,10 @@ const DriverNavbar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            onClick={() => navigate('/')}
+            sx={{ mr: 2, display: { xs: "none", md: "flex" }, cursor: "pointer"}}
           >
-            CABBIE
+            CABBIE  
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -76,7 +113,7 @@ const DriverNavbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {!token ? <MenuItem ></MenuItem> : pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -125,7 +162,9 @@ const DriverNavbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {!token ? <MenuItem key={settings[2]} onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">{settings[2]}</Typography>
+              </MenuItem> : settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>

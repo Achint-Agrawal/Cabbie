@@ -1,4 +1,6 @@
 import * as React from "react";
+import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -35,6 +37,9 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function DriverSignUp() {
+
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -42,6 +47,19 @@ export default function DriverSignUp() {
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    const payload = {
+      firstname: data.get("firstname"), lastname: data.get("lastname"),
+      email: data.get("email"), password: data.get("password"), contact: data.get("contact"), licence_number: data.get("licence_number")
+    }
+    axios.post('/api/driver/signup', payload)
+      .then((res) => {
+        console.log(res);
+        navigate('/driver/signin');
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   };
 
   return (
@@ -71,25 +89,24 @@ export default function DriverSignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
                   required
                   fullWidth
-                  id="firstName"
+                  id="firstname"
                   label="First Name"
-                  autoFocus
+                  name="firstname"
+                  autoComplete="first name"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   fullWidth
-                  id="lastName"
+                  id="lastname"
                   label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
+                  name="lastname"
+                  autoComplete="lastname"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -115,6 +132,15 @@ export default function DriverSignUp() {
                 <TextField
                   required
                   fullWidth
+                  name="contact"
+                  label="Contact number"
+                  id="contact"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   name="CarModel"
                   label="Car Model"
                   id="CarModel"
@@ -133,9 +159,9 @@ export default function DriverSignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="LicenseNumber"
-                  label="LicenseNumber"
-                  id="LicenseNumber"
+                  name="licence_number"
+                  label="License Number"
+                  id="licence_number"
                 />
               </Grid>
             </Grid>
