@@ -14,15 +14,15 @@ import DriverAppContainer from "./components/DriverAppContainer";
 import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import CurrentLocation from "./components/CurrentLocaion";
+import PastRides from "./components/PastRides";
 
 function App() {
     return (
         <div className="App">
             <BrowserRouter>
                 <AppContainer />
-                {/* <CurrentLocation /> */}
             </BrowserRouter>
-            {/* <DriverAppContainer /> */}
+            {/* <PastRides /> */}
         </div>
     );
 }

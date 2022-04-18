@@ -12,6 +12,7 @@ import Navbar from "./Navbar";
 import HomePublic from "./HomePublic";
 import DriverSignUp from "./DriverSignUp";
 import HomePrivate from "./HomePrivate";
+import PastRides from "./PastRides";
 
 // const step = 3;
 
@@ -84,11 +85,6 @@ const AppContainer = () => {
                         ></Route>
                         <Route
                             exact
-                            path="pastrides"
-                            element={!token ? <HomePublic /> : <BookRideForm />}
-                        ></Route>
-                        <Route
-                            exact
                             path="contact"
                             element={!token ? <HomePublic /> : <HomePublic />}
                         ></Route>
@@ -101,6 +97,11 @@ const AppContainer = () => {
                             exact
                             path="trackride"
                             element={!token ? <HomePublic /> : <OngoingRide />}
+                        ></Route>
+                        <Route
+                            exact
+                            path="pastrides"
+                            element={!token ? <HomePublic /> : <PastRides />}
                         ></Route>
                         <Route
                             exact

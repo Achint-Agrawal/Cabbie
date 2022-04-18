@@ -124,4 +124,24 @@ router.patch("/cancelRide", (req, res, next) => {
     );
 });
 
+router.patch("/getPastRides", (req, res, next) => {
+    const id = req.query.riderId;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.find(
+        {
+            userID: id,
+            rideStatus: "Completed",
+        },
+        (err, docs) => {
+            if (err) {
+                res.status(404).json("Ride Not Found");
+            } else {
+                res.status(200).json(docs);
+            }
+        }
+    );
+});
+
 module.exports = router;
