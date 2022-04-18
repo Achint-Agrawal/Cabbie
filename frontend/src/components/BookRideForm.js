@@ -151,8 +151,8 @@ export default function BookRideForm({
       withCredentials: true
     })    
     .then((res) => {
-      console.log(res);
-      console.log(payload);
+      console.log("res", res);
+      console.log("payload", payload);
     })
     .catch((err) => {
       console.log(err);

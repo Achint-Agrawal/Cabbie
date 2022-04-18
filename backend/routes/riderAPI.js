@@ -19,7 +19,7 @@ router.post("/bookride", (req, res, next) => {
         fare: null,
     };
 
-    // console.log("userId = ", booking.userID);
+    console.log("userId = ", booking.userID);
     if (!booking.userID || !booking.pickupLat || !booking.pickupLng) {
         return res.status(422).json("A required field is empty");
     }

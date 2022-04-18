@@ -16,7 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = ["Home", "Track Ride", "Payment"];
 const settings = ["Profile", "Past Rides", "Contact Us", "Logout"];
 
-const DriverNavbar = ({ setToken, token }) => {
+const DriverNavbar = ({ setToken, token , setUserType}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -67,6 +67,7 @@ const DriverNavbar = ({ setToken, token }) => {
       setToken();
       localStorage.clear();
       navigate('/');
+      setUserType(0);
     }
   };
 

@@ -16,7 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = ["Book Ride", "Track Ride", "Payment"];
 const settings = ["Profile", "Past Rides", "Contact Us", "Logout"];
 
-const Navbar = ({ token, setToken }) => {
+const Navbar = ({ setToken, token, setUserType }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -67,6 +67,7 @@ const Navbar = ({ token, setToken }) => {
       setToken();
       localStorage.clear();
       navigate('/');
+      setUserType(0);
     }
   };
 
@@ -114,7 +115,8 @@ const Navbar = ({ token, setToken }) => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {!token ? <MenuItem ></MenuItem> : pages.map((page) => (
+              {!token ? <MenuItem >
+                </MenuItem> :pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -130,7 +132,7 @@ const Navbar = ({ token, setToken }) => {
             CABBIE
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {!token ? <></> : pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -163,9 +165,9 @@ const Navbar = ({ token, setToken }) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {!token ? <MenuItem key={settings[2]} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{settings[2]}</Typography>
-              </MenuItem> :settings.map((setting) => (
+              {!token ? <MenuItem key={2} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{settings[2]}</Typography>
+                </MenuItem> : settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>

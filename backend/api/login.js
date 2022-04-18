@@ -58,6 +58,7 @@ const authorization = async (req, res, next) => {
     // return ;
     const token = req.cookies.token;
 
+    console.log("token", token);
     if (!token)
         return res
             .status(401)
