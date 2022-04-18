@@ -5,25 +5,6 @@ const { RiderReview } = require("../models/riderReview");
 const { DriverStatus } = require("../models/driverStatus");
 const router = express.Router();
 
-// router.post("/signup", (req, res, next) => {
-//     const temp = req.body;
-//     const pload = {
-//         // username: temp.username,
-//         contact: temp.contact,
-//         email: temp.email,
-//         password: temp.password,
-//         address: temp.address,
-//         licence_number: temp.licence_number,
-//     };
-
-//     pload.rating = 0;
-//     pload.image_url = "http://placehold.jp/150x150.png";
-
-//     Driver.create(pload)
-//         .then((data) => res.json(data))
-//         .catch(next);
-// });
-
 router.get("/getRequestsForDriver", (req, res, next) => {
     const timestamp = Date.now();
     console.log(timestamp);
@@ -78,8 +59,23 @@ router.patch("/acceptRide", (req, res, next) => {
     });
 });
 
+router.get("/checkridestatus", (req, res, next) => {
+    console.log(req.query);
+    const id = req.query.rideID;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            res.status(200).json(doc);
+        }
+    });
+});
+
 router.get("/getRiderDetails", (req, res, next) => {
-    const id = req.body.riderId;
+    const id = req.query.riderId;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
@@ -130,6 +126,33 @@ router.patch("/updateDriverLocation", (req, res, next) => {
             }
         }
     );
+});
+
+router.get("/getPastRides", async (req, res, next) => {
+    const id = req.query.driverID;
+    console.log(id);
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    const docs = await Booking.find({
+        driverID: id,
+        rideStatus: "Completed",
+    });
+    let docs_ = JSON.parse(JSON.stringify(docs));
+    console.log(docs_);
+    for (let i = 0; i < docs_.length; i++) {
+        const riderId = docs_[i].userId;
+        // console.log(driverId);
+        if (!riderId) {
+            continue;
+        }
+        const rider = await Rider.findById(riderId);
+        console.log(rider);
+        docs_[i].riderName = rider.firstname + " " + rider.lastname;
+        docs_[i].riderImage = rider.image_url;
+        console.log(docs_[i]);
+    }
+    res.status(200).json(docs_);
 });
 
 module.exports = router;

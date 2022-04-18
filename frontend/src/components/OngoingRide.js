@@ -22,12 +22,14 @@ const tDriver = {
 
 export default function OngoingRide({rideID}) {
     const [RideState, setRideState] = useState("Accepted");
+
     const [driver, setDriver] = useState(tDriver);
     const [driverID, setDriverID] = useState();
     const [driverState, setDriverState] = useState(false);
 
     // setDriver(tDriver);
     const location = useLocation();
+
     function checkRideStatus() {
         console.log("checkRideStatus");
         console.log(rideID);
@@ -105,6 +107,16 @@ export default function OngoingRide({rideID}) {
             {RideState == "Requested" && (
                 <Typography variant="h6" gutterBottom>
                     Waiting for driver to accept ride
+                </Typography>
+            )}
+            {RideState == "Completed" && (
+                <Typography variant="h6" gutterBottom>
+                    Ride Completed. Book another ride!!
+                </Typography>
+            )}
+            {RideState == "Cancelled" && (
+                <Typography variant="h6" gutterBottom>
+                    Ride Cancelled. Book another ride!!
                 </Typography>
             )}
             {(RideState == "Accepted" || RideState == "Started") && (
