@@ -7,6 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Rating from "@mui/material/Rating";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const driver = {
     name: "Daljit Singh",
@@ -21,31 +22,49 @@ const rideId = "625a0a0d8bcd14dc98700de2";
 
 export default function OngoingRide() {
     const [RideState, setRideState] = useState("Accepted");
+    const location = useLocation();
     function checkRideStatus() {
-        // console.log("checkRideStatus");
+        console.log("checkRideStatus");
         console.log(rideId);
+
+        console.log(location.pathname);
+        if (location.pathname != "/trackride") {
+            console.log("returning");
+            return;
+        }
+
         axios
-            .get("/api/checkridestatus", {
-                params: { rideId: 12 },
-                // withCredentials: true,
-            })
+            .get("/api/checkridestatus", { params: { rideId: rideId } })
             .then((res) => {
-                console.log(res);
-                setRideState(res);
+                console.log(res.data);
+                setRideState(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
+
         setTimeout(checkRideStatus, 5000);
+    }
+
+    function cancelRide() {
+        console.log("in cancelRide");
+        axios
+            .patch("/api/cancelRide", {
+                rideId: rideId,
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     useEffect(() => {
         console.log("useeffect");
-        return () => {
-            console.log("insied return");
-            checkRideStatus();
-            console.log("after checkridestatus");
-        };
+        console.log("inside return");
+        checkRideStatus();
+        console.log("after checkridestatus");
     }, []);
 
     return (
@@ -114,10 +133,10 @@ export default function OngoingRide() {
                         </a>
                     </Button>
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
+                        onClick={cancelRide}
                     >
                         Cancel Ride
                     </Button>

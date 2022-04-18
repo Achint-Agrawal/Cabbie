@@ -32,9 +32,8 @@ router.post("/bookride", (req, res, next) => {
 });
 
 router.get("/checkridestatus", (req, res, next) => {
-    console.log(req.params);
-    return res.status(200).json("Ride Not Found");
-    const id = req.params.rideId;
+    console.log(req.query);
+    const id = req.query.rideId;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
@@ -57,6 +56,21 @@ router.get("/getDriverDetails", (req, res, next) => {
         return res.status(422).json("A required field is empty");
     }
     Driver.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            delete doc["password"];
+            res.status(200).json(doc);
+        }
+    });
+});
+
+router.get("/getUserProfile", (req, res, next) => {
+    const id = req.body.userId;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Rider.findById(id, (err, doc) => {
         if (err) {
             res.status(404).json("Ride Not Found");
         } else {
@@ -100,6 +114,46 @@ router.patch("/updateRiderLocation", (req, res, next) => {
                 res.status(404).json("Rider Not Found");
             } else {
                 res.status(200).json(doc);
+            }
+        }
+    );
+});
+
+router.patch("/cancelRide", (req, res, next) => {
+    const id = req.body.rideId;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findByIdAndUpdate(
+        id,
+        {
+            rideStatus: "Cancelled",
+        },
+        (err, doc) => {
+            if (err) {
+                res.status(404).json("Ride Not Found");
+            } else {
+                res.status(200).json(doc);
+            }
+        }
+    );
+});
+
+router.patch("/getPastRides", (req, res, next) => {
+    const id = req.query.riderId;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.find(
+        {
+            userID: id,
+            rideStatus: "Completed",
+        },
+        (err, docs) => {
+            if (err) {
+                res.status(404).json("Ride Not Found");
+            } else {
+                res.status(200).json(docs);
             }
         }
     );

@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/Keys");
 
-
 // const { findUser } = require("../dao/userDAO.js");
 
 // async function loginUser(req, res) {  // JWT token yet to be done
@@ -30,7 +29,7 @@ const keys = require("../config/Keys");
 //             if (!isValid) return res.status(403).json({ message: "Incorrect password" });
 
 //             const token = jwt.sign({ username: username }, "cs253ams", { expiresIn: "15m" });
-      
+
 //             return res
 //                 // .cookie("token", token, {
 //                 //     httpOnly: true
@@ -54,20 +53,24 @@ const keys = require("../config/Keys");
 // }
 
 const authorization = async (req, res, next) => {
-    // console.log("req object", req.headers.cookie.token);
+    console.log("req object", req.headers);
     // console.log("req object", req.cookies.token);
     // return ;
     const token = req.cookies.token;
 
-    if (!token) return res.status(401).json({ message: "Access denied. Token is required for authentication" });
+    if (!token)
+        return res
+            .status(401)
+            .json({
+                message: "Access denied. Token is required for authentication",
+            });
 
     try {
         const data = await jwt.verify(token, keys.secretOrKey);
         // console.log(data);
         req.body.userID = data.userID;
         return next();
-    }
-    catch {
+    } catch {
         return res.status(403).json({ message: "Token not valid" });
     }
 };

@@ -15,6 +15,8 @@ import DriverAppContainer from "./components/DriverAppContainer";
 import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import CurrentLocation from "./components/CurrentLocaion";
+import PastRides from "./components/PastRides";
+import Profile from "./components/Profile";
 
 
 function App() {
@@ -24,11 +26,13 @@ function App() {
     return (
         <div className="App">
             <BrowserRouter>
+
                 {userType === 0 ? <AppContainer setUserType={setUserType} token={token} setToken={setToken}/> : <DriverAppContainer setUserType={setUserType} token={token} setToken={setToken}/> }
                 {/* <CurrentLocation /> */}
-            </BrowserRouter>
 
-            {/* <CurrentLocation /> */}
+            </BrowserRouter>
+            {/* <PastRides /> */}
+            {/* <Profile /> */}
         </div>
     );
 }
