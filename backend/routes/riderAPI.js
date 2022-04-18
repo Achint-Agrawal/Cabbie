@@ -47,7 +47,7 @@ router.get("/checkridestatus", (req, res, next) => {
         if (err) {
             res.status(404).json("Ride Not Found");
         } else {
-            res.status(200).json(doc.rideStatus);
+            res.status(200).json(doc);
         }
     });
 });
@@ -72,7 +72,7 @@ router.get("/getDriverDetails", (req, res, next) => {
 });
 
 router.get("/getUserProfile", (req, res, next) => {
-    const id = req.body.userId;
+    const id = req.body.userID;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
@@ -146,7 +146,7 @@ router.patch("/cancelRide", (req, res, next) => {
 });
 
 router.get("/getPastRides", async (req, res, next) => {
-    const id = req.query.riderId;
+    const id = req.query.riderID;
     console.log(id);
     if (!id) {
         return res.status(422).json("A required field is empty");
@@ -165,9 +165,6 @@ router.get("/getPastRides", async (req, res, next) => {
         }
         const driver = await Driver.findById(driverId);
         console.log(driver);
-        console.log(driver.image_url);
-        console.log(driver.lastname);
-        console.log(driver["email"]);
         docs_[i].driverName = driver.firstname + " " + driver.lastname;
         docs_[i].driverImage = driver.image_url;
         console.log(docs_[i]);
