@@ -1,5 +1,6 @@
 import * as React from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -50,8 +51,10 @@ export default function BookRideForm({
   onPickupLocation,
   onDropLocation,
   onDirectionsResponse,
+  setRideID
 }) {
 
+  const navigate = useNavigate();
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
@@ -151,8 +154,11 @@ export default function BookRideForm({
       withCredentials: true
     })    
     .then((res) => {
-      console.log("res", res);
-      console.log("payload", payload);
+      console.log("res", res.data.rideID);
+      // console.log("payload", payload);
+      setRideID(res.data.rideID);
+      navigate('/trackride');
+      
     })
     .catch((err) => {
       console.log(err);
