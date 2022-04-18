@@ -15,12 +15,18 @@ router.post("/bookride", (req, res, next) => {
         dropLat: req.body.dropLat,
         dropLng: req.body.dropLng,
         rideStatus: "requested",
+        vehicleType: req.body.vehicleType,
         driverID: null,
         fare: null,
     };
 
-    console.log("userId = ", booking.userID);
-    if (!booking.userID || !booking.pickupLat || !booking.pickupLng) {
+    // console.log("userId = ", booking.userID);
+    if (
+        !booking.userID ||
+        !booking.pickupLat ||
+        !booking.pickupLng ||
+        !booking.vehicleType
+    ) {
         return res.status(422).json("A required field is empty");
     }
     Booking.create(booking)
@@ -139,24 +145,34 @@ router.patch("/cancelRide", (req, res, next) => {
     );
 });
 
-router.patch("/getPastRides", (req, res, next) => {
+router.get("/getPastRides", async (req, res, next) => {
     const id = req.query.riderId;
+    console.log(id);
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
-    Booking.find(
-        {
-            userID: id,
-            rideStatus: "Completed",
-        },
-        (err, docs) => {
-            if (err) {
-                res.status(404).json("Ride Not Found");
-            } else {
-                res.status(200).json(docs);
-            }
+    const docs = await Booking.find({
+        userID: id,
+        rideStatus: "Completed",
+    });
+    let docs_ = JSON.parse(JSON.stringify(docs));
+    console.log(docs_);
+    for (let i = 0; i < docs_.length; i++) {
+        const driverId = docs_[i].driverID;
+        // console.log(driverId);
+        if (!driverId) {
+            continue;
         }
-    );
+        const driver = await Driver.findById(driverId);
+        console.log(driver);
+        console.log(driver.image_url);
+        console.log(driver.lastname);
+        console.log(driver["email"]);
+        docs_[i].driverName = driver.firstname + " " + driver.lastname;
+        docs_[i].driverImage = driver.image_url;
+        console.log(docs_[i]);
+    }
+    res.status(200).json(docs_);
 });
 
 module.exports = router;

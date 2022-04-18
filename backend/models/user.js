@@ -17,10 +17,10 @@ const RiderSchema = new Schema({
 });
 
 const DriverSchema = new Schema({
-    // username: {
-    //     type: String,
-    //     required: [true, "username should not be empty"],
-    // },
+    username: {
+        type: String,
+        required: [true, "username should not be empty"],
+    },
     firstname: { type: String },
     lastname: { type: String },
     contact: { type: String },
@@ -29,6 +29,7 @@ const DriverSchema = new Schema({
     address: { type: String },
     image_url: { type: String },
     rating: { type: Number },
+    vehicleType: { type: String },
     licence_number: {
         type: String,
         required: [true, "licence is necessary to register as driver"],
