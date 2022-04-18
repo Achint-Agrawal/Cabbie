@@ -22,13 +22,14 @@ import Profile from "./components/Profile";
 
 function App() {
     const [token, setToken] = useToken();
+    const [rideID, setRideID] = useState();
     const [userType, setUserType] = useState(0);
 
     return (
         <div className="App">
             <BrowserRouter>
 
-                {userType === 0 ? <AppContainer setUserType={setUserType} token={token} setToken={setToken}/> : <DriverAppContainer setUserType={setUserType} token={token} setToken={setToken}/> }
+                {userType === 0 ? <AppContainer setUserType={setUserType} token={token} setToken={setToken} setRideID={setRideID} rideID={rideID}/> : <DriverAppContainer setUserType={setUserType} token={token} setToken={setToken} setRideID={setRideID} rideID={rideID}/> }
                 {/* <CurrentLocation /> */}
 
             </BrowserRouter>
