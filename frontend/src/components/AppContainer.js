@@ -7,7 +7,6 @@ import OngoingRide from "./OngoingRide";
 import Payment from "./Payment";
 import Grid from "@mui/material/Grid";
 import SignUp from "./SignUp";
-import useToken from "./useToken";
 import Navbar from "./Navbar";
 import HomePublic from "./HomePublic";
 import DriverSignUp from "./DriverSignUp";
@@ -61,7 +60,7 @@ const AppContainer = ({ setUserType, token, setToken }) => {
                 {map}
 
                 <Grid item xs={12} md={!token ? 12 : 6} minWidth={400}>
-                    <Navbar setToken={setToken} token={token}></Navbar>
+                    <Navbar setToken={setToken} token={token} setUserType={setUserType}></Navbar>
                     <Routes>
                         <Route
                             exact

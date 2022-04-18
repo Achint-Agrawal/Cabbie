@@ -14,13 +14,14 @@ import DriverPayment from "./components/DriverPayment";
 import DriverAppContainer from "./components/DriverAppContainer";
 import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
+import useToken from "./components/useToken";
 import CurrentLocation from "./components/CurrentLocaion";
 import PastRides from "./components/PastRides";
 import Profile from "./components/Profile";
 
 
 function App() {
-    const [token, setToken] = useState();
+    const [token, setToken] = useToken();
     const [userType, setUserType] = useState(0);
 
     return (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Route, Routes} from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import BookRideForm from "./BookRideForm";
 import DriverRideRequest from "./DriverRideRequest";
 import DriverOngoingRide from "./DriverOngoingRide";
@@ -14,10 +14,12 @@ import DriverSignIn from "./DriverSignIn";
 import SignIn from "./SignIn";
 import Payment from "./Payment";
 import OngoingRide from "./OngoingRide";
+import PastRides from "./PastRides";
+import Profile from "./Profile";
 
 const step = 3;
 
-const DriverAppContainer = ({setUserType, token, setToken}) => {
+const DriverAppContainer = ({ setUserType, token, setToken }) => {
   function getPanelContent(step) {
     switch (step) {
       case 0:
@@ -32,6 +34,14 @@ const DriverAppContainer = ({setUserType, token, setToken}) => {
         throw new Error("Unknown step");
     }
   }
+
+  let map;
+
+  // if (token) {
+  //   map = <Grid item xs={6}>
+  //     <DriverMap pickup={pickup} drop={drop} />
+  //   </Grid>
+  // }
   const [pickup, setPickup] = useState(null);
   const [drop, setDrop] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
@@ -55,7 +65,7 @@ const DriverAppContainer = ({setUserType, token, setToken}) => {
   return (
     <React.Fragment>
       {/* pass setToken in order to logout*/}
-      <DriverNavbar setToken={setToken} token={token}></DriverNavbar>
+      <DriverNavbar setToken={setToken} token={token} setUserType={setUserType}></DriverNavbar>
       <Grid
         container
         spacing={2}
@@ -63,8 +73,8 @@ const DriverAppContainer = ({setUserType, token, setToken}) => {
         style={{ display: "flex", height: "100vh" }}
       >
         <Grid item xs={6}>
-          <DriverMap pickup={pickup} drop={drop} />
-        </Grid>
+      <DriverMap pickup={pickup} drop={drop} />
+    </Grid>
         <Grid item xs={12} md={6} minWidth={400}>
           <Routes>
             <Route
@@ -90,19 +100,19 @@ const DriverAppContainer = ({setUserType, token, setToken}) => {
             ></Route>
             <Route
               exact
-              path="profile"
+              path="/driver/profile"
               element={
                 !token ? (
                   <HomePublic />
                 ) : (
-                  <SignIn setToken={setToken} />
+                  <Profile />
                 )
               }
             ></Route>
             <Route
               exact
-              path="pastrides"
-              element={!token ? <HomePublic /> : <BookRideForm />}
+              path="driver/pastrides"
+              element={!token ? <HomePublic /> : <PastRides />}
             ></Route>
             <Route
               exact
@@ -111,13 +121,13 @@ const DriverAppContainer = ({setUserType, token, setToken}) => {
             ></Route>
             <Route
               exact
-              path="payment"
-              element={!token ? <HomePublic /> : <Payment />}
+              path="/driver/payment"
+              element={!token ? <HomePublic /> : <DriverPayment />}
             ></Route>
             <Route
               exact
-              path="trackride"
-              element={!token ? <HomePublic /> : <OngoingRide />}
+              path="/driver/trackride"
+              element={!token ? <HomePublic /> : <DriverOngoingRide />}
             ></Route>
             {/* <Route
               exact

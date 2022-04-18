@@ -147,6 +147,7 @@ router.post("/login", (req, res, next) => {
                     userID: user.id,
                 };
 
+                console.log("#####################################");
                 jwt.sign(
                     payload,
                     keys.secretOrKey,
