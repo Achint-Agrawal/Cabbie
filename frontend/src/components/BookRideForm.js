@@ -242,7 +242,9 @@ export default function BookRideForm({
                 sx={{ mt: 3, mb: 2 }}
                 // onClick={calculateRoute}
                 onClick={handleFormSubmission}
-            ></Button>
+            >
+                Book Ride
+            </Button>
         </React.Fragment>
     ) : (
         <div>Loading...</div>

@@ -8,6 +8,7 @@ const BookingSchema = new Schema({
     pickupLat: { type: Number },
     pickupLng: { type: Number },
     dropName: { type: String },
+    vehicleType: { type: String },
     dropLat: { type: Number },
     dropLng: { type: Number },
     rideStatus: { type: String },

@@ -84,6 +84,16 @@ export default function OngoingRide() {
                     Waiting for driver to accept ride
                 </Typography>
             )}
+            {RideState == "Completed" && (
+                <Typography variant="h6" gutterBottom>
+                    Ride Completed. Book another ride!!
+                </Typography>
+            )}
+            {RideState == "Cancelled" && (
+                <Typography variant="h6" gutterBottom>
+                    Ride Cancelled. Book another ride!!
+                </Typography>
+            )}
             {(RideState == "Accepted" || RideState == "Started") && (
                 <Card sx={{ width: "100%", height: 250 }}>
                     <Grid container spacing={2} sx={12}>
