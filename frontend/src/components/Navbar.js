@@ -16,7 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = ["Book Ride", "Track Ride", "Payment"];
 const settings = ["Profile", "Past Rides", "Contact Us", "Logout"];
 
-const Navbar = ({ setToken }) => {
+const Navbar = ({ token, setToken }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -114,7 +114,7 @@ const Navbar = ({ setToken }) => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {!token ? <MenuItem ></MenuItem> : pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -163,7 +163,9 @@ const Navbar = ({ setToken }) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {!token ? <MenuItem key={settings[2]} onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">{settings[2]}</Typography>
+              </MenuItem> :settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>

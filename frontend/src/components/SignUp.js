@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -41,6 +42,18 @@ export default function SignUp() {
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    const payload = {
+      firstname: data.get("firstname"), lastname: data.get("lastname"),
+      email: data.get("email"), password: data.get("password"), contact: data.get("contact")
+    }
+    axios.post('/api/signup', payload)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   };
 
   return (
@@ -71,10 +84,10 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="firstname"
                   required
                   fullWidth
-                  id="firstName"
+                  id="firstname"
                   label="First Name"
                   autoFocus
                 />
@@ -83,12 +96,14 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="lastname"
                   label="Last Name"
-                  name="lastName"
+                  name="lastname"
                   autoComplete="family-name"
                 />
               </Grid>
+              
+              
               <Grid item xs={12}>
                 <TextField
                   required
@@ -99,6 +114,7 @@ export default function SignUp() {
                   autoComplete="email"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -108,6 +124,17 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                />
+              </Grid>
+              
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="contact"
+                  label="contact number"
+                  name="contact"
+                  autoComplete="contact"
                 />
               </Grid>
             </Grid>

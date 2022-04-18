@@ -1,17 +1,20 @@
 import * as React from "react";
+import axios from 'axios';
+import { useState } from 'react';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+import { Link } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -22,8 +25,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link to="/" >
+        My homepage
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -33,7 +36,23 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function DriverSignIn() {
+export default function DriverSignIn({ setToken, setUserType }) {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const navigate = useNavigate();
+
+  function handleEmail(event) {
+    event.preventDefault();
+    setEmail(event.target.value);
+  }
+
+  function handlePassword(event) {
+    event.preventDefault();
+    setPassword(event.target.value);
+  }
+
+  let errorAlert;
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -41,12 +60,33 @@ export default function DriverSignIn() {
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    axios.post("/api/driver/login", { email: email, password: password })
+      .then((res) => {
+        console.log(res);
+
+        if (res.data.success) {
+          setToken(res.data.token);
+          setUserType(res.data.userType);
+          console.log(res.data.userType);
+        }
+
+        navigate('/')
+      })
+      .catch((err) => {
+        console.log(err);
+
+        errorAlert = <p style={{color: "red"}}>some error occurred, try again!!</p>
+      })
   };
+
+
 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        {errorAlert}
         <Box
           sx={{
             marginTop: 8,
@@ -59,7 +99,7 @@ export default function DriverSignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Driver Sign in
+            Sign in
           </Typography>
           <Box
             component="form"
@@ -72,11 +112,10 @@ export default function DriverSignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
-              autoComplete="email"
               autoFocus
-            />
+              onChange={handleEmail} />
             <TextField
               margin="normal"
               required
@@ -86,6 +125,7 @@ export default function DriverSignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handlePassword}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -101,13 +141,13 @@ export default function DriverSignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                {/* <Link href="#" variant="body2">
                   Forgot password?
-                </Link>
+                </Link> */}
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link to="/" >
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>

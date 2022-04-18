@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState } from 'react';
 import BookRideForm from "./components/BookRideForm";
 import SignIn from "./components/SignIn";
 import Map from "./components/Map";
@@ -17,11 +18,18 @@ import CurrentLocation from "./components/CurrentLocaion";
 import PastRides from "./components/PastRides";
 import Profile from "./components/Profile";
 
+
 function App() {
+    const [token, setToken] = useState();
+    const [userType, setUserType] = useState(0);
+
     return (
         <div className="App">
             <BrowserRouter>
-                <AppContainer />
+
+                {userType === 0 ? <AppContainer setUserType={setUserType} token={token} setToken={setToken}/> : <DriverAppContainer setUserType={setUserType} token={token} setToken={setToken}/> }
+                {/* <CurrentLocation /> */}
+
             </BrowserRouter>
             {/* <PastRides /> */}
             {/* <Profile /> */}

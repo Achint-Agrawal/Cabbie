@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const RiderSchema = new Schema({
-    username: {
-        type: String,
-        required: [true, "username should not be empty"],
-    },
-    name: { type: String },
+    // username: {
+    //     type: String,
+    //     required: [true, "username should not be empty"],
+    // },
+    firstname: { type: String },
+    lastname: { type: String },
     contact: { type: String },
     email: { type: String, required: [true, "email should be valid"] },
     password: { type: String },
@@ -16,11 +17,12 @@ const RiderSchema = new Schema({
 });
 
 const DriverSchema = new Schema({
-    username: {
-        type: String,
-        required: [true, "username should not be empty"],
-    },
-    name: { type: String },
+    // username: {
+    //     type: String,
+    //     required: [true, "username should not be empty"],
+    // },
+    firstname: { type: String },
+    lastname: { type: String },
     contact: { type: String },
     email: { type: String, required: [true, "email should be valid"] },
     password: { type: String },

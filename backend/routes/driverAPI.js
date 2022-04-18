@@ -5,24 +5,24 @@ const { RiderReview } = require("../models/riderReview");
 const { DriverStatus } = require("../models/driverStatus");
 const router = express.Router();
 
-router.post("/signup", (req, res, next) => {
-    const temp = req.body;
-    const pload = {
-        username: temp.firstname + "-" + temp.lastname,
-        contact: temp.contact,
-        email: temp.email,
-        password: temp.password,
-        address: temp.address,
-        licence_number: temp.licence_number,
-    };
+// router.post("/signup", (req, res, next) => {
+//     const temp = req.body;
+//     const pload = {
+//         // username: temp.username,
+//         contact: temp.contact,
+//         email: temp.email,
+//         password: temp.password,
+//         address: temp.address,
+//         licence_number: temp.licence_number,
+//     };
 
-    pload.rating = 0;
-    pload.image_url = "http://placehold.jp/150x150.png";
+//     pload.rating = 0;
+//     pload.image_url = "http://placehold.jp/150x150.png";
 
-    Driver.create(pload)
-        .then((data) => res.json(data))
-        .catch(next);
-});
+//     Driver.create(pload)
+//         .then((data) => res.json(data))
+//         .catch(next);
+// });
 
 router.get("/getRequestsForDriver", (req, res, next) => {
     const timestamp = Date.now();
