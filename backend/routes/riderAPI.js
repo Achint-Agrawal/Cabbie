@@ -14,7 +14,7 @@ router.post("/bookride", (req, res, next) => {
         dropName: req.body.dropName,
         dropLat: req.body.dropLat,
         dropLng: req.body.dropLng,
-        rideStatus: "requested",
+        rideStatus: "Requested",
         driverID: null,
         fare: null,
     };

@@ -24,12 +24,14 @@ function App() {
     const [token, setToken] = useToken();
     const [rideID, setRideID] = useState();
     const [userType, setUserType] = useState(0);
+    const [rideDetails, setRideDetails] = useState();
 
     return (
         <div className="App">
             <BrowserRouter>
 
-                {userType === 0 ? <AppContainer setUserType={setUserType} token={token} setToken={setToken} setRideID={setRideID} rideID={rideID}/> : <DriverAppContainer setUserType={setUserType} token={token} setToken={setToken} setRideID={setRideID} rideID={rideID}/> }
+                {userType === 0 ? <AppContainer setUserType={setUserType} token={token} setToken={setToken} setRideID={setRideID} rideID={rideID} rideDetails={rideDetails} setRideDetails={setRideDetails}/> 
+                : <DriverAppContainer setUserType={setUserType} token={token} setToken={setToken} setRideID={setRideID} rideID={rideID} rideDetails={rideDetails} setRideDetails={setRideDetails}/> }
                 {/* <CurrentLocation /> */}
 
             </BrowserRouter>

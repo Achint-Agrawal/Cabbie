@@ -23,6 +23,7 @@ const vehicleTypes = [
     image: "/motorcycle.jpeg",
     description: "Beat the traffic on a bike",
     fare: 10,
+    factor:2
   },
   {
     id: 2,
@@ -30,6 +31,7 @@ const vehicleTypes = [
     image: "/auto.png",
     description: "Get pocket friendly autos at your doorstep",
     fare: 20,
+    factor: 5
   },
   {
     id: 3,
@@ -37,6 +39,7 @@ const vehicleTypes = [
     image: "/smallcar.jpeg",
     description: "Comfy, economical cars",
     fare: 30,
+    factor: 10
   },
   {
     id: 4,
@@ -44,6 +47,7 @@ const vehicleTypes = [
     image: "/sedan.jpg",
     description: "Spacious sedans",
     fare: 40,
+    factor:15
   },
 ];
 
@@ -57,10 +61,13 @@ export default function BookRideForm({
   const navigate = useNavigate();
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [distance, setDistance] = useState("");
+  const [fare, setFare] = useState();
   const [duration, setDuration] = useState("");
   const [activeVehicle, setActiveVehicle] = useState(null);
   const [pickupName, setPickupName] = useState(null);
   const [dropName, setDropName] = useState(null);
+
+  
 
   /**@type React.MutableObject<HTMLInputElement> */
   const originRef = useRef();
@@ -144,7 +151,9 @@ export default function BookRideForm({
   function handleFormSubmission() {
 
     const payload = {
-      pickupName, pickupLat: pickupLocation.lat, pickupLng: pickupLocation.lng, dropName, dropLat: dropLocation.lat, dropLng: dropLocation.lng
+      pickupName, pickupLat: pickupLocation.lat, pickupLng: pickupLocation.lng, dropName, dropLat: dropLocation.lat, dropLng: dropLocation.lng, 
+      fare: (vehicleTypes[activeVehicle].factor*parseFloat(distance.slice(0, -3))),
+      vehicleType: vehicleTypes[activeVehicle].name,
     };
 
     console.log(payload);
@@ -164,6 +173,8 @@ export default function BookRideForm({
       console.log(err);
     })
   }
+
+  // console.log(activeVehicle);
   return isLoaded ? (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -185,7 +196,15 @@ export default function BookRideForm({
         {vehicleTypes.map((vehicle, i) => (
           <ListItem>
             <Card
-              onClick={() => setActiveVehicle(i)}
+              onClick={() => {
+                setActiveVehicle(i);
+                console.log(parseFloat(distance.slice(0, -3)));
+                console.log(vehicleTypes);
+                console.log("active vehicle", activeVehicle);
+                if(distance){
+                  setFare(distance*vehicleTypes[i].factor)
+                }
+              }}
               style={
                 i == activeVehicle ? { boxShadow: "0 0 3px 3px #1976d2" } : {}
               }
@@ -208,7 +227,11 @@ export default function BookRideForm({
                 <Grid item xs={4}>
                   <br />
                   <Typography align="right" variant="h6">
-                    {"5 min away"}
+                    {/* {
+                      fare ? fare : 0 
+                    } */}
+                    {/* {fare && ("\u20B9" + distance)} */}
+                    {distance && ("\u20B9"+(vehicleTypes[i].factor*parseFloat(distance.slice(0, -3))))}
                   </Typography>
                 </Grid>
               </Grid>
