@@ -20,11 +20,11 @@ const tDriver = {
 
 // const rideID = "625a0a0d8bcd14dc98700de2";
 
-export default function OngoingRide({ rideID }) {
-    const [RideState, setRideState] = useState("Accepted");
-
+export default function OngoingRide({rideID, rideDetails, setRideDetails}) {
+    // const [RideState, setRideState] = useState("Accepted");
     const [driver, setDriver] = useState(tDriver);
     const [driverID, setDriverID] = useState();
+    const [RideState, setRideState] = useState();
     const [driverState, setDriverState] = useState(false);
 
     // setDriver(tDriver);
@@ -59,6 +59,7 @@ export default function OngoingRide({ rideID }) {
             .get("/api/getDriverDetails", { params: { driverID: driverID } })
             .then((res) => {
                 console.log(res.data);
+                setRideDetails(res.data);
                 setRideState(res.data.rideStatus);
                 setDriverState(true);
                 setDriverID(res.data.driverID);

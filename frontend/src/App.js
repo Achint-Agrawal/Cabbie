@@ -24,6 +24,7 @@ function App() {
     const [token, setToken] = useToken();
     const [rideID, setRideID] = useState();
     const [userType, setUserType] = useState(0);
+    const [rideDetails, setRideDetails] = useState();
 
     return (
         <div className="App">

@@ -18,18 +18,20 @@ const driver = {
     phoneno: "6969696969",
 };
 
-const fare = 105;
+const sfare = 105;
 
 const rideId = "adsfk";
 const driverId = "adsf";
 const riderId = "esd";
 
-export default function Payment() {
+export default function Payment({rideDetails, setRideDetails}) {
+    const [fare, setFare] = useState();
     const [review, setReview] = useState("");
     const [rating, setRating] = useState(0);
     const onReviewChange = (e) => {
         setReview(e.target.value);
     };
+
     const submitReview = () => {
         axios("/api/addDriverReview", {
             method: "post",
@@ -49,6 +51,7 @@ export default function Payment() {
                 console.log(err);
             });
     };
+
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
@@ -60,7 +63,7 @@ export default function Payment() {
                 <Typography>Please pay</Typography>
                 <br />
                 <Typography variant="h2" fontWeight="Bold">
-                    {"\u20B9" + fare}
+                    {`\u20B9 ${rideDetails.fare}`}
                 </Typography>
                 <br />
                 <Typography>to your driver</Typography>
