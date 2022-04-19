@@ -16,7 +16,7 @@ const HomePublic = () => {
             </Stack> */}
             <h1>Welcome to CABBIE</h1>
             <h2>SignIn to have a ride</h2>
-            <Card variant="outlined" style={{marginTop:"10%", padding:"5%"}}>
+            <Card variant="outlined" style={{marginTop:"5%", padding:"5%"}}>
                 <ButtonGroup color="primary" aria-label="medium secondary button group" orientation="vertical">
                     <Button variant="contained" style={{margin:"3%"}} onClick={() => navigate('/signin')}>Signin as Rider</Button>
                     <Button variant="contained" style={{margin:"3%"}} onClick={() => navigate('/driver/signin')}>Signin as Driver</Button>

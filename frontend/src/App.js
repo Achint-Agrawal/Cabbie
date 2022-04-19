@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BookRideForm from "./components/BookRideForm";
 import SignIn from "./components/SignIn";
 import Map from "./components/Map";
@@ -26,10 +26,14 @@ function App() {
     const [userType, setUserType] = useState(0);
     const [rideDetails, setRideDetails] = useState();
 
+    useEffect(() => {
+        setUserType(localStorage.getItem("userType"))
+    }, [])
+
     return (
         <div className="App">
             <BrowserRouter>
-                {userType === 0 ? (
+                {!userType || userType === "0" ? (
                     <AppContainer
                         setUserType={setUserType}
                         token={token}

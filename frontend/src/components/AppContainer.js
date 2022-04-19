@@ -75,7 +75,7 @@ const AppContainer = ({ setUserType, token, setToken, setRideID, rideID , rideDe
                         ></Route>
                         <Route
                             exact
-                            path="signin"
+                            path="/signin"
                             element={<SignIn setToken={setToken} setUserType={setUserType} />}
                         ></Route>
 
