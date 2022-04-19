@@ -52,7 +52,6 @@ const vehicleTypes = [
 ];
 
 export default function BookRideForm({
-<<<<<<< HEAD
   onPickupLocation,
   onDropLocation,
   onDirectionsResponse,
@@ -77,25 +76,6 @@ export default function BookRideForm({
 
   const [pickupLocation, setPickupLocation] = useState(null);
   const [dropLocation, setDropLocation] = useState(null);
-=======
-    onPickupLocation,
-    onDropLocation,
-    onDirectionsResponse,
-    setRideID,
-}) {
-    const navigate = useNavigate();
-    const [directionsResponse, setDirectionsResponse] = useState(null);
-    const [distance, setDistance] = useState("");
-    const [duration, setDuration] = useState("");
-    const [activeVehicle, setActiveVehicle] = useState(null);
-    const [pickupName, setPickupName] = useState(null);
-    const [dropName, setDropName] = useState(null);
-
-    /**@type React.MutableObject<HTMLInputElement> */
-    const originRef = useRef();
-    /**@type React.MutableObject<HTMLInputElement> */
-    const destinationRef = useRef();
->>>>>>> main
 
   async function calculateRoute(pickupLocation, dropLocation) {
     // console.log(originRef, destinationRef);
