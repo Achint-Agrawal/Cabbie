@@ -22,6 +22,7 @@ import DriverProfile from "./components/DriverProfile";
 
 function App() {
     const [token, setToken] = useToken();
+    const [rideID, setRideID] = useState();
     const [userType, setUserType] = useState(0);
 
     return (
@@ -32,14 +33,19 @@ function App() {
                         setUserType={setUserType}
                         token={token}
                         setToken={setToken}
+                        setRideID={setRideID}
+                        rideID={rideID}
                     />
                 ) : (
                     <DriverAppContainer
                         setUserType={setUserType}
                         token={token}
                         setToken={setToken}
+                        setRideID={setRideID}
+                        rideID={rideID}
                     />
                 )}
+                {/* <CurrentLocation /> */}
             </BrowserRouter>
         </div>
     );

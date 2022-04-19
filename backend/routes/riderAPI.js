@@ -20,18 +20,19 @@ router.post("/bookride", (req, res, next) => {
         fare: null,
     };
 
-    // console.log("userId = ", booking.userID);
     if (
         !booking.userID ||
         !booking.pickupLat ||
         !booking.pickupLng ||
         !booking.vehicleType
     ) {
+
         return res.status(422).json("A required field is empty");
     }
     Booking.create(booking)
         .then((data) => {
-            res.json(data);
+            res.json({rideID: data._id});
+            // console.log(res.data);
             console.log("success");
         })
         .catch(next);
@@ -39,7 +40,7 @@ router.post("/bookride", (req, res, next) => {
 
 router.get("/checkridestatus", (req, res, next) => {
     console.log(req.query);
-    const id = req.query.rideId;
+    const id = req.query.rideID;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
@@ -57,7 +58,7 @@ router.get("/checkridestatus", (req, res, next) => {
 //     res.send("logout successfull");
 // });
 router.get("/getDriverDetails", (req, res, next) => {
-    const id = req.body.driverId;
+    const id = req.query.driverID;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
@@ -88,7 +89,7 @@ router.get("/getUserProfile", (req, res, next) => {
 
 router.post("/addDriverReview", (req, res, next) => {
     if (
-        !req.body.rideId ||
+        !req.body.rideID ||
         !req.body.driverId ||
         !req.body.riderId ||
         !req.body.rating
@@ -126,7 +127,7 @@ router.patch("/updateRiderLocation", (req, res, next) => {
 });
 
 router.patch("/cancelRide", (req, res, next) => {
-    const id = req.body.rideId;
+    const id = req.body.rideID;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
