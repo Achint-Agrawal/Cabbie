@@ -19,24 +19,15 @@ import DriverProfile from "./DriverProfile";
 
 const step = 3;
 
-const DriverAppContainer = ({ setUserType, token, setToken }) => {
-    function getPanelContent(step) {
-        switch (step) {
-            case 0:
-                return (
-                    <DriverRideRequest onSelectCustomer={onSelectCustomer} />
-                );
-            case 1:
-                return <DriverOngoingRide RideState={1} />;
-            case 2:
-                return <DriverOngoingRide RideState={2} />;
-            case 3:
-                return <DriverPayment />;
-            default:
-                throw new Error("Unknown step");
-        }
-    }
-
+const DriverAppContainer = ({
+    setUserType,
+    token,
+    setToken,
+    setRideID,
+    rideID,
+    riderId,
+    setRiderId,
+}) => {
     let map;
 
     // if (token) {
@@ -46,19 +37,19 @@ const DriverAppContainer = ({ setUserType, token, setToken }) => {
     // }
     const [pickup, setPickup] = useState(null);
     const [drop, setDrop] = useState(null);
-    const [directionsResponse, setDirectionsResponse] = useState(null);
-    const [activeCustomerRoute, setActiveCustomerRoute] = useState(null);
+    // const [directionsResponse, setDirectionsResponse] = useState(null);
+    // const [activeCustomerRoute, setActiveCustomerRoute] = useState(null);
 
-    function onPickupLocation(location) {
-        setPickup(location);
-    }
-    function onDropLocation(location) {
-        setDrop(location);
-    }
-    function onDirectionsResponse(directionsResponse) {
-        console.log(directionsResponse);
-        setDirectionsResponse(directionsResponse);
-    }
+    // function onPickupLocation(location) {
+    //     setPickup(location);
+    // }
+    // function onDropLocation(location) {
+    //     setDrop(location);
+    // }
+    // function onDirectionsResponse(directionsResponse) {
+    //     console.log(directionsResponse);
+    //     setDirectionsResponse(directionsResponse);
+    // }
     function onSelectCustomer(pickup, drop) {
         setPickup(pickup);
         setDrop(drop);
@@ -92,6 +83,8 @@ const DriverAppContainer = ({ setUserType, token, setToken }) => {
                                 ) : (
                                     <DriverRideRequest
                                         onSelectCustomer={onSelectCustomer}
+                                        setRideID={setRideID}
+                                        setRiderId={setRiderId}
                                     />
                                 )
                             }
@@ -140,14 +133,31 @@ const DriverAppContainer = ({ setUserType, token, setToken }) => {
                             exact
                             path="/driver/payment"
                             element={
-                                !token ? <HomePublic /> : <DriverPayment />
+                                !token ? (
+                                    <HomePublic />
+                                ) : (
+                                    <DriverPayment
+                                        rideId={rideID}
+                                        riderId={riderId}
+                                    />
+                                )
                             }
                         ></Route>
                         <Route
                             exact
                             path="/driver/trackride"
                             element={
-                                !token ? <HomePublic /> : <DriverOngoingRide />
+                                !token ? (
+                                    <HomePublic />
+                                ) : (
+                                    <DriverOngoingRide
+                                        RideState={1}
+                                        rideId={rideID}
+                                        riderId={riderId}
+                                        setRideId={setRideID}
+                                        setRiderId={setRiderId}
+                                    />
+                                )
                             }
                         ></Route>
                         {/* <Route

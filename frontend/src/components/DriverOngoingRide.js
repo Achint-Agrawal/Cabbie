@@ -5,96 +5,252 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Rating from "@mui/material/Rating";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const user = {
-  name: "Priydarshi Singh",
-  image: "/Priydarshi.png",
-  rating: 1.2,
-  phoneno: "7888817907",
-  pickup: "IIT Kanpur, Hall 9",
-  drop: "Kanpur Central",
-};
+// const user = {
+//     name: "Priydarshi Singh",
+//     image: "/Priydarshi.png",
+//     rating: 1.2,
+//     phoneno: "7888817907",
+//     pickup: "IIT Kanpur, Hall 9",
+//     drop: "Kanpur Central",
+// };
 
-export default function DriverOngoingRide({ RideState }) {
-  return (
-    <React.Fragment>
-      {RideState == 1 ? (
-        <Typography variant="h6" gutterBottom>
-          Customer Details
-        </Typography>
-      ) : (
-        <Typography variant="h6" gutterBottom>
-          Ride Started
-        </Typography>
-      )}
-      <Card sx={{ width: "100%", height: 250 }}>
-        <Grid container spacing={2} sx={12}>
-          <Grid item xs={4}>
-            <CardMedia component="img" height="250" image={user.image} />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography align="left" variant="h5">
-              {user.name}
-            </Typography>
-            <div align="left">
-              <Rating readOnly="true" value={user.rating} precision={0.1} />
-              <Typography color="#fcba03">{user.rating}</Typography>
-              <br />
-              <Typography display="inline" fontWeight={"bold"}>
-                {"Pickup: "}
-              </Typography>
-              <Typography display="inline">{user.pickup}</Typography>
-              <br />
-              <Typography display="inline" fontWeight={"bold"}>
-                {"Drop: "}
-              </Typography>
-              <Typography display="inline">{user.drop}</Typography>{" "}
-            </div>
-          </Grid>
-          <Grid item xs={2}>
-            <br />
-            {RideState == 1 && (
-              <Typography align="right" variant="h6">
-                {"5 min away"}
-              </Typography>
+export default function DriverOngoingRide({ RideState, rideId, riderId }) {
+    const [user, setUser] = useState(null);
+    const [ride, setRide] = useState(null);
+    const navigate = useNavigate();
+
+    function cancelRide() {
+        console.log("cancelRide", rideId);
+        if (rideId != null) {
+            console.log("cancelRide inside not null", rideId);
+            axios
+                .patch("/api/driver/cancelRide", { rideId: rideId })
+                .then((res) => {
+                    console.log(res.data);
+                    setRide(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        setTimeout(() => {
+            navigate("/");
+        }, 5000);
+    }
+
+    function startRide() {
+        console.log("startRide", rideId);
+        if (rideId != null) {
+            console.log("startRide inside not null", rideId);
+            axios
+                .patch("/api/driver/startRide", { rideId: rideId })
+                .then((res) => {
+                    console.log(res.data);
+                    setRide(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }
+
+    function finishRide() {
+        console.log("/api/driver/finishRide", rideId);
+        if (rideId != null) {
+            console.log("finishRide inside not null", rideId);
+            axios
+                .patch("/api/driver/finishRide", { rideId: rideId })
+                .then((res) => {
+                    console.log(res.data);
+                    setRide(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        navigate("/driver/payment");
+    }
+
+    useEffect(() => {
+        console.log("useEffect rider", riderId);
+        if (riderId != null) {
+            console.log("inside !rideId");
+            axios
+                .get("/api/driver/getRiderDetails", {
+                    params: { riderId: riderId },
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    setUser(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }, [riderId]);
+
+    useEffect(() => {
+        console.log("useEffect ride", rideId);
+        if (rideId != null)
+            axios
+                .get("/api/driver/checkridestatus", {
+                    params: { rideID: rideId },
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    setRide(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+    }, [rideId]);
+
+    return (
+        <React.Fragment>
+            {ride ? (
+                <div>
+                    {ride.rideStatus == "Accepted" && (
+                        <Typography variant="h6" gutterBottom>
+                            Customer Details
+                        </Typography>
+                    )}
+                    {ride.rideStatus == "Started" && (
+                        <Typography variant="h6" gutterBottom>
+                            Ride Started
+                        </Typography>
+                    )}
+                    {ride.rideStatus == "Cancelled" && (
+                        <Typography variant="h6" gutterBottom>
+                            Ride Cancelled
+                        </Typography>
+                    )}
+                    {ride.rideStatus == "Completed" && (
+                        <Typography variant="h6" gutterBottom>
+                            Ride Completed
+                        </Typography>
+                    )}
+
+                    {user &&
+                        (ride.rideStatus == "Accepted" ||
+                            ride.rideStatus == "Started") && (
+                            <div>
+                                <Card sx={{ width: "100%", height: 250 }}>
+                                    <Grid container spacing={2} sx={12}>
+                                        <Grid item xs={4}>
+                                            <CardMedia
+                                                component="img"
+                                                height="250"
+                                                image={user.image_url}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={8}>
+                                            <Typography
+                                                align="left"
+                                                variant="h5"
+                                            >
+                                                {user.firstname +
+                                                    " " +
+                                                    user.lastname}
+                                            </Typography>
+                                            <div align="left">
+                                                <Rating
+                                                    readOnly="true"
+                                                    value={user.rating}
+                                                    precision={0.1}
+                                                />
+                                                <Typography color="#fcba03">
+                                                    {user.rating}
+                                                </Typography>
+                                                <br />
+                                                <Typography
+                                                    display="inline"
+                                                    fontWeight={"bold"}
+                                                >
+                                                    {"Pickup: "}
+                                                </Typography>
+                                                <Typography display="inline">
+                                                    {ride.pickupName}
+                                                </Typography>
+                                                <br />
+                                                <Typography
+                                                    display="inline"
+                                                    fontWeight={"bold"}
+                                                >
+                                                    {"Drop: "}
+                                                </Typography>
+                                                <Typography display="inline">
+                                                    {ride.dropName}
+                                                </Typography>{" "}
+                                            </div>
+                                        </Grid>
+                                        {/* <Grid item xs={2}>
+                        <br />
+                        {RideState == 1 && (
+                            <Typography align="right" variant="h6">
+                                {"5 min away"}
+                            </Typography>
+                        )}
+                    </Grid> */}
+                                    </Grid>
+                                </Card>
+                                {ride.rideStatus == "Accepted" && (
+                                    <div>
+                                        <Button
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}
+                                        >
+                                            <a
+                                                id="call"
+                                                href={"tel:" + user.contact}
+                                            >
+                                                Call Customer
+                                            </a>
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}
+                                            onClick={cancelRide}
+                                        >
+                                            Cancel Ride
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}
+                                            onClick={startRide}
+                                        >
+                                            Start Ride
+                                        </Button>
+                                    </div>
+                                )}
+                                {ride.rideStatus == "Started" && (
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        sx={{ mt: 3, mb: 2 }}
+                                        onClick={finishRide}
+                                    >
+                                        Finish Ride
+                                    </Button>
+                                )}
+                            </div>
+                        )}
+                </div>
+            ) : (
+                <div>
+                    <Typography variant="h6" gutterBottom>
+                        No Ongoing Rides
+                    </Typography>
+                </div>
             )}
-          </Grid>
-        </Grid>
-      </Card>
-      {RideState == 1 ? (
-        <div>
-          <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            <a id="call" href={"tel:" + user.phoneno}>
-              Call Customer
-            </a>
-          </Button>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Cancel Ride
-          </Button>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Start Ride
-          </Button>
-        </div>
-      ) : (
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Finish Ride
-        </Button>
-      )}
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 }

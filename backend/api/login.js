@@ -53,18 +53,16 @@ const keys = require("../config/Keys");
 // }
 
 const authorization = async (req, res, next) => {
-    console.log("req object", req.headers);
+    // console.log("req object", req.headers);
     // console.log("req object", req.cookies.token);
     // return ;
     const token = req.cookies.token;
 
     // console.log("token", token);
     if (!token)
-        return res
-            .status(401)
-            .json({
-                message: "Access denied. Token is required for authentication",
-            });
+        return res.status(401).json({
+            message: "Access denied. Token is required for authentication",
+        });
 
     try {
         const data = await jwt.verify(token, keys.secretOrKey);

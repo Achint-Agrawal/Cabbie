@@ -25,6 +25,8 @@ function App() {
     const [rideID, setRideID] = useState();
     const [userType, setUserType] = useState(0);
     const [rideDetails, setRideDetails] = useState();
+    const [riderId, setRiderId] = useState(null);
+    const [driverId, setDriverId] = useState(null);
 
     return (
         <div className="App">
@@ -44,6 +46,8 @@ function App() {
                         setToken={setToken}
                         setRideID={setRideID}
                         rideID={rideID}
+                        riderId={riderId}
+                        setRiderId={setRiderId}
                     />
                 )}
                 {/* <CurrentLocation /> */}
