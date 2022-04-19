@@ -15,7 +15,7 @@ import { useRef, useState, useEffect } from "react";
 
 axios.defaults.withCredentials = true;
 
-const driverId = "abcd";
+// const riderId = "625972c5258ca778038d179e";
 
 export default function PastRides() {
     const [loadedResponse, setLoadedResponse] = useState(false);
@@ -23,8 +23,8 @@ export default function PastRides() {
 
     useEffect(() => {
         axios
-            .get("/api/driver/getPastRides", { params: { driverID: driverId } })
-            // .get("/api/getPastRides")
+            // .get("/api/getPastRides", { params: { riderId: riderId } })
+            .get("/api/getPastRides")
             .then((res) => {
                 console.log(res.data);
                 setLoadedResponse(true);

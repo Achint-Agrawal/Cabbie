@@ -35,8 +35,8 @@ export default function OngoingRide() {
         axios
             .get("/api/checkridestatus", { params: { rideId: rideId } })
             .then((res) => {
-                console.log(res.data);
-                setRideState(res.data);
+                console.log(res.data.rideStatus);
+                setRideState(res.data.rideStatus);
             })
             .catch((err) => {
                 console.log(err);

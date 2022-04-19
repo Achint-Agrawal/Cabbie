@@ -30,6 +30,7 @@ const DriverSchema = new Schema({
     image_url: { type: String },
     rating: { type: Number },
     vehicleType: { type: String },
+    vehicleModel: { type: String },
     licence_number: {
         type: String,
         required: [true, "licence is necessary to register as driver"],

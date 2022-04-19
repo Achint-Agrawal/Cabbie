@@ -7,17 +7,17 @@ const router = express.Router();
 
 router.get("/getRequestsForDriver", (req, res, next) => {
     const timestamp = Date.now();
-    console.log(timestamp);
-    const pickupLat = req.body.pickupLat;
-    const pickupLng = req.body.pickupLng;
-    if (!timestamp || !pickupLat || !pickupLng) {
+    console.log("getRequestsForDriver", timestamp);
+    const driverLat = req.body.lat;
+    const driverLng = req.body.lng;
+    if (!timestamp || !driverLat || !driverLng) {
         return res.status(422).json("A required field is empty");
     }
     Booking.find(
         {
-            timestamp: { $gt: timestamp - 2 * 1000 * 60 },
-            pickupLat: { $gt: pickupLat - 0.1, $lt: pickupLat + 0.1 },
-            pickupLng: { $gt: pickupLng - 0.1, $lt: pickupLng + 0.1 },
+            timestamp: { $gt: timestamp - 2000 * 1000 * 60 },
+            pickupLat: { $gt: driverLat - 0.1, $lt: driverLat + 0.1 },
+            pickupLng: { $gt: driverLng - 0.1, $lt: driverLng + 0.1 },
         },
         (err, docs) => {
             if (err) {
@@ -153,6 +153,21 @@ router.get("/getPastRides", async (req, res, next) => {
         console.log(docs_[i]);
     }
     res.status(200).json(docs_);
+});
+
+router.get("/getUserProfile", (req, res, next) => {
+    const id = req.body.userID;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Rider.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            delete doc["password"];
+            res.status(200).json(doc);
+        }
+    });
 });
 
 module.exports = router;
