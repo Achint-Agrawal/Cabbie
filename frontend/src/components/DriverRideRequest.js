@@ -59,7 +59,25 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
     const [loadedResponse, setLoadedResponse] = useState(false);
     const [rideRequests, setRideRequests] = useState(null);
 
-    useEffect(() => {
+    function acceptRide(rideId) {
+        axios
+            .patch("api/driver/acceptRide", {
+                rideId: rideId,
+            })
+            .then((res) => {
+                console.log("acceptRide", res.data);
+            })
+            .catch((err) => {
+                console.log("acceptRide", err);
+            });
+    }
+
+    function checkRideRequests() {
+        console.log("checkRideRequests");
+        if (window.location.pathname != "/") {
+            console.log("checkRideRequests - returning");
+            return;
+        }
         axios
             .get("/api/driver/getRequestsForDriver", {
                 params: { lat: lat, lng: lng, vehicleType: vehicleType },
@@ -72,7 +90,36 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
             .catch((err) => {
                 console.log(err);
             });
+        setTimeout(checkRideRequests, 5000);
+    }
+
+    useEffect(() => {
+        checkRideRequests();
     }, []);
+
+    // function checkRideStatus() {
+    //     console.log("checkRideStatus");
+    //     console.log(rideID);
+
+    //     console.log(window.location.pathname);
+    //     if (window.location.pathname != "/trackride") {
+    //         console.log("returning");
+    //         return;
+    //     }
+
+    //     axios
+    //         .get("/api/checkridestatus", { params: { rideID: rideID } })
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             setRideState(res.data.rideStatus);
+    //             setDriverID(res.data.driverID);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+
+    //     setTimeout(checkRideStatus, 5000);
+    // }
 
     const [activeCustomer, setActiveCustomer] = useState(null);
     return (
@@ -87,8 +134,11 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
                             <Card
                                 onClick={() => {
                                     onSelectCustomer(
-                                        ride.pickupLatLng,
-                                        ride.dropLatLng
+                                        {
+                                            lat: ride.pickupLat,
+                                            lng: ride.pickupLng,
+                                        },
+                                        { lat: ride.dropLat, lng: ride.dropLng }
                                     );
                                     setActiveCustomer(i);
                                 }}
@@ -157,7 +207,14 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
                                         </Grid> */}
                                         <Grid item xs={12}>
                                             <CardActions>
-                                                <Button size="small">
+                                                <Button
+                                                    size="small"
+                                                    onClick={() =>
+                                                        acceptRide(
+                                                            rideRequests[i]._id
+                                                        )
+                                                    }
+                                                >
                                                     Accept
                                                 </Button>
                                                 {/* <Button size="small">Decline</Button> */}

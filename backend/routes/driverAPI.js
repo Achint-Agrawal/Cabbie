@@ -12,7 +12,7 @@ router.get("/getRequestsForDriver", async (req, res, next) => {
     const driverLat = parseFloat(req.query.lat);
     const driverLng = parseFloat(req.query.lng);
     const vehicleType = req.query.vehicleType;
-    console.log("getRequestsForDriver", timestamp, driverLat, driverLng);
+    // console.log("getRequestsForDriver", timestamp, driverLat, driverLng);
     if (!timestamp || !driverLat || !driverLng || !vehicleType) {
         return res.status(422).json("A required field is empty");
     }
@@ -24,9 +24,9 @@ router.get("/getRequestsForDriver", async (req, res, next) => {
         vehicleType: vehicleType,
     });
 
-    console.log(docs);
+    // console.log(docs);
     let docs_ = JSON.parse(JSON.stringify(docs));
-    console.log(docs_);
+    // console.log(docs_);
     for (let i = 0; i < docs_.length; i++) {
         const riderId = docs_[i].userID;
         // console.log(driverId);
@@ -34,18 +34,19 @@ router.get("/getRequestsForDriver", async (req, res, next) => {
             continue;
         }
         const rider = await Rider.findById(riderId);
-        console.log(rider);
+        // console.log(rider);
         docs_[i].riderName = rider.firstname + " " + rider.lastname;
         docs_[i].riderImage = rider.image_url;
         docs_[i].rating = rider.rating;
-        console.log(docs_[i]);
+        // console.log(docs_[i]);
     }
     res.status(200).json(docs_);
 });
 
 router.patch("/acceptRide", (req, res, next) => {
     const id = req.body.rideId;
-    const driverId = req.body.driverId;
+    const driverId = req.body.userID;
+    console.log("acceptRide", id, driverId);
     if (!id || !driverId) {
         return res.status(422).json("A required field is empty");
     }
@@ -53,10 +54,10 @@ router.patch("/acceptRide", (req, res, next) => {
         if (err) {
             res.status(404).json("Ride Not Found");
         } else {
-            if (doc.rideStatus == "requested") {
+            if (doc.rideStatus == "Requested") {
                 Booking.findByIdAndUpdate(
                     id,
-                    { rideStatus: "accepted", driverId: driverId },
+                    { rideStatus: "Accepted", driverID: driverId },
                     (err, doc) => {
                         if (err) {
                             res.status(404).json("Ride Not Found");
