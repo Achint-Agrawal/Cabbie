@@ -5,33 +5,48 @@ const { RiderReview } = require("../models/riderReview");
 const { DriverStatus } = require("../models/driverStatus");
 const router = express.Router();
 
-router.get("/getRequestsForDriver", (req, res, next) => {
+router.get("/getRequestsForDriver", async (req, res, next) => {
     const timestamp = Date.now();
-    console.log(timestamp);
-    const pickupLat = req.body.pickupLat;
-    const pickupLng = req.body.pickupLng;
-    if (!timestamp || !pickupLat || !pickupLng) {
+    // console.log("getRequestsForDriver", req.query);
+    // console.log("getRequestsForDriver", timestamp);
+    const driverLat = parseFloat(req.query.lat);
+    const driverLng = parseFloat(req.query.lng);
+    const vehicleType = req.query.vehicleType;
+    // console.log("getRequestsForDriver", timestamp, driverLat, driverLng);
+    if (!timestamp || !driverLat || !driverLng || !vehicleType) {
         return res.status(422).json("A required field is empty");
     }
-    Booking.find(
-        {
-            timestamp: { $gt: timestamp - 2 * 1000 * 60 },
-            pickupLat: { $gt: pickupLat - 0.1, $lt: pickupLat + 0.1 },
-            pickupLng: { $gt: pickupLng - 0.1, $lt: pickupLng + 0.1 },
-        },
-        (err, docs) => {
-            if (err) {
-                res.status(404).json("Ride Not Found");
-            } else {
-                res.status(200).json(docs);
-            }
+    const docs = await Booking.find({
+        timestamp: { $gt: timestamp - 2000 * 1000 * 60 },
+        pickupLat: { $gt: driverLat - 0.1, $lt: driverLat + 0.1 },
+        pickupLng: { $gt: driverLng - 0.1, $lt: driverLng + 0.1 },
+        rideStatus: "Requested",
+        vehicleType: vehicleType,
+    });
+
+    // console.log(docs);
+    let docs_ = JSON.parse(JSON.stringify(docs));
+    // console.log(docs_);
+    for (let i = 0; i < docs_.length; i++) {
+        const riderId = docs_[i].userID;
+        // console.log(driverId);
+        if (!riderId) {
+            continue;
         }
-    );
+        const rider = await Rider.findById(riderId);
+        // console.log(rider);
+        docs_[i].riderName = rider.firstname + " " + rider.lastname;
+        docs_[i].riderImage = rider.image_url;
+        docs_[i].rating = rider.rating;
+        // console.log(docs_[i]);
+    }
+    res.status(200).json(docs_);
 });
 
 router.patch("/acceptRide", (req, res, next) => {
     const id = req.body.rideId;
-    const driverId = req.body.driverId;
+    const driverId = req.body.userID;
+    console.log("acceptRide", id, driverId);
     if (!id || !driverId) {
         return res.status(422).json("A required field is empty");
     }
@@ -39,10 +54,10 @@ router.patch("/acceptRide", (req, res, next) => {
         if (err) {
             res.status(404).json("Ride Not Found");
         } else {
-            if (doc.rideStatus == "requested") {
+            if (doc.rideStatus == "Requested") {
                 Booking.findByIdAndUpdate(
                     id,
-                    { rideStatus: "accepted", driverId: driverId },
+                    { rideStatus: "Accepted", driverID: driverId },
                     (err, doc) => {
                         if (err) {
                             res.status(404).json("Ride Not Found");
@@ -153,6 +168,21 @@ router.get("/getPastRides", async (req, res, next) => {
         console.log(docs_[i]);
     }
     res.status(200).json(docs_);
+});
+
+router.get("/getUserProfile", (req, res, next) => {
+    const id = req.body.userID;
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Rider.findById(id, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            delete doc["password"];
+            res.status(200).json(doc);
+        }
+    });
 });
 
 module.exports = router;

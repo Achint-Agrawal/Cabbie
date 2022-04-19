@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from 'react';
+import { useState } from "react";
 import BookRideForm from "./components/BookRideForm";
 import SignIn from "./components/SignIn";
 import Map from "./components/Map";
@@ -18,7 +18,7 @@ import useToken from "./components/useToken";
 import CurrentLocation from "./components/CurrentLocaion";
 import PastRides from "./components/PastRides";
 import Profile from "./components/Profile";
-
+import DriverProfile from "./components/DriverProfile";
 
 function App() {
     const [token, setToken] = useToken();
@@ -29,14 +29,25 @@ function App() {
     return (
         <div className="App">
             <BrowserRouter>
-
-                {userType === 0 ? <AppContainer setUserType={setUserType} token={token} setToken={setToken} setRideID={setRideID} rideID={rideID} rideDetails={rideDetails} setRideDetails={setRideDetails}/> 
-                : <DriverAppContainer setUserType={setUserType} token={token} setToken={setToken} setRideID={setRideID} rideID={rideID} rideDetails={rideDetails} setRideDetails={setRideDetails}/> }
+                {userType === 0 ? (
+                    <AppContainer
+                        setUserType={setUserType}
+                        token={token}
+                        setToken={setToken}
+                        setRideID={setRideID}
+                        rideID={rideID}
+                    />
+                ) : (
+                    <DriverAppContainer
+                        setUserType={setUserType}
+                        token={token}
+                        setToken={setToken}
+                        setRideID={setRideID}
+                        rideID={rideID}
+                    />
+                )}
                 {/* <CurrentLocation /> */}
-
             </BrowserRouter>
-            {/* <PastRides /> */}
-            {/* <Profile /> */}
         </div>
     );
 }

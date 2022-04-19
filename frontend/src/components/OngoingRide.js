@@ -54,7 +54,7 @@ export default function OngoingRide({rideID, rideDetails, setRideDetails}) {
         setTimeout(checkRideStatus, 5000);
     }
 
-    if(RideState == "Accepted" && !driverState){
+    if (RideState == "Accepted" && !driverState) {
         axios
             .get("/api/getDriverDetails", { params: { driverID: driverID } })
             .then((res) => {
