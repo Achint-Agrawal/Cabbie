@@ -77,7 +77,7 @@ router.post("/driver/login", (req, res, next) => {
                         res.json({
                             success: true,
                             token: token, 
-                            userType:1
+                            userType:"1"
                         });
                     }
                 );
@@ -158,7 +158,7 @@ router.post("/login", (req, res, next) => {
                         res.json({
                             success: true,
                             token: token, 
-                            userType:0
+                            userType:"0"
                         });
                     }
                 );

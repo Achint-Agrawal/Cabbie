@@ -78,10 +78,11 @@ const DriverAppContainer = ({ setUserType, token, setToken }) => {
                 padding={2}
                 style={{ display: "flex", height: "100vh" }}
             >
-                <Grid item xs={6}>
-                    <DriverMap pickup={pickup} drop={drop} />
+                {token && <Grid item xs={6}>
+                    <DriverMap pickup={pickup} drop={drop} /> 
                 </Grid>
-                <Grid item xs={12} md={6} minWidth={400}>
+                }
+                <Grid item xs={12} md={token ? 6 : 12} minWidth={400}>
                     <Routes>
                         <Route
                             exact
@@ -101,12 +102,6 @@ const DriverAppContainer = ({ setUserType, token, setToken }) => {
                             path="/driver/signup"
                             element={<DriverSignUp />}
                         ></Route>
-                        {/* <Route
-              exact
-              path="signin"
-              element={<SignIn setToken={setToken} setUserType={setUserType} />}
-            ></Route> */}
-
                         <Route
                             exact
                             path="/driver/signin"

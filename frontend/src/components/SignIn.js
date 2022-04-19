@@ -70,6 +70,7 @@ export default function SignIn({ setToken, setUserType }) {
           console.log("token", res.data.token);
           setToken(res.data.token);
           setUserType(res.data.userType);
+          localStorage.setItem("userType", res.data.userType);
         }
 
         setStay(true);
