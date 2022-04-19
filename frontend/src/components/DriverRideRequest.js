@@ -15,65 +15,70 @@ axios.defaults.withCredentials = true;
 
 // const riderId = "625972c5258ca778038d179e";
 
-const rideRequests = [
-    {
-        id: 1,
-        name: "Kaustubh Pawar",
-        image: "/Kaustubh.png",
-        rating: 4.8,
-        phoneno: "7888817907",
-        pickup: "IIT Kanpur, Hall 9",
-        drop: "NH91, Kanpur",
-        pickupLatLng: { lat: 26.456, lng: 80.3319 },
-        dropLatLng: { lat: 24.075, lng: 80.3319 },
-    },
-    {
-        id: 2,
-        name: "Priydarshi Singh",
-        image: "/Priydarshi.png",
-        rating: 1.2,
-        phoneno: "7888817907",
-        pickup: "IIT Kanpur, Hall 9",
-        drop: "Kanpur Central",
-        pickupLatLng: { lat: 26.5123, lng: 80.2329 },
-        dropLatLng: { lat: 26.4537, lng: 80.3513 },
-    },
-    {
-        id: 3,
-        name: "Pruthviraj Desai",
-        image: "/Pruthvi.png",
-        rating: 4.3,
-        phoneno: "7888817907",
-        pickup: "IIT Kanpur, Hall 1",
-        drop: "Lucknow Airport",
-        pickupLatLng: { lat: 26.5123, lng: 80.2329 },
-        dropLatLng: { lat: 24.075, lng: 82.3319 },
-    },
-];
+// const rideRequests = [
+//     {
+//         id: 1,
+//         name: "Kaustubh Pawar",
+//         image: "/Kaustubh.png",
+//         rating: 4.8,
+//         phoneno: "7888817907",
+//         pickupName: "IIT Kanpur, Hall 9",
+//         dropName: "NH91, Kanpur",
+//         pickupLatLng: { lat: 26.456, lng: 80.3319 },
+//         dropLatLng: { lat: 24.075, lng: 80.3319 },
+//     },
+//     {
+//         id: 2,
+//         name: "Priydarshi Singh",
+//         image: "/Priydarshi.png",
+//         rating: 1.2,
+//         phoneno: "7888817907",
+//         pickupName: "IIT Kanpur, Hall 9",
+//         dropName: "Kanpur Central",
+//         pickupLatLng: { lat: 26.5123, lng: 80.2329 },
+//         dropLatLng: { lat: 26.4537, lng: 80.3513 },
+//     },
+//     {
+//         id: 3,
+//         name: "Pruthviraj Desai",
+//         image: "/Pruthvi.png",
+//         rating: 4.3,
+//         phoneno: "7888817907",
+//         pickupName: "IIT Kanpur, Hall 1",
+//         dropName: "Lucknow Airport",
+//         pickupLatLng: { lat: 26.5123, lng: 80.2329 },
+//         dropLatLng: { lat: 24.075, lng: 82.3319 },
+//     },
+// ];
+
+const lat = 26.5123;
+const lng = 80.2329;
+const vehicleType = "Mini";
 
 export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
-    // const [loadedResponse, setLoadedResponse] = useState(false);
-    // const [rideRequests, setRideRequests] = useState(null);
+    const [loadedResponse, setLoadedResponse] = useState(false);
+    const [rideRequests, setRideRequests] = useState(null);
 
-    // useEffect(() => {
-    //     axios
-    //         // .get("/api/getPastRides", { params: { riderId: riderId } })
-    //         .get("/api/driver/getRequestsForDriver")
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             setLoadedResponse(true);
-    //             setActiveRides(res.data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, []);
+    useEffect(() => {
+        axios
+            .get("/api/driver/getRequestsForDriver", {
+                params: { lat: lat, lng: lng, vehicleType: vehicleType },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setLoadedResponse(true);
+                setRideRequests(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     const [activeCustomer, setActiveCustomer] = useState(null);
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Customer Details
+                Ride Requests
             </Typography>
             <List fullWidth>
                 {rideRequests != null &&
@@ -99,16 +104,16 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
                                         <CardMedia
                                             component="img"
                                             height="250"
-                                            image={ride.image}
+                                            image={ride.riderImage}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm container>
-                                        <Grid item xs={9}>
+                                        <Grid item xs={12}>
                                             <Typography
                                                 align="left"
                                                 variant="h5"
                                             >
-                                                {ride.name}
+                                                {ride.riderName}
                                             </Typography>
                                             <div align="left">
                                                 <Rating
@@ -127,7 +132,7 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
                                                     {"Pickup: "}
                                                 </Typography>
                                                 <Typography display="inline">
-                                                    {ride.pickup}
+                                                    {ride.pickupName}
                                                 </Typography>
                                                 <br />
                                                 <Typography
@@ -137,11 +142,11 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
                                                     {"Drop: "}
                                                 </Typography>
                                                 <Typography display="inline">
-                                                    {ride.drop}
+                                                    {ride.dropName}
                                                 </Typography>{" "}
                                             </div>
                                         </Grid>
-                                        <Grid item xs={3}>
+                                        {/* <Grid item xs={3}>
                                             <br />
                                             <Typography
                                                 align="right"
@@ -149,7 +154,7 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
                                             >
                                                 {"5 min away"}
                                             </Typography>
-                                        </Grid>
+                                        </Grid> */}
                                         <Grid item xs={12}>
                                             <CardActions>
                                                 <Button size="small">

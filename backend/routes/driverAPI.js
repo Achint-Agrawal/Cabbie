@@ -5,28 +5,42 @@ const { RiderReview } = require("../models/riderReview");
 const { DriverStatus } = require("../models/driverStatus");
 const router = express.Router();
 
-router.get("/getRequestsForDriver", (req, res, next) => {
+router.get("/getRequestsForDriver", async (req, res, next) => {
     const timestamp = Date.now();
-    console.log("getRequestsForDriver", timestamp);
-    const driverLat = req.body.lat;
-    const driverLng = req.body.lng;
-    if (!timestamp || !driverLat || !driverLng) {
+    // console.log("getRequestsForDriver", req.query);
+    // console.log("getRequestsForDriver", timestamp);
+    const driverLat = parseFloat(req.query.lat);
+    const driverLng = parseFloat(req.query.lng);
+    const vehicleType = req.query.vehicleType;
+    console.log("getRequestsForDriver", timestamp, driverLat, driverLng);
+    if (!timestamp || !driverLat || !driverLng || !vehicleType) {
         return res.status(422).json("A required field is empty");
     }
-    Booking.find(
-        {
-            timestamp: { $gt: timestamp - 2000 * 1000 * 60 },
-            pickupLat: { $gt: driverLat - 0.1, $lt: driverLat + 0.1 },
-            pickupLng: { $gt: driverLng - 0.1, $lt: driverLng + 0.1 },
-        },
-        (err, docs) => {
-            if (err) {
-                res.status(404).json("Ride Not Found");
-            } else {
-                res.status(200).json(docs);
-            }
+    const docs = await Booking.find({
+        timestamp: { $gt: timestamp - 2000 * 1000 * 60 },
+        pickupLat: { $gt: driverLat - 0.1, $lt: driverLat + 0.1 },
+        pickupLng: { $gt: driverLng - 0.1, $lt: driverLng + 0.1 },
+        rideStatus: "Requested",
+        vehicleType: vehicleType,
+    });
+
+    console.log(docs);
+    let docs_ = JSON.parse(JSON.stringify(docs));
+    console.log(docs_);
+    for (let i = 0; i < docs_.length; i++) {
+        const riderId = docs_[i].userID;
+        // console.log(driverId);
+        if (!riderId) {
+            continue;
         }
-    );
+        const rider = await Rider.findById(riderId);
+        console.log(rider);
+        docs_[i].riderName = rider.firstname + " " + rider.lastname;
+        docs_[i].riderImage = rider.image_url;
+        docs_[i].rating = rider.rating;
+        console.log(docs_[i]);
+    }
+    res.status(200).json(docs_);
 });
 
 router.patch("/acceptRide", (req, res, next) => {
