@@ -24,7 +24,7 @@ export default function PastRides() {
     useEffect(() => {
         axios
             // .get("/api/getPastRides", { params: { riderId: riderId } })
-            .get("/api/getPastRides")
+            .get("/api/driver/getPastRides")
             .then((res) => {
                 console.log(res.data);
                 setLoadedResponse(true);
@@ -117,7 +117,7 @@ export default function PastRides() {
                                             }}
                                             component="img"
                                             height="110"
-                                            image={ride.driverImage}
+                                            image={ride.riderImage}
                                             align="right"
                                         ></CardMedia>
                                     </Grid>

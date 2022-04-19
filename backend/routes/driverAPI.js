@@ -144,8 +144,10 @@ router.patch("/updateDriverLocation", (req, res, next) => {
 });
 
 router.get("/getPastRides", async (req, res, next) => {
-    const id = req.query.driverID;
-    console.log(id);
+    const id = req.body.userID;
+    console.log("getPastRides req.body", req.body);
+    console.log("getPastRides id", id);
+
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
@@ -156,7 +158,7 @@ router.get("/getPastRides", async (req, res, next) => {
     let docs_ = JSON.parse(JSON.stringify(docs));
     console.log(docs_);
     for (let i = 0; i < docs_.length; i++) {
-        const riderId = docs_[i].userId;
+        const riderId = docs_[i].userID;
         // console.log(driverId);
         if (!riderId) {
             continue;
@@ -171,14 +173,16 @@ router.get("/getPastRides", async (req, res, next) => {
 });
 
 router.get("/getUserProfile", (req, res, next) => {
+    console.log("getUserProfile", req.body);
     const id = req.body.userID;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
-    Rider.findById(id, (err, doc) => {
+    Driver.findById(id, (err, doc) => {
         if (err) {
             res.status(404).json("Ride Not Found");
         } else {
+            console.log("getUserProfile-doc ", doc);
             delete doc["password"];
             res.status(200).json(doc);
         }

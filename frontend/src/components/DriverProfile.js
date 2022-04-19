@@ -24,19 +24,21 @@ const user = {
 };
 
 export default function DriverProfile() {
-    // const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null);
 
-    // useEffect(() => {
-    //     axios
-    //         .get("/api/getUserProfile")
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             setUser(res.data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, []);
+    useEffect(() => {
+        axios
+            .get("/api/driver/getUserProfile")
+            .then((res) => {
+                console.log(res.data);
+                setUser(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    console.log("DriverProfile");
 
     return (
         <React.Fragment>
@@ -51,7 +53,7 @@ export default function DriverProfile() {
                             }}
                         >
                             <Avatar
-                                src={user.image}
+                                src={user.image_url}
                                 sx={{
                                     height: 100,
                                     mb: 2,
@@ -63,7 +65,7 @@ export default function DriverProfile() {
                                 gutterBottom
                                 variant="h5"
                             >
-                                {user.name}
+                                {user.firstname + " " + user.lastname}
                             </Typography>
                             <Rating
                                 readOnly="true"
@@ -71,7 +73,7 @@ export default function DriverProfile() {
                                 precision={0.1}
                             />
                             <Typography color="#fcba03">
-                                {"(" + user.rating + ")"}
+                                {"(" + user.rating.toFixed(1) + ")"}
                             </Typography>
                             <Typography display="inline" mt={2}>
                                 <b>Phone No: </b>

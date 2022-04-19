@@ -14,8 +14,8 @@ import DriverSignIn from "./DriverSignIn";
 import SignIn from "./SignIn";
 import Payment from "./Payment";
 import OngoingRide from "./OngoingRide";
-import PastRides from "./PastRides";
-import Profile from "./Profile";
+import DriverPastRides from "./DriverPastRides";
+import DriverProfile from "./DriverProfile";
 
 const step = 3;
 
@@ -120,12 +120,16 @@ const DriverAppContainer = ({ setUserType, token, setToken }) => {
                         <Route
                             exact
                             path="/driver/profile"
-                            element={!token ? <HomePublic /> : <Profile />}
+                            element={
+                                !token ? <HomePublic /> : <DriverProfile />
+                            }
                         ></Route>
                         <Route
                             exact
                             path="driver/pastrides"
-                            element={!token ? <HomePublic /> : <PastRides />}
+                            element={
+                                !token ? <HomePublic /> : <DriverPastRides />
+                            }
                         ></Route>
                         <Route
                             exact
