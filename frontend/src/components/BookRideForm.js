@@ -1,5 +1,5 @@
 import * as React from "react";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
@@ -48,13 +48,12 @@ const vehicleTypes = [
 ];
 
 export default function BookRideForm({
-
-  onPickupLocation,
-  onDropLocation,
-  onDirectionsResponse,
-  setRideID
-
+    onPickupLocation,
+    onDropLocation,
+    onDirectionsResponse,
+    setRideID,
 }) {
+    const navigate = useNavigate();
     const [directionsResponse, setDirectionsResponse] = useState(null);
     const [distance, setDistance] = useState("");
     const [duration, setDuration] = useState("");
@@ -62,19 +61,10 @@ export default function BookRideForm({
     const [pickupName, setPickupName] = useState(null);
     const [dropName, setDropName] = useState(null);
 
-  const navigate = useNavigate();
-  const [directionsResponse, setDirectionsResponse] = useState(null);
-  const [distance, setDistance] = useState("");
-  const [duration, setDuration] = useState("");
-  const [activeVehicle, setActiveVehicle] = useState(null);
-  const [pickupName, setPickupName] = useState(null);
-  const [dropName, setDropName] = useState(null);
-
-  /**@type React.MutableObject<HTMLInputElement> */
-  const originRef = useRef();
-  /**@type React.MutableObject<HTMLInputElement> */
-  const destinationRef = useRef();
-
+    /**@type React.MutableObject<HTMLInputElement> */
+    const originRef = useRef();
+    /**@type React.MutableObject<HTMLInputElement> */
+    const destinationRef = useRef();
 
     const [pickupLocation, setPickupLocation] = useState(null);
     const [dropLocation, setDropLocation] = useState(null);
@@ -160,7 +150,6 @@ export default function BookRideForm({
             dropLng: dropLocation.lng,
             vehicleType: vehicleTypes[activeVehicle].name,
         };
-
 
         console.log(payload);
         axios("/api/bookride", {
@@ -257,7 +246,6 @@ export default function BookRideForm({
                 sx={{ mt: 3, mb: 2 }}
                 // onClick={calculateRoute}
                 onClick={handleFormSubmission}
-
             >
                 Book Ride
             </Button>
