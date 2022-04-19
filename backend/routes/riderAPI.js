@@ -15,12 +15,18 @@ router.post("/bookride", (req, res, next) => {
         dropLat: req.body.dropLat,
         dropLng: req.body.dropLng,
         rideStatus: "Requested",
+        vehicleType: req.body.vehicleType,
         driverID: null,
         fare: null,
     };
 
-    console.log("userID = ", booking.userID);
-    if (!booking.userID || !booking.pickupLat || !booking.pickupLng) {
+    if (
+        !booking.userID ||
+        !booking.pickupLat ||
+        !booking.pickupLng ||
+        !booking.vehicleType
+    ) {
+
         return res.status(422).json("A required field is empty");
     }
     Booking.create(booking)
@@ -67,7 +73,7 @@ router.get("/getDriverDetails", (req, res, next) => {
 });
 
 router.get("/getUserProfile", (req, res, next) => {
-    const id = req.body.userId;
+    const id = req.body.userID;
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
@@ -140,24 +146,31 @@ router.patch("/cancelRide", (req, res, next) => {
     );
 });
 
-router.patch("/getPastRides", (req, res, next) => {
-    const id = req.query.riderId;
+router.get("/getPastRides", async (req, res, next) => {
+    const id = req.query.riderID;
+    console.log(id);
     if (!id) {
         return res.status(422).json("A required field is empty");
     }
-    Booking.find(
-        {
-            userID: id,
-            rideStatus: "Completed",
-        },
-        (err, docs) => {
-            if (err) {
-                res.status(404).json("Ride Not Found");
-            } else {
-                res.status(200).json(docs);
-            }
+    const docs = await Booking.find({
+        userID: id,
+        rideStatus: "Completed",
+    });
+    let docs_ = JSON.parse(JSON.stringify(docs));
+    console.log(docs_);
+    for (let i = 0; i < docs_.length; i++) {
+        const driverId = docs_[i].driverID;
+        // console.log(driverId);
+        if (!driverId) {
+            continue;
         }
-    );
+        const driver = await Driver.findById(driverId);
+        console.log(driver);
+        docs_[i].driverName = driver.firstname + " " + driver.lastname;
+        docs_[i].driverImage = driver.image_url;
+        console.log(docs_[i]);
+    }
+    res.status(200).json(docs_);
 });
 
 module.exports = router;

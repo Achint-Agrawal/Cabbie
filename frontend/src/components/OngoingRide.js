@@ -29,6 +29,7 @@ export default function OngoingRide({rideID, rideDetails, setRideDetails}) {
 
     // setDriver(tDriver);
     const location = useLocation();
+
     function checkRideStatus() {
         console.log("checkRideStatus");
         console.log(rideID);
@@ -107,6 +108,16 @@ export default function OngoingRide({rideID, rideDetails, setRideDetails}) {
             {RideState == "Requested" && (
                 <Typography variant="h6" gutterBottom>
                     Waiting for driver to accept ride
+                </Typography>
+            )}
+            {RideState == "Completed" && (
+                <Typography variant="h6" gutterBottom>
+                    Ride Completed. Book another ride!!
+                </Typography>
+            )}
+            {RideState == "Cancelled" && (
+                <Typography variant="h6" gutterBottom>
+                    Ride Cancelled. Book another ride!!
                 </Typography>
             )}
             {(RideState == "Accepted" || RideState == "Started") && (
