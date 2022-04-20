@@ -69,10 +69,11 @@ const DriverAppContainer = ({
                 padding={2}
                 style={{ display: "flex", height: "100vh" }}
             >
-                {token && <Grid item xs={6}>
-                    <DriverMap pickup={pickup} drop={drop} /> 
-                </Grid>
-                }
+                {token && (
+                    <Grid item xs={6}>
+                        <DriverMap pickup={pickup} drop={drop} />
+                    </Grid>
+                )}
                 <Grid item xs={12} md={token ? 6 : 12} minWidth={400}>
                     <Routes>
                         <Route
@@ -84,8 +85,10 @@ const DriverAppContainer = ({
                                 ) : (
                                     <DriverRideRequest
                                         onSelectCustomer={onSelectCustomer}
-                                        setRideID={setRideID}
+                                        setRideId={setRideID}
                                         setRiderId={setRiderId}
+                                        rideId={rideID}
+                                        riderId={riderId}
                                     />
                                 )
                             }

@@ -20,7 +20,9 @@ const vehicleType = "Mini";
 
 export default function DriverRideRequest({
     onSelectCustomer,
-    setRideID,
+    rideId,
+    riderId,
+    setRideId,
     setRiderId,
 }) {
     const [loadedResponse, setLoadedResponse] = useState(false);
@@ -34,7 +36,7 @@ export default function DriverRideRequest({
             })
             .then((res) => {
                 console.log("acceptRide", res.data);
-                setRideID(rideId);
+                setRideId(rideId);
                 setRiderId(riderId);
                 navigate("/driver/trackride");
             })
@@ -50,51 +52,50 @@ export default function DriverRideRequest({
             return;
         }
 
-        // navigator.geolocation.getCurrentPosition(
-        //     function (position) {
-        //         axios
-        //             .get("/api/driver/getRequestsForDriver", {
-        //                 params: {
-        //                     lat: position.coords.latitude,
-        //                     lng: position.coords.longitude,
-        //                     vehicleType: vehicleType,
-        //                 },
-        //             })
-        //             .then((res) => {
-        //                 console.log(res.data);
-        //                 setLoadedResponse(true);
-        //                 setRideRequests(res.data);
-        //             })
-        //             .catch((err) => {
-        //                 console.log(err);
-        //             });
-        //     },
-        //     function (err) {
-        //         console.log(err);
-        //     },
-        //     {
-        //         enableHighAccuracy: true,
-        //         timeout: 5000,
-        //     }
-        // );
-
-        axios
-            .get("/api/driver/getRequestsForDriver", {
-                params: {
-                    lat: lat,
-                    lng: lng,
-                    vehicleType: vehicleType,
-                },
-            })
-            .then((res) => {
-                console.log(res.data);
-                setLoadedResponse(true);
-                setRideRequests(res.data);
-            })
-            .catch((err) => {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                axios
+                    .get("/api/driver/getRequestsForDriver", {
+                        params: {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                            vehicleType: vehicleType,
+                        },
+                    })
+                    .then((res) => {
+                        console.log(res.data);
+                        setLoadedResponse(true);
+                        setRideRequests(res.data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
+            function (err) {
                 console.log(err);
-            });
-        setTimeout(checkRideRequests, 5000);
+                axios
+                    .get("/api/driver/getRequestsForDriver", {
+                        params: {
+                            lat: lat,
+                            lng: lng,
+                            vehicleType: vehicleType,
+                        },
+                    })
+                    .then((res) => {
+                        console.log(res.data);
+                        setLoadedResponse(true);
+                        setRideRequests(res.data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                setTimeout(checkRideRequests, 5000);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 5000,
+            }
+        );
     }
 
     useEffect(() => {
@@ -104,9 +105,24 @@ export default function DriverRideRequest({
     const [activeCustomer, setActiveCustomer] = useState(null);
     return (
         <React.Fragment>
-            <Typography variant="h6" gutterBottom>
-                Ride Requests
-            </Typography>
+            {rideRequests != null &&
+                rideRequests.length != 0 &&
+                rideId == null && (
+                    <Typography variant="h6" gutterBottom>
+                        Ride Requests
+                    </Typography>
+                )}
+            {rideId == null &&
+                (rideRequests == null || rideRequests.length == 0) && (
+                    <Typography variant="h6" gutterBottom>
+                        Waiting for Ride Requests...
+                    </Typography>
+                )}
+            {rideId != null && (
+                <Typography variant="h6" gutterBottom>
+                    Waiting for Ride Requests...
+                </Typography>
+            )}
             <List fullWidth>
                 {rideRequests != null &&
                     rideRequests.map((ride, i) => (
@@ -138,7 +154,7 @@ export default function DriverRideRequest({
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm container>
-                                        <Grid item xs={12}>
+                                        <Grid item xs={9}>
                                             <Typography
                                                 align="left"
                                                 variant="h5"
@@ -176,15 +192,15 @@ export default function DriverRideRequest({
                                                 </Typography>{" "}
                                             </div>
                                         </Grid>
-                                        {/* <Grid item xs={3}>
+                                        <Grid item xs={3}>
                                             <br />
                                             <Typography
                                                 align="right"
                                                 variant="h6"
                                             >
-                                                {"5 min away"}
+                                                {"\u20B9" + ride.fare}
                                             </Typography>
-                                        </Grid> */}
+                                        </Grid>
                                         <Grid item xs={12}>
                                             <CardActions>
                                                 <Button
