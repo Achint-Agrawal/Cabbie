@@ -45,6 +45,7 @@ require("./config/passport")(passport);
 app.use("/api", credRoutes);
 app.use("/api", authorization, riderRoutes);
 app.use("/api/driver", authorization, driverRoutes);
+app.use('/images', express.static('images'))
 
 app.use((err, req, res, next) => {
     console.log(err);

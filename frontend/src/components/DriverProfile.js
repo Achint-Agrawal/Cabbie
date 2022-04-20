@@ -97,12 +97,16 @@ export default function DriverProfile() {
                             </Typography>
                         </Box>
                     </CardContent>
-                    {/* <Divider /> 
-            <CardActions>
-                <Button color="primary" fullWidth variant="text">
-                    Upload picture
-                </Button>
-            </CardActions> */}
+                    <Divider />
+                    <CardActions>
+                        <Button color="primary" fullWidth variant="text">
+                            Upload picture
+                            <input
+                                type="file"
+                                hidden
+                            />
+                        </Button>
+                    </CardActions>
                 </Card>
             )}
         </React.Fragment>
