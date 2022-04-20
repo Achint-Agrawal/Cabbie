@@ -63,20 +63,23 @@ const DriverNavbar = ({ setToken, token, setUserType }) => {
         }
     };
 
-  return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            onClick={() => navigate('/')}
-            sx={{ mr: 2, display: { xs: "none", md: "flex" }, cursor: "pointer"}}
-          >
-            CABBIE  
-          </Typography>
-
+    return (
+        <AppBar position="static">
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        onClick={() => navigate("/")}
+                        sx={{
+                            mr: 2,
+                            display: { xs: "none", md: "flex" },
+                            cursor: "pointer",
+                        }}
+                    >
+                        CABBIE
+                    </Typography>
 
                     <Box
                         sx={{
@@ -174,7 +177,7 @@ const DriverNavbar = ({ setToken, token, setUserType }) => {
                             >
                                 <Avatar
                                     alt="Remy Sharp"
-                                    src="/static/images/avatar/2.jpg"
+                                    src={localStorage.getItem("userImage")}
                                 />
                             </IconButton>
                         </Tooltip>
