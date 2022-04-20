@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/getRequestsForDriver", async (req, res, next) => {
     const timestamp = Date.now();
-    // console.log("getRequestsForDriver", req.query);
+    console.log("getRequestsForDriver", req.query);
     // console.log("getRequestsForDriver", timestamp);
     const driverLat = parseFloat(req.query.lat);
     const driverLng = parseFloat(req.query.lng);
