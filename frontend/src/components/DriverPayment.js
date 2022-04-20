@@ -10,10 +10,29 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function DriverPayment({ rideId, riderId }) {
     const [ride, setRide] = useState(null);
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    function finishRide() {
+        console.log("finishRide", rideId);
+        if (rideId != null) {
+            console.log("finishRide inside not null", rideId);
+            axios
+                .patch("/api/driver/finishRide", { rideId: rideId })
+                .then((res) => {
+                    console.log(res.data);
+                    setRide(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        navigate("/driver/payment");
+    }
 
     useEffect(() => {
         console.log("useEffect rider", riderId);
@@ -102,7 +121,7 @@ export default function DriverPayment({ rideId, riderId }) {
                 )}
             </Card>
 
-            <Button variant="contained" sx={{ margin: 2 }}>
+            <Button variant="contained" sx={{ margin: 2 }} onClick={finishRide}>
                 Payment Recieved
             </Button>
             <br />

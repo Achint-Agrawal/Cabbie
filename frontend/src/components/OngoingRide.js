@@ -20,7 +20,7 @@ const tDriver = {
 
 // const rideID = "625a0a0d8bcd14dc98700de2";
 
-export default function OngoingRide({rideID, rideDetails, setRideDetails}) {
+export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
     // const [RideState, setRideState] = useState("Accepted");
     const [driver, setDriver] = useState(tDriver);
     const [driverID, setDriverID] = useState();
@@ -35,21 +35,19 @@ export default function OngoingRide({rideID, rideDetails, setRideDetails}) {
         console.log(rideID);
 
         console.log(window.location.pathname);
-        if (window.location.pathname != "/trackride") {
+        if (window.location.pathname != "/trackride" || !rideID) {
             console.log("returning");
             return;
         }
 
-        
         axios
             .get("/api/checkridestatus", { params: { rideID: rideID } })
             .then((res) => {
                 console.log(res.data);
                 console.log("rideID in frontend: ", rideID);
                 setRideState(res.data.rideStatus);
-                
-                if(!driverID)
-                setDriverID(res.data.driverID);
+
+                if (!driverID) setDriverID(res.data.driverID);
             })
             .catch((err) => {
                 console.log(err);

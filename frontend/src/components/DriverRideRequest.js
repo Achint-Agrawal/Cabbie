@@ -105,24 +105,21 @@ export default function DriverRideRequest({
     const [activeCustomer, setActiveCustomer] = useState(null);
     return (
         <React.Fragment>
-            {rideRequests != null &&
-                rideRequests.length != 0 &&
-                rideId == null && (
-                    <Typography variant="h6" gutterBottom>
-                        Ride Requests
-                    </Typography>
-                )}
-            {rideId == null &&
-                (rideRequests == null || rideRequests.length == 0) && (
-                    <Typography variant="h6" gutterBottom>
-                        Waiting for Ride Requests...
-                    </Typography>
-                )}
-            {rideId != null && (
+            {rideRequests != null && rideRequests.length != 0 && (
+                <Typography variant="h6" gutterBottom>
+                    Ride Requests
+                </Typography>
+            )}
+            {(rideRequests == null || rideRequests.length == 0) && (
                 <Typography variant="h6" gutterBottom>
                     Waiting for Ride Requests...
                 </Typography>
             )}
+            {/* {rideId != null && (
+                <Typography variant="h6" gutterBottom>
+                    Waiting for Ride Requests...
+                </Typography>
+            )} */}
             <List fullWidth>
                 {rideRequests != null &&
                     rideRequests.map((ride, i) => (

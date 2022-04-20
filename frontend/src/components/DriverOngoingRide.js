@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 //     drop: "Kanpur Central",
 // };
 
-export default function DriverOngoingRide({ RideState, rideId, riderId }) {
+export default function DriverOngoingRide({ rideId, riderId }) {
     const [user, setUser] = useState(null);
     const [ride, setRide] = useState(null);
     const navigate = useNavigate();
@@ -49,7 +49,7 @@ export default function DriverOngoingRide({ RideState, rideId, riderId }) {
             axios
                 .patch("/api/driver/startRide", { rideId: rideId })
                 .then((res) => {
-                    console.log(res.data);
+                    console.log("startRide res.data", res.data);
                     setRide(res.data);
                 })
                 .catch((err) => {
@@ -58,12 +58,12 @@ export default function DriverOngoingRide({ RideState, rideId, riderId }) {
         }
     }
 
-    function finishRide() {
-        console.log("/api/driver/finishRide", rideId);
+    function markPaymentPending() {
+        console.log("markPaymentPending", rideId);
         if (rideId != null) {
-            console.log("finishRide inside not null", rideId);
+            console.log("markPaymentPending inside not null", rideId);
             axios
-                .patch("/api/driver/finishRide", { rideId: rideId })
+                .patch("/api/driver/markPaymentPending", { rideId: rideId })
                 .then((res) => {
                     console.log(res.data);
                     setRide(res.data);
@@ -93,20 +93,51 @@ export default function DriverOngoingRide({ RideState, rideId, riderId }) {
         }
     }, [riderId]);
 
+    function checkRideStatus() {
+        console.log("checkRideStatus");
+        console.log(rideId);
+
+        // console.log(window.location.pathname);
+        if (
+            window.location.pathname != "/driver/trackride" ||
+            riderId == null
+        ) {
+            console.log("returning");
+            return;
+        }
+
+        axios
+            .get("/api/driver/checkridestatus", { params: { rideID: rideId } })
+            .then((res) => {
+                console.log(res.data);
+                console.log("rideID in frontend: ", rideId);
+                setRide(res.data);
+                // setRideState(res.data.rideStatus);
+
+                // if (!driverID) setDriverID(res.data.driverID);
+            })
+            .catch((err) => {
+                console.log(err);
+                // console.log("rideID in frontend: ", rideID);
+            });
+
+        setTimeout(checkRideStatus, 5000);
+    }
+
     useEffect(() => {
         console.log("useEffect ride", rideId);
-        if (rideId != null)
-            axios
-                .get("/api/driver/checkridestatus", {
-                    params: { rideID: rideId },
-                })
-                .then((res) => {
-                    console.log(res.data);
-                    setRide(res.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+        if (rideId != null) checkRideStatus();
+        // axios
+        //     .get("/api/driver/checkridestatus", {
+        //         params: { rideID: rideId },
+        //     })
+        //     .then((res) => {
+        //         console.log(res.data);
+        //         setRide(res.data);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
     }, [rideId]);
 
     return (
@@ -236,7 +267,7 @@ export default function DriverOngoingRide({ RideState, rideId, riderId }) {
                                         fullWidth
                                         variant="contained"
                                         sx={{ mt: 3, mb: 2 }}
-                                        onClick={finishRide}
+                                        onClick={markPaymentPending}
                                     >
                                         Finish Ride
                                     </Button>

@@ -220,6 +220,26 @@ router.patch("/finishRide", (req, res, next) => {
     );
 });
 
+router.patch("/markPaymentPending", (req, res, next) => {
+    const id = req.body.rideId;
+    console.log("markPaymentPending id", id);
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findByIdAndUpdate(
+        id,
+        { rideStatus: "Payment Pending" },
+        { new: true },
+        (err, doc) => {
+            if (err) {
+                res.status(404).json("Ride Not Found");
+            } else {
+                res.status(200).json(doc);
+            }
+        }
+    );
+});
+
 router.patch("/startRide", (req, res, next) => {
     const id = req.body.rideId;
     console.log("startRide id", id);
