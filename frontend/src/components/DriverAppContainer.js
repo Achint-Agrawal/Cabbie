@@ -116,6 +116,16 @@ const DriverAppContainer = ({
                         ></Route>
                         <Route
                             exact
+                            path="/signin"
+                            element={
+                                <SignIn
+                                    setToken={setToken}
+                                    setUserType={setUserType}
+                                />
+                            }
+                        ></Route>
+                        <Route
+                            exact
                             path="/driver/profile"
                             element={
                                 !token ? <HomePublic /> : <DriverProfile />

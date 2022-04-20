@@ -61,9 +61,6 @@ const Navbar = ({ setToken, token, setUserType }) => {
       navigate('/pastrides');
     }
     else if (action === settings[2]) {
-      navigate('/contact');
-    }
-    else if (action === settings[3]) {
       setToken();
       localStorage.clear();
       navigate('/');

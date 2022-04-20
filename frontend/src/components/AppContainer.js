@@ -17,7 +17,7 @@ import Profile from "./Profile";
 
 // const step = 3;
 
-const AppContainer = ({ setUserType, token, setToken, setRideID, rideID , rideDetails, setRideDetails}) => {
+const AppContainer = ({ userType, setUserType, token, setToken, setRideID, rideID , rideDetails, setRideDetails}) => {
 
     const [pickup, setPickup] = useState(null);
     const [drop, setDrop] = useState(null);
@@ -65,7 +65,7 @@ const AppContainer = ({ setUserType, token, setToken, setRideID, rideID , rideDe
                         <Route
                             exact
                             path="/"
-                            element={!token ? <HomePublic /> : <HomePrivate />}
+                            element={!token ? <HomePublic /> : <HomePrivate userType={userType}/>}
                         ></Route>
                         <Route exact path="signup" element={<SignUp />}></Route>
                         <Route

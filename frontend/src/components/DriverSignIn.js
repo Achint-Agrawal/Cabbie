@@ -77,6 +77,14 @@ export default function DriverSignIn({ setToken, setUserType }) {
       .catch((err) => {
         console.log(err);
 
+        const status = err.response.status;
+
+        if(status === 404){
+          alert("Email not registered!!");
+        }
+        else if(status === 400){
+          alert("Incorrect Password!!");
+        }
         errorAlert = <p style={{color: "red"}}>some error occurred, try again!!</p>
       })
   };
