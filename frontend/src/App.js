@@ -40,6 +40,8 @@ function App() {
                         setToken={setToken}
                         setRideID={setRideID}
                         rideID={rideID}
+                        rideDetails={rideDetails}
+                        setRideDetails={setRideDetails}
                     />
                 ) : (
                     <DriverAppContainer
@@ -48,6 +50,8 @@ function App() {
                         setToken={setToken}
                         setRideID={setRideID}
                         rideID={rideID}
+                        rideDetails={rideDetails}
+                        setRideDetails={setRideDetails}
                     />
                 )}
                 {/* <CurrentLocation /> */}

@@ -17,7 +17,7 @@ router.post("/bookride", (req, res, next) => {
         rideStatus: "Requested",
         vehicleType: req.body.vehicleType,
         driverID: null,
-        fare: null,
+        fare: req.body.fare,
     };
 
     if (
@@ -31,7 +31,7 @@ router.post("/bookride", (req, res, next) => {
     }
     Booking.create(booking)
         .then((data) => {
-            res.json({rideID: data._id});
+            res.json(data);
             // console.log(res.data);
             console.log("success");
         })
@@ -39,7 +39,7 @@ router.post("/bookride", (req, res, next) => {
 });
 
 router.get("/checkridestatus", (req, res, next) => {
-    console.log(req.query);
+    console.log("query: ", req.query);
     const id = req.query.rideID;
     if (!id) {
         return res.status(422).json("A required field is empty");

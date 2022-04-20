@@ -124,7 +124,8 @@ const DriverNavbar = ({ setToken, token , setUserType}) => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            onClick={() => navigate('/')}
+            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, cursor: "pointer" }}
           >
             CABBIE
           </Typography>

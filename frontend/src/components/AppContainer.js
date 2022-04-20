@@ -97,7 +97,7 @@ const AppContainer = ({ setUserType, token, setToken, setRideID, rideID , rideDe
                         <Route
                             exact
                             path="payment"
-                            element={!token ? <HomePublic /> : <Payment rideDetails={rideDetails} setRideDetails={setRideDetails}/>}
+                            element={!token ? <HomePublic /> : <Payment rideID={rideID} setRideID={setRideID} rideDetails={rideDetails} setRideDetails={setRideDetails}/>}
                         ></Route>
                         <Route
                             exact
@@ -124,6 +124,8 @@ const AppContainer = ({ setUserType, token, setToken, setRideID, rideID , rideDe
                                         }
 
                                         setRideID={setRideID}
+                                        rideDetails={rideDetails}
+                                        setRideDetails={setRideDetails}
                                     />
                                 )
                             }
