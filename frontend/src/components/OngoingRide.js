@@ -22,7 +22,7 @@ const tDriver = {
 
 export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
     // const [RideState, setRideState] = useState("Accepted");
-    const [driver, setDriver] = useState(tDriver);
+    const [driver, setDriver] = useState();
     const [driverID, setDriverID] = useState();
     const [RideState, setRideState] = useState();
     const [driverState, setDriverState] = useState(false);
@@ -31,50 +31,95 @@ export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
     const location = useLocation();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (driverID != null) {
+            if (RideState === "Accepted") {
+                console.log("driverIDDDDDDDDDDDDDD: ", driverID);
+                axios
+                    .get("/api/getDriverDetails", { params: { driverID: driverID } })
+                    .then((res) => {
+                        console.log(res.data);
+                        setRideDetails("ride details: ", res.data);
+                        // setRideState(res.data.rideStatus);
+                        setDriverState(true);
+                        setDriverID(res.data.driverID);
+                        console.log("res.data", res.data);
+                        setDriver(res.data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+            }
+            else if (RideState === "Completed") {
+                navigate('/payment');
+            }
+        }
+    }, [driverID])
+
+    useEffect(() => {
+        if (RideState != null) {
+            if (RideState === "Payment Pending") {
+                navigate('/payment');
+            }
+            // else if (RideState === "Completed") {
+            //     navigate('/payment');
+            // }
+        }
+    }, [RideState]);
+
     function checkRideStatus() {
         console.log("checkRideStatus");
         console.log(rideID);
 
+        let temp;
         console.log(window.location.pathname);
         if (window.location.pathname != "/trackride" || !rideID) {
             console.log("returning");
             return;
         }
 
+    
         axios
             .get("/api/checkridestatus", { params: { rideID: rideID } })
             .then((res) => {
-                console.log(res.data);
-                console.log("rideID in frontend: ", rideID);
+                console.log("res.data", res.data);
+                // console.log("rideID in frontend: ", rideID);
+                console.log("rideStaus is equal tooooooooooo:");
                 setRideState(res.data.rideStatus);
-
-                if (!driverID) setDriverID(res.data.driverID);
+                setDriverID(res.data.driverID);
+                temp = res.data.driverID;
+                console.log("here is driver id: ", res.data.driverID);
+                // setDriverID(res.data.driverID);
             })
             .catch((err) => {
                 console.log(err);
                 // console.log("rideID in frontend: ", rideID);
             });
 
-        if (RideState === "Accepted" && !driverState) {
-            axios
-                .get("/api/getDriverDetails", { params: { driverID: driverID } })
-                .then((res) => {
-                    console.log(res.data);
-                    setRideDetails("ride details: ", res.data);
-                    setRideState(res.data.rideStatus);
-                    setDriverState(true);
-                    setDriverID(res.data.driverID);
-                    setDriver(res.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+        // console.log("dddddddddddddddriverID: ", temp);
+        // if (RideState === "Accepted") {
+        //     console.log("driverIDDDDDDDDDDDDDD: ", driverID);
+        //     axios
+        //         .get("/api/getDriverDetails", { params: { driverID: driverID } })
+        //         .then((res) => {
+        //             console.log(res.data);
+        //             setRideDetails("ride details: ", res.data);
+        //             // setRideState(res.data.rideStatus);
+        //             setDriverState(true);
+        //             setDriverID(res.data.driverID);
+        //             console.log("res.data", res.data);
+        //             setDriver(res.data);
+        //         })
+        //         .catch((err) => {
+        //             console.log(err);
+        //         });
 
-            setTimeout(checkRideStatus, 5000);
-        }
-        else if(RideState === "Completed"){
-            navigate('/payment');
-        }
+        //     setTimeout(checkRideStatus, 5000);
+        // }
+        // else if (RideState === "Completed") {
+        //     navigate('/payment');
+        // }
 
         setTimeout(checkRideStatus, 5000);
     }
@@ -99,17 +144,17 @@ export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
         console.log("inside return");
         checkRideStatus();
         console.log("after checkridestatus");
-    }, []);
+    }, [rideID]);
 
     return (
         <React.Fragment>
-            {RideState == "Accepted" && (
+            {driver && RideState == "Accepted" && (
                 <Typography variant="h6" gutterBottom>
                     <h2>Booking Accepted</h2>
                     Driver Details
                 </Typography>
             )}
-            {RideState == "Started" && (
+            {driver && RideState == "Started" && (
                 <Typography variant="h6" gutterBottom>
                     Ride Started
                 </Typography>
@@ -119,17 +164,22 @@ export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
                     Waiting for driver to accept ride
                 </Typography>
             )}
-            {RideState == "Completed" && (
+            {driver && RideState == "Completed" && (
                 <Typography variant="h6" gutterBottom>
                     Ride Completed. Book another ride!!
                 </Typography>
             )}
-            {RideState == "Cancelled" && (
+            {driver && RideState == "Payment Pending" && (
+                <Typography variant="h6" gutterBottom>
+                    {"Payment Pending"}
+                </Typography>
+            )}
+            {driver && RideState == "Cancelled" && (
                 <Typography variant="h6" gutterBottom>
                     Ride Cancelled. Book another ride!!
                 </Typography>
             )}
-            {(RideState == "Accepted" || RideState == "Started") && (
+            {driver && (RideState == "Accepted" || RideState == "Started") && (
                 <Card sx={{ width: "100%", height: 250 }}>
                     <Grid container spacing={2} sx={12}>
                         <Grid item xs={4}>
@@ -139,7 +189,7 @@ export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
                                 image={driver.image_url}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={8}>
                             <Typography align="left" variant="h5">
                                 {driver.firstname + " " + driver.lastname}
                             </Typography>
@@ -153,24 +203,23 @@ export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
                                     {driver.rating}
                                 </Typography>
                                 <br />
-                                <Typography>{driver.carType}</Typography>
-                                <Typography fontWeight="Bold">
-                                    {driver.license_number}
-                                </Typography>
+                                <Typography>{"Car type: " + driver.vehicleType}</Typography>
+                                <Typography>{"Car model: " + driver.vehicleModel}</Typography>
+                                <Typography >{"Licence_num: " + driver.licence_number}</Typography>
                             </div>
                         </Grid>
-                        <Grid item xs={4}>
+                        {/* <Grid item xs={4}>
                             <br />
                             {RideState == 1 && (
                                 <Typography align="right" variant="h6">
                                     {"5 min away"}
                                 </Typography>
                             )}
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </Card>
             )}
-            {RideState == "Accepted" && (
+            {driver && RideState == "Accepted" && (
                 <div>
                     <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         <a id="call" href={"tel:" + driver.phoneno}>
