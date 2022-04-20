@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
-const vehicleType = localStorage.getItem(vehicleType);
+// const vehicleType = localStorage.getItem("vehicleType");
 
 export default function DriverRideRequest({
     onSelectCustomer,
@@ -77,7 +77,7 @@ export default function DriverRideRequest({
                 params: {
                     lat: lat,
                     lng: lng,
-                    vehicleType: vehicleType,
+                    vehicleType: localStorage.getItem("vehicleType"),
                 },
             })
             .then((res) => {
