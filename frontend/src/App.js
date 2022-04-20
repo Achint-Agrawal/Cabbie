@@ -29,7 +29,7 @@ function App() {
     const [driverId, setDriverId] = useState(null);
 
     useEffect(() => {
-        setUserType(localStorage.getItem("userType"))
+        setUserType(localStorage.getItem("userType"));
     }, [])
 
     return (
@@ -37,6 +37,7 @@ function App() {
             <BrowserRouter>
                 {!userType || userType === "0" ? (
                     <AppContainer
+                        userType={userType}
                         setUserType={setUserType}
                         token={token}
                         setToken={setToken}
@@ -58,7 +59,6 @@ function App() {
                         setRiderId={setRiderId}
                     />
                 )}
-                {/* <CurrentLocation /> */}
             </BrowserRouter>
         </div>
     );

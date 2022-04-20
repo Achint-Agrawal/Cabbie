@@ -82,13 +82,19 @@ export default function SignIn({ setToken, setUserType }) {
                 navigate("/");
             })
             .catch((err) => {
-                console.log(err);
-                setStay(true);
-                errorAlert = (
-                    <p style={{ color: "red" }}>
-                        some error occurred, try again!!
-                    </p>
-                );
+        // console.log("err", err.response.status);
+
+        const status = err.response.status;
+
+        if(status === 404){
+          alert("Email not registered!!");
+        }
+        else if(status === 400){
+          alert("Incorrect Password!!");
+        }
+        setStay(true);
+        errorAlert = <p style={{ color: "red" }}>some error occurred, try again!!</p>
+      })
             });
     };
 

@@ -46,23 +46,23 @@ const Navbar = ({ setToken, token, setUserType }) => {
     };
 
     const handleCloseUserMenu = (event) => {
-        setAnchorElUser(null);
-        console.log(event.target.textContent);
+    setAnchorElUser(null);
+    console.log(event.target.textContent);
 
-        const action = event.target.textContent;
+    const action = event.target.textContent;
 
-        if (action === settings[0]) {
-            navigate("/profile");
-        } else if (action === settings[1]) {
-            navigate("/pastrides");
-        } else if (action === settings[2]) {
-            navigate("/contact");
-        } else if (action === settings[3]) {
-            setToken();
-            localStorage.clear();
-            navigate("/");
-        }
-    };
+    if (action === settings[0]) {
+      navigate('/profile');
+    }
+    else if (action === settings[1]) {
+      navigate('/pastrides');
+    }
+    else if (action === settings[2]) {
+      setToken();
+      localStorage.clear();
+      navigate('/');
+    }
+  };
 
     return (
         <AppBar position="static">
