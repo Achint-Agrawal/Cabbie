@@ -14,8 +14,8 @@ import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
-const lat = 26.5123;
-const lng = 80.2329;
+let lat = 26.5123;
+let lng = 80.2329;
 const vehicleType = "Mini";
 
 export default function DriverRideRequest({
@@ -45,6 +45,22 @@ export default function DriverRideRequest({
             });
     }
 
+    function updateLatLng() {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+            },
+            function (err) {
+                console.log(err);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 5000,
+            }
+        );
+    }
+
     function checkRideRequests() {
         console.log("checkRideRequests");
         if (window.location.pathname != "/") {
@@ -52,50 +68,25 @@ export default function DriverRideRequest({
             return;
         }
 
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                axios
-                    .get("/api/driver/getRequestsForDriver", {
-                        params: {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                            vehicleType: vehicleType,
-                        },
-                    })
-                    .then((res) => {
-                        console.log(res.data);
-                        setLoadedResponse(true);
-                        setRideRequests(res.data);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            },
-            function (err) {
+        // updateLatLng();
+
+        axios
+            .get("/api/driver/getRequestsForDriver", {
+                params: {
+                    lat: lat,
+                    lng: lng,
+                    vehicleType: vehicleType,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setLoadedResponse(true);
+                setRideRequests(res.data);
+            })
+            .catch((err) => {
                 console.log(err);
-                axios
-                    .get("/api/driver/getRequestsForDriver", {
-                        params: {
-                            lat: lat,
-                            lng: lng,
-                            vehicleType: vehicleType,
-                        },
-                    })
-                    .then((res) => {
-                        console.log(res.data);
-                        setLoadedResponse(true);
-                        setRideRequests(res.data);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-                setTimeout(checkRideRequests, 5000);
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 5000,
-            }
-        );
+            });
+        setTimeout(checkRideRequests, 5000);
     }
 
     useEffect(() => {
