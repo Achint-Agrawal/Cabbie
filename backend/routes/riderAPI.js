@@ -26,13 +26,11 @@ router.post("/bookride", (req, res, next) => {
         !booking.pickupLng ||
         !booking.vehicleType
     ) {
-
         return res.status(422).json("A required field is empty");
     }
     Booking.create(booking)
         .then((data) => {
             res.json(data);
-            // console.log(res.data);
             console.log("success");
         })
         .catch(next);
@@ -171,6 +169,21 @@ router.get("/getPastRides", async (req, res, next) => {
         console.log(docs_[i]);
     }
     res.status(200).json(docs_);
+});
+
+router.patch("/cancelRide", (req, res, next) => {
+    const id = req.body.rideId;
+    console.log("cancelRide id", id);
+    if (!id) {
+        return res.status(422).json("A required field is empty");
+    }
+    Booking.findByIdAndUpdate(id, { rideStatus: "Cancelled" }, (err, doc) => {
+        if (err) {
+            res.status(404).json("Ride Not Found");
+        } else {
+            res.status(200).json(doc);
+        }
+    });
 });
 
 module.exports = router;

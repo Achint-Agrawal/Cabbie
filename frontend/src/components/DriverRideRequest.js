@@ -10,6 +10,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
@@ -55,17 +56,25 @@ const lat = 26.5123;
 const lng = 80.2329;
 const vehicleType = "Mini";
 
-export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
+export default function DriverRideRequest({
+    onSelectCustomer,
+    setRideID,
+    setRiderId,
+}) {
     const [loadedResponse, setLoadedResponse] = useState(false);
     const [rideRequests, setRideRequests] = useState(null);
+    const navigate = useNavigate();
 
-    function acceptRide(rideId) {
+    function acceptRide(rideId, riderId) {
         axios
             .patch("api/driver/acceptRide", {
                 rideId: rideId,
             })
             .then((res) => {
                 console.log("acceptRide", res.data);
+                setRideID(rideId);
+                setRiderId(riderId);
+                navigate("/driver/trackride");
             })
             .catch((err) => {
                 console.log("acceptRide", err);
@@ -211,7 +220,9 @@ export default function DriverRideRequest({ onSelectCustomer, activeRides }) {
                                                     size="small"
                                                     onClick={() =>
                                                         acceptRide(
-                                                            rideRequests[i]._id
+                                                            rideRequests[i]._id,
+                                                            rideRequests[i]
+                                                                .userID
                                                         )
                                                     }
                                                 >

@@ -48,7 +48,7 @@ export default function Profile() {
                             }}
                         >
                             <Avatar
-                                src={user.image}
+                                src={user.image_url}
                                 sx={{
                                     height: 100,
                                     mb: 2,
@@ -60,7 +60,7 @@ export default function Profile() {
                                 gutterBottom
                                 variant="h5"
                             >
-                                {user.name}
+                                {user.firstname + " " + user.lastname}
                             </Typography>
                             <Rating
                                 readOnly="true"
