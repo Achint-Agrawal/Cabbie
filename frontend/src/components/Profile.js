@@ -89,12 +89,12 @@ export default function Profile() {
                             </Typography>{" "}
                         </Box>
                     </CardContent>
-                    {/* <Divider /> 
-            <CardActions>
-                <Button color="primary" fullWidth variant="text">
-                    Upload picture
-                </Button>
-            </CardActions> */}
+                    <Divider />
+                    <CardActions>
+                        <Button color="primary" fullWidth variant="text">
+                            Upload picture
+                        </Button>
+                    </CardActions>
                 </Card>
             )}
         </React.Fragment>
