@@ -69,6 +69,8 @@ export default function DriverSignIn({ setToken, setUserType }) {
                     setToken(res.data.token);
                     setUserType(res.data.userType);
                     localStorage.setItem("userType", res.data.userType);
+                    localStorage.setItem("vehicleType", res.data.vehicleType);
+                    localStorage.setItem("userImage", res.data.userImage);
                     console.log(res.data.userType);
                 }
 
