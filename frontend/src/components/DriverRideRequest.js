@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
-const vehicleType = "Mini";
+const vehicleType = localStorage.getItem(vehicleType);
 
 export default function DriverRideRequest({
     onSelectCustomer,
