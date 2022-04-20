@@ -37,15 +37,12 @@ const Navbar = ({ setToken, token, setUserType }) => {
     const action = event.target.textContent;
 
     if (action === pages[0]) {
-      navigate('/bookride');
+      navigate("/bookride");
+    } else if (action === pages[1]) {
+      navigate("/trackride");
+    } else if (action === pages[2]) {
+      navigate("/payment");
     }
-    else if (action === pages[1]) {
-      navigate('/trackride');
-    }
-    else if (action === pages[2]) {
-      navigate('/payment');
-    }
-
   };
 
   const handleCloseUserMenu = (event) => {
@@ -75,14 +72,22 @@ const Navbar = ({ setToken, token, setUserType }) => {
             variant="h6"
             noWrap
             component="div"
-
-            onClick={() => navigate('/')}
-            sx={{ mr: 2, display: { xs: "none", md: "flex" }, cursor: "pointer" }}
+            onClick={() => navigate("/")}
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              cursor: "pointer",
+            }}
           >
             CABBIE
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -111,39 +116,70 @@ const Navbar = ({ setToken, token, setUserType }) => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {!token ? <MenuItem >
-                </MenuItem> :pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {!token ? (
+                <MenuItem></MenuItem>
+              ) : (
+                pages.map((page) => (
+                  <MenuItem
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">
+                      {page}
+                    </Typography>
+                  </MenuItem>
+                ))
+              )}
             </Menu>
           </Box>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            onClick={() => navigate('/')}
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } , cursor: "pointer"}}
+            onClick={() => navigate("/")}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              cursor: "pointer",
+            }}
           >
             CABBIE
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {!token ? <></> : pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            {!token ? (
+              <></>
+            ) : (
+              pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                  }}
+                >
+                  {page}
+                </Button>
+              ))
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{ p: 0 }}
+              >
+                <Avatar
+                  alt="Remy Sharp"
+                  src={localStorage.getItem("userImage")}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -162,13 +198,24 @@ const Navbar = ({ setToken, token, setUserType }) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {!token ? <MenuItem key={2} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{settings[2]}</Typography>
-                </MenuItem> : settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {!token ? (
+                <MenuItem key={2} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    {settings[2]}
+                  </Typography>
                 </MenuItem>
-              ))}
+              ) : (
+                settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={handleCloseUserMenu}
+                  >
+                    <Typography textAlign="center">
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ))
+              )}
             </Menu>
           </Box>
         </Toolbar>

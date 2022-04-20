@@ -1,6 +1,6 @@
 import * as React from "react";
 import axios from "axios";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 // import Link from "@mui/material/Link";
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -49,8 +49,14 @@ export default function DriverSignUp() {
     });
 
     const payload = {
-      firstname: data.get("firstname"), lastname: data.get("lastname"),
-      email: data.get("email"), password: data.get("password"), contact: data.get("contact"), licence_number: data.get("licence_number")
+      firstname: data.get("firstname"),
+      lastname: data.get("lastname"),
+      email: data.get("email"),
+      password: data.get("password"),
+      contact: data.get("contact"),
+      licence_number: data.get("licence_number"),
+      vehicleType: data.get("CarType"),
+      vehicleModel: data.get("CarModel")
     }
     axios.post('/api/driver/signup', payload)
       .then((res) => {
