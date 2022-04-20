@@ -5,11 +5,10 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const keys = require("../config/Keys");
 const passport = require("passport");
-const { application } = require('express');
+const { application } = require("express");
 const { Booking } = require("../models/booking");
 const { DriverReview } = require("../models/driverReview");
-const { authorization } = require('../api/login')
-
+const { authorization } = require("../api/login");
 
 router.post("/driver/signup", (req, res, next) => {
     const temp = req.body;
@@ -21,7 +20,7 @@ router.post("/driver/signup", (req, res, next) => {
         email: temp.email,
         password: temp.password,
         address: temp.address,
-        licence_number: temp.licence_number
+        licence_number: temp.licence_number,
     };
 
     Driver.findOne({ email: req.body.email }).then((user) => {
@@ -61,7 +60,6 @@ router.post("/driver/login", (req, res, next) => {
 
         bcrypt.compare(password, user.password).then((isMatch) => {
             if (isMatch) {
-
                 console.log(user);
                 const payload = {
                     userID: user.id,
@@ -76,8 +74,10 @@ router.post("/driver/login", (req, res, next) => {
                     (err, token) => {
                         res.json({
                             success: true,
-                            token: token, 
-                            userType:"1"
+                            token: token,
+                            userType: "1",
+                            userImage: user.image_url,
+                            vehicleType: user.vehicleType,
                         });
                     }
                 );
@@ -110,7 +110,6 @@ router.post("/signup", (req, res, next) => {
         }
     });
 
-
     pload.rating = 0;
     pload.image_url = "http://placehold.jp/150x150.png";
 
@@ -141,7 +140,6 @@ router.post("/login", (req, res, next) => {
 
         bcrypt.compare(password, user.password).then((isMatch) => {
             if (isMatch) {
-
                 console.log(user);
                 const payload = {
                     userID: user.id,
@@ -157,8 +155,9 @@ router.post("/login", (req, res, next) => {
                     (err, token) => {
                         res.json({
                             success: true,
-                            token: token, 
-                            userType:"0"
+                            token: token,
+                            userType: "0",
+                            userImage: user.image_url,
                         });
                     }
                 );
@@ -170,6 +169,5 @@ router.post("/login", (req, res, next) => {
         });
     });
 });
-
 
 module.exports = router;
