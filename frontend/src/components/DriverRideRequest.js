@@ -14,8 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
-let lat = 26.5123;
-let lng = 80.2329;
 const vehicleType = "Mini";
 
 export default function DriverRideRequest({
@@ -27,6 +25,8 @@ export default function DriverRideRequest({
 }) {
     const [loadedResponse, setLoadedResponse] = useState(false);
     const [rideRequests, setRideRequests] = useState(null);
+    const [lat, setLat] = useState(26.5123);
+    const [lng, setLng] = useState(80.2329);
     const navigate = useNavigate();
 
     function acceptRide(rideId, riderId) {
@@ -46,10 +46,11 @@ export default function DriverRideRequest({
     }
 
     function updateLatLng() {
+        console.log("Updating Current location...");
         navigator.geolocation.getCurrentPosition(
             function (position) {
-                lat = position.coords.latitude;
-                lng = position.coords.longitude;
+                setLat(position.coords.latitude);
+                setLng(position.coords.longitude);
             },
             function (err) {
                 console.log(err);
@@ -68,6 +69,7 @@ export default function DriverRideRequest({
             return;
         }
 
+        //Uncomment below function call to use current location instead of saved location
         // updateLatLng();
 
         axios

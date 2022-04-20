@@ -37,6 +37,8 @@ const DriverAppContainer = ({
     // }
     const [pickup, setPickup] = useState(null);
     const [drop, setDrop] = useState(null);
+    const [lat, setLat] = useState(26.5123);
+    const [lng, setLng] = useState(80.2329);
     // const [directionsResponse, setDirectionsResponse] = useState(null);
     // const [activeCustomerRoute, setActiveCustomerRoute] = useState(null);
 
@@ -71,7 +73,11 @@ const DriverAppContainer = ({
             >
                 {token && (
                     <Grid item xs={6}>
-                        <DriverMap pickup={pickup} drop={drop} />
+                        <DriverMap
+                            center={{ lat: lat, lng: lng }}
+                            pickup={pickup}
+                            drop={drop}
+                        />
                     </Grid>
                 )}
                 <Grid item xs={12} md={token ? 6 : 12} minWidth={400}>
