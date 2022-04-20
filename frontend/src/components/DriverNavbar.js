@@ -63,23 +63,20 @@ const DriverNavbar = ({ setToken, token, setUserType }) => {
         }
     };
 
-    return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        onClick={() => navigate("/")}
-                        sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
-                            cursor: "pointer",
-                        }}
-                    >
-                        DRIVER
-                    </Typography>
+  return (
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            onClick={() => navigate('/')}
+            sx={{ mr: 2, display: { xs: "none", md: "flex" }, cursor: "pointer"}}
+          >
+            CABBIE  
+          </Typography>
+
 
                     <Box
                         sx={{

@@ -7,7 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Rating from "@mui/material/Rating";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const tDriver = {
     name: "Daljit Singh",
@@ -29,6 +29,7 @@ export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
 
     // setDriver(tDriver);
     const location = useLocation();
+    const navigate = useNavigate();
 
     function checkRideStatus() {
         console.log("checkRideStatus");
@@ -54,26 +55,31 @@ export default function OngoingRide({ rideID, rideDetails, setRideDetails }) {
                 // console.log("rideID in frontend: ", rideID);
             });
 
+        if (RideState === "Accepted" && !driverState) {
+            axios
+                .get("/api/getDriverDetails", { params: { driverID: driverID } })
+                .then((res) => {
+                    console.log(res.data);
+                    setRideDetails("ride details: ", res.data);
+                    setRideState(res.data.rideStatus);
+                    setDriverState(true);
+                    setDriverID(res.data.driverID);
+                    setDriver(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setTimeout(checkRideStatus, 5000);
+        }
+        else if(RideState === "Completed"){
+            navigate('/payment');
+        }
+
         setTimeout(checkRideStatus, 5000);
     }
 
-    if (RideState == "Accepted" && !driverState) {
-        axios
-            .get("/api/getDriverDetails", { params: { driverID: driverID } })
-            .then((res) => {
-                console.log(res.data);
-                setRideDetails("ride details: ", res.data);
-                setRideState(res.data.rideStatus);
-                setDriverState(true);
-                setDriverID(res.data.driverID);
-                setDriver(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
 
-        setTimeout(checkRideStatus, 5000);
-    }
     function cancelRide() {
         console.log("in cancelRide");
         axios
