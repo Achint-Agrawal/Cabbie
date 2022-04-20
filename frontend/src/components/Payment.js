@@ -24,7 +24,7 @@ const rideId = "adsfk";
 const driverId = "adsf";
 const riderId = "esd";
 
-export default function Payment({rideDetails, setRideDetails}) {
+export default function Payment({ rideID, setRideID, rideDetails, setRideDetails }) {
     const [fare, setFare] = useState();
     const [review, setReview] = useState("");
     const [rating, setRating] = useState(0);
@@ -52,68 +52,85 @@ export default function Payment({rideDetails, setRideDetails}) {
             });
     };
 
+    React.useEffect(() => {
+        axios
+            .get("/api/checkridestatus", { params: { rideID: rideID } })
+            .then((res) => {
+                console.log(res.data);
+                // console.log("RIDE ID IN FRONTEND: ", res.data);
+                setRideDetails(res.data);
+                setRideID(res.data._id);
+
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    console.log("rideDetails: ", rideDetails);
     return (
         <React.Fragment>
-            <Typography variant="h6" gutterBottom>
-                Ride Completed!!
-            </Typography>
-
-            <Card sx={{ width: "100%", height: 200 }}>
-                <br />
-                <Typography>Please pay</Typography>
-                <br />
-                <Typography variant="h2" fontWeight="Bold">
-                    {`\u20B9 ${rideDetails.fare}`}
+            {!rideDetails ? <div><h1>No payment due</h1></div> : <div>
+                <Typography variant="h6" gutterBottom>
+                    Ride {rideDetails.rideStatus}!!
                 </Typography>
+
+                <Card sx={{ width: "100%", height: 200 }}>
+                    <br />
+                    <Typography>Please pay</Typography>
+                    <br />
+                    <Typography variant="h2" fontWeight="Bold">
+                        {`\u20B9 ${rideDetails.fare}`}
+                    </Typography>
+                    <br />
+                    <Typography>to your driver</Typography>
+                </Card>
+
                 <br />
-                <Typography>to your driver</Typography>
-            </Card>
 
-            <br />
-
-            <Card sx={{ width: "100%", height: 250 }}>
-                <Grid container spacing={2} sx={12}>
-                    <Grid item xs={4}>
-                        <CardMedia
-                            component="img"
-                            height="250"
-                            image={driver.image}
-                        />
-                    </Grid>
-                    <Grid item xs={8}>
-                        <br />
-                        <Typography align="center" variant="h5">
-                            {"Rate your experience with " + driver.name}
-                        </Typography>
-                        <div align="center">
-                            <Rating
-                                onChange={(event, newValue) => {
-                                    setRating(newValue);
-                                }}
-                                precision={0.5}
-                                size="large"
+                <Card sx={{ width: "100%", height: 250 }}>
+                    <Grid container spacing={2} sx={12}>
+                        <Grid item xs={4}>
+                            <CardMedia
+                                component="img"
+                                height="250"
+                                image={driver.image}
                             />
+                        </Grid>
+                        <Grid item xs={8}>
                             <br />
-                            <TextField
-                                fullWidth
-                                id="AddReview"
-                                label="Add a Review"
-                                variant="outlined"
-                                minRows={2}
-                                multiline
-                                onChange={onReviewChange}
-                            />
-                        </div>
-                        <Button
-                            onClick={submitReview}
-                            variant="contained"
-                            sx={{ mt: 1, mb: 1 }}
-                        >
-                            Submit Review
-                        </Button>
+                            <Typography align="center" variant="h5">
+                                {"Rate your experience with " + driver.name}
+                            </Typography>
+                            <div align="center">
+                                <Rating
+                                    onChange={(event, newValue) => {
+                                        setRating(newValue);
+                                    }}
+                                    precision={0.5}
+                                    size="large"
+                                />
+                                <br />
+                                <TextField
+                                    fullWidth
+                                    id="AddReview"
+                                    label="Add a Review"
+                                    variant="outlined"
+                                    minRows={2}
+                                    multiline
+                                    onChange={onReviewChange}
+                                />
+                            </div>
+                            <Button
+                                onClick={submitReview}
+                                variant="contained"
+                                sx={{ mt: 1, mb: 1 }}
+                            >
+                                Submit Review
+                            </Button>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Card>
+                </Card> </div>}
         </React.Fragment>
     );
 }

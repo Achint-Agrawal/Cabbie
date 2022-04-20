@@ -55,7 +55,9 @@ export default function BookRideForm({
   onPickupLocation,
   onDropLocation,
   onDirectionsResponse,
-  setRideID
+  setRideID,
+  rideDetails,
+  setRideDetails
 }) {
 
   const navigate = useNavigate();
@@ -165,7 +167,9 @@ export default function BookRideForm({
     .then((res) => {
       console.log("res", res.data.rideID);
       // console.log("payload", payload);
-      setRideID(res.data.rideID);
+      setRideID(res.data._id);
+      console.log("ride details in booking form: ", res.data);
+      setRideDetails(res.data);
       navigate('/trackride');
       
     })

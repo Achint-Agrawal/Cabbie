@@ -40,15 +40,20 @@ export default function OngoingRide({rideID, rideDetails, setRideDetails}) {
             return;
         }
 
+        
         axios
             .get("/api/checkridestatus", { params: { rideID: rideID } })
             .then((res) => {
                 console.log(res.data);
+                console.log("rideID in frontend: ", rideID);
                 setRideState(res.data.rideStatus);
+                
+                if(!driverID)
                 setDriverID(res.data.driverID);
             })
             .catch((err) => {
                 console.log(err);
+                // console.log("rideID in frontend: ", rideID);
             });
 
         setTimeout(checkRideStatus, 5000);
@@ -59,7 +64,7 @@ export default function OngoingRide({rideID, rideDetails, setRideDetails}) {
             .get("/api/getDriverDetails", { params: { driverID: driverID } })
             .then((res) => {
                 console.log(res.data);
-                setRideDetails(res.data);
+                setRideDetails("ride details: ", res.data);
                 setRideState(res.data.rideStatus);
                 setDriverState(true);
                 setDriverID(res.data.driverID);
