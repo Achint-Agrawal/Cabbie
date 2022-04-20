@@ -12,23 +12,23 @@ const RiderSchema = new Schema({
     email: { type: String, required: [true, "email should be valid"] },
     password: { type: String },
     address: { type: String },
-    image_url: { type: String },
-    rating: { type: Number },
+    image_url: { type: String, default: 'default_profile.png' },
+    rating: { type: Number, default: 5 },
 });
 
 const DriverSchema = new Schema({
-    username: {
-        type: String,
-        required: [true, "username should not be empty"],
-    },
+    // username: {
+    //     type: String,
+    //     required: [true, "username should not be empty"],
+    // },
     firstname: { type: String },
     lastname: { type: String },
     contact: { type: String },
     email: { type: String, required: [true, "email should be valid"] },
     password: { type: String },
     address: { type: String },
-    image_url: { type: String },
-    rating: { type: Number },
+    image_url: { type: String, default: '/default_profile.png' },
+    rating: { type: Number, default: 5 },
     vehicleType: { type: String },
     vehicleModel: { type: String },
     licence_number: {

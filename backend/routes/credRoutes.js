@@ -12,6 +12,7 @@ const { authorization } = require("../api/login");
 
 router.post("/driver/signup", (req, res, next) => {
     const temp = req.body;
+    console.log("credRoutes /driver/signup", temp);
     const pload = {
         firstname: temp.firstname,
         lastname: temp.lastname,
@@ -21,6 +22,8 @@ router.post("/driver/signup", (req, res, next) => {
         password: temp.password,
         address: temp.address,
         licence_number: temp.licence_number,
+        vehicleType: temp.vehicleType,
+        vehicleModel: temp.vehicleModel
     };
 
     Driver.findOne({ email: req.body.email }).then((user) => {
@@ -31,8 +34,8 @@ router.post("/driver/signup", (req, res, next) => {
         }
     });
 
-    pload.rating = 0;
-    pload.image_url = "http://placehold.jp/150x150.png";
+    // pload.rating = 5;
+    // pload.image_url = "http://placehold.jp/150x150.png";
 
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(pload.password, salt, (err, hash) => {
@@ -40,6 +43,7 @@ router.post("/driver/signup", (req, res, next) => {
 
             pload.password = hash;
 
+            console.log('credRoutes driver/signup', pload);
             Driver.create(pload)
                 .then((data) => res.json(data))
                 .catch(next);
@@ -110,8 +114,8 @@ router.post("/signup", (req, res, next) => {
         }
     });
 
-    pload.rating = 0;
-    pload.image_url = "http://placehold.jp/150x150.png";
+    // pload.rating = 0;
+    // pload.image_url = "http://placehold.jp/150x150.png";
 
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(pload.password, salt, (err, hash) => {
