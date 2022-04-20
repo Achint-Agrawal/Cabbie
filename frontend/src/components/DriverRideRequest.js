@@ -14,44 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
-// const riderId = "625972c5258ca778038d179e";
-
-// const rideRequests = [
-//     {
-//         id: 1,
-//         name: "Kaustubh Pawar",
-//         image: "/Kaustubh.png",
-//         rating: 4.8,
-//         phoneno: "7888817907",
-//         pickupName: "IIT Kanpur, Hall 9",
-//         dropName: "NH91, Kanpur",
-//         pickupLatLng: { lat: 26.456, lng: 80.3319 },
-//         dropLatLng: { lat: 24.075, lng: 80.3319 },
-//     },
-//     {
-//         id: 2,
-//         name: "Priydarshi Singh",
-//         image: "/Priydarshi.png",
-//         rating: 1.2,
-//         phoneno: "7888817907",
-//         pickupName: "IIT Kanpur, Hall 9",
-//         dropName: "Kanpur Central",
-//         pickupLatLng: { lat: 26.5123, lng: 80.2329 },
-//         dropLatLng: { lat: 26.4537, lng: 80.3513 },
-//     },
-//     {
-//         id: 3,
-//         name: "Pruthviraj Desai",
-//         image: "/Pruthvi.png",
-//         rating: 4.3,
-//         phoneno: "7888817907",
-//         pickupName: "IIT Kanpur, Hall 1",
-//         dropName: "Lucknow Airport",
-//         pickupLatLng: { lat: 26.5123, lng: 80.2329 },
-//         dropLatLng: { lat: 24.075, lng: 82.3319 },
-//     },
-// ];
-
 const lat = 26.5123;
 const lng = 80.2329;
 const vehicleType = "Mini";
@@ -87,9 +49,42 @@ export default function DriverRideRequest({
             console.log("checkRideRequests - returning");
             return;
         }
+
+        // navigator.geolocation.getCurrentPosition(
+        //     function (position) {
+        //         axios
+        //             .get("/api/driver/getRequestsForDriver", {
+        //                 params: {
+        //                     lat: position.coords.latitude,
+        //                     lng: position.coords.longitude,
+        //                     vehicleType: vehicleType,
+        //                 },
+        //             })
+        //             .then((res) => {
+        //                 console.log(res.data);
+        //                 setLoadedResponse(true);
+        //                 setRideRequests(res.data);
+        //             })
+        //             .catch((err) => {
+        //                 console.log(err);
+        //             });
+        //     },
+        //     function (err) {
+        //         console.log(err);
+        //     },
+        //     {
+        //         enableHighAccuracy: true,
+        //         timeout: 5000,
+        //     }
+        // );
+
         axios
             .get("/api/driver/getRequestsForDriver", {
-                params: { lat: lat, lng: lng, vehicleType: vehicleType },
+                params: {
+                    lat: lat,
+                    lng: lng,
+                    vehicleType: vehicleType,
+                },
             })
             .then((res) => {
                 console.log(res.data);
@@ -105,30 +100,6 @@ export default function DriverRideRequest({
     useEffect(() => {
         checkRideRequests();
     }, []);
-
-    // function checkRideStatus() {
-    //     console.log("checkRideStatus");
-    //     console.log(rideID);
-
-    //     console.log(window.location.pathname);
-    //     if (window.location.pathname != "/trackride") {
-    //         console.log("returning");
-    //         return;
-    //     }
-
-    //     axios
-    //         .get("/api/checkridestatus", { params: { rideID: rideID } })
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             setRideState(res.data.rideStatus);
-    //             setDriverID(res.data.driverID);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-
-    //     setTimeout(checkRideStatus, 5000);
-    // }
 
     const [activeCustomer, setActiveCustomer] = useState(null);
     return (
