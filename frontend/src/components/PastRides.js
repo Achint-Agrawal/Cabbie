@@ -23,7 +23,7 @@ export default function PastRides() {
 
     useEffect(() => {
         axios
-            .get("/api/driver/getPastRides", { params: { driverID: driverId } })
+            .get("/api/getPastRides")
             // .get("/api/getPastRides")
             .then((res) => {
                 console.log(res.data);

@@ -14,8 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
-const lat = 26.5123;
-const lng = 80.2329;
 const vehicleType = "Mini";
 
 export default function DriverRideRequest({
@@ -27,6 +25,8 @@ export default function DriverRideRequest({
 }) {
     const [loadedResponse, setLoadedResponse] = useState(false);
     const [rideRequests, setRideRequests] = useState(null);
+    const [lat, setLat] = useState(26.5123);
+    const [lng, setLng] = useState(80.2329);
     const navigate = useNavigate();
 
     function acceptRide(rideId, riderId) {
@@ -45,6 +45,23 @@ export default function DriverRideRequest({
             });
     }
 
+    function updateLatLng() {
+        console.log("Updating Current location...");
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                setLat(position.coords.latitude);
+                setLng(position.coords.longitude);
+            },
+            function (err) {
+                console.log(err);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 5000,
+            }
+        );
+    }
+
     function checkRideRequests() {
         console.log("checkRideRequests");
         if (window.location.pathname != "/") {
@@ -52,50 +69,26 @@ export default function DriverRideRequest({
             return;
         }
 
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                axios
-                    .get("/api/driver/getRequestsForDriver", {
-                        params: {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                            vehicleType: vehicleType,
-                        },
-                    })
-                    .then((res) => {
-                        console.log(res.data);
-                        setLoadedResponse(true);
-                        setRideRequests(res.data);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            },
-            function (err) {
+        //Uncomment below function call to use current location instead of saved location
+        // updateLatLng();
+
+        axios
+            .get("/api/driver/getRequestsForDriver", {
+                params: {
+                    lat: lat,
+                    lng: lng,
+                    vehicleType: vehicleType,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setLoadedResponse(true);
+                setRideRequests(res.data);
+            })
+            .catch((err) => {
                 console.log(err);
-                axios
-                    .get("/api/driver/getRequestsForDriver", {
-                        params: {
-                            lat: lat,
-                            lng: lng,
-                            vehicleType: vehicleType,
-                        },
-                    })
-                    .then((res) => {
-                        console.log(res.data);
-                        setLoadedResponse(true);
-                        setRideRequests(res.data);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-                setTimeout(checkRideRequests, 5000);
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 5000,
-            }
-        );
+            });
+        setTimeout(checkRideRequests, 5000);
     }
 
     useEffect(() => {

@@ -145,7 +145,7 @@ router.patch("/cancelRide", (req, res, next) => {
 });
 
 router.get("/getPastRides", async (req, res, next) => {
-    const id = req.query.riderID;
+    const id = req.body.userID;
     console.log(id);
     if (!id) {
         return res.status(422).json("A required field is empty");

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,7 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 const pages = ["Book Ride", "Track Ride", "Payment"];
-const settings = ["Profile", "Past Rides", "Contact Us", "Logout"];
+const settings = ["Profile", "Past Rides", "Logout"];
 
 const Navbar = ({ setToken, token, setUserType }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
