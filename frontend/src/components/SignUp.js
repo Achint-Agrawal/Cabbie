@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -35,6 +35,8 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -50,6 +52,7 @@ export default function SignUp() {
     axios.post('/api/signup', payload)
       .then((res) => {
         console.log(res);
+        navigate('/signin')
       })
       .catch((err) => {
         console.log(err);

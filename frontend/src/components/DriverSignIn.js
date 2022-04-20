@@ -76,11 +76,6 @@ export default function DriverSignIn({ setToken, setUserType }) {
             })
             .catch((err) => {
                 console.log(err);
-
-                navigate("/");
-            })
-            .catch((err) => {
-                console.log(err);
                 const status = err.response.status;
 
                 if (status === 404) {
